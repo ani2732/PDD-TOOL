@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organize PDF Pages Online Free – Reorder with Live Preview | PDFMerger</title>
+    <meta name="description" content="Rearrange PDF pages visually: see every page, move them with arrows, remove strays, and download the reordered file. Free, private, browser-based.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/organize-pdf.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Organize PDF Pages Online Free – Reorder with Live Preview">
+    <meta property="og:description" content="Rearrange PDF pages visually: see every page, move them with arrows, remove strays, and download the reordered file. Free, private, browser-based.">
+    <meta property="og:url" content="https://freepdfmerger.org/organize-pdf.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Organize PDF Pages</h1>
+            <p class="subtitle">See every page, drag the order into shape with the arrows, and download the rearranged file — privately in your browser.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — rearrange the pages below and download the reordered file</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div id="previewArea" style="display:none;">
+                    <div class="preview-head">
+                        <h3><i class="fas fa-eye"></i> Live Page Order — use the arrows to rearrange, <i class="fas fa-times"></i> to remove</h3>
+                        <button class="btn btn-small btn-secondary" id="resetBtn" type="button"><i class="fas fa-rotate-left"></i> Reset order</button>
+                    </div>
+                    <p class="preview-note" id="previewNote"></p>
+                    <div class="pages-grid" id="pagesGrid"></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-layer-group"></i> Save New Order &amp; Download</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool rearranges the pages <em>inside</em> a single PDF. Every page appears as a thumbnail in its current order; move pages left or right with the arrows, remove strays with <i class="fas fa-times"></i>, and each thumbnail's label shows both its new position and where it came from ("Page 3 — was 7"), so the change is always visible. The saved file matches the preview exactly. Everything runs in your browser — no uploads.</p>
+            <h3>When You Need This</h3>
+            <ul>
+                <li><strong>Pages scanned out of sequence:</strong> a stack fed into the scanner in the wrong order, or back sides interleaved incorrectly from two-sided originals.</li>
+                <li><strong>Restructuring a filing bundle:</strong> moving an annexure ahead of another, or shifting the covering letter to the front — see our <a href="prepare-pdf-documents-tax-gst-filing.html">filing preparation checklist</a> for the order reviewers expect.</li>
+                <li><strong>Quick cleanup:</strong> reorder and drop stray pages in one pass instead of splitting and re-merging.</li>
+            </ul>
+            <p>To rearrange whole <em>files</em> rather than pages within one file, use the <a href="index.html">Merge tool</a>, which previews all files' pages in merge order. To fix page orientation, use <a href="rotate-pdf.html">Rotate</a> first.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        async function renderPageCanvas(pdf, pageNum, targetW) {
+            var page = await pdf.getPage(pageNum);
+            var vp1 = page.getViewport({scale: 1});
+            var scale = targetW / vp1.width;
+            var vp = page.getViewport({scale: scale});
+            var canvas = document.createElement('canvas');
+            canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            await page.render({canvasContext: ctx, viewport: vp}).promise;
+            page.cleanup();
+            return canvas;
+        }
+        function makeThumb(canvas, label) {
+            var div = document.createElement('div');
+            div.className = 'page-thumb';
+            var wrap = document.createElement('div');
+            wrap.className = 'canvas-wrap';
+            wrap.appendChild(canvas);
+            var num = document.createElement('div');
+            num.className = 'pnum';
+            num.textContent = label;
+            div.appendChild(wrap); div.appendChild(num);
+            return div;
+        }
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, pageCount = 0, items = [];  // items: {orig (0-based), canvas}
+        var MAX_PAGES = 100;
+
+        function renderGrid() {
+            var grid = document.getElementById('pagesGrid');
+            grid.innerHTML = '';
+            items.forEach(function(item, i){
+                var thumb = makeThumb(item.canvas, 'Page ' + (i+1) + (item.orig !== i ? ' (was ' + (item.orig+1) + ')' : ''));
+                var btns = document.createElement('div');
+                btns.className = 'thumb-btns';
+                btns.innerHTML = '<button title="Move earlier" type="button"><i class="fas fa-arrow-left"></i></button><button title="Move later" type="button"><i class="fas fa-arrow-right"></i></button><button title="Remove page" type="button"><i class="fas fa-times"></i></button>';
+                btns.children[0].addEventListener('click', function(){ if (i > 0) { items.splice(i-1, 0, items.splice(i,1)[0]); renderGrid(); } });
+                btns.children[1].addEventListener('click', function(){ if (i < items.length-1) { items.splice(i+1, 0, items.splice(i,1)[0]); renderGrid(); } });
+                btns.children[2].addEventListener('click', function(){ items.splice(i,1); renderGrid(); });
+                thumb.appendChild(btns);
+                grid.appendChild(thumb);
+            });
+            document.getElementById('runBtn').disabled = items.length === 0;
+        }
+
+        wireDropArea('dropArea', 'fileInput', async function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            try {
+                var buf = await readAsArrayBuffer(f);
+                var pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+                if (pdf.numPages > MAX_PAGES) {
+                    pdf.destroy();
+                    showStatus('This tool supports up to ' + MAX_PAGES + ' pages (this file has ' + pdf.numPages + '). Split it first, organize the parts, then merge.', 'error');
+                    return;
+                }
+                srcFile = f; pageCount = pdf.numPages; items = [];
+                document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pageCount + ' pages';
+                document.getElementById('previewArea').style.display = 'block';
+                for (var i = 0; i < pageCount; i++) {
+                    setProgress(Math.round((i/pageCount)*100), 'Rendering page ' + (i+1) + ' of ' + pageCount + '...');
+                    var canvas = await renderPageCanvas(pdf, i+1, 220);
+                    items.push({orig: i, canvas: canvas});
+                }
+                pdf.destroy();
+                hideProgress();
+                renderGrid();
+            } catch (err) {
+                srcFile = null; hideProgress();
+                showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first.', 'error');
+            }
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function(){
+            items.sort(function(a,b){ return a.orig - b.orig; });
+            renderGrid();
+        });
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; pageCount = 0; items = [];
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('previewArea').style.display = 'none';
+            document.getElementById('pagesGrid').innerHTML = '';
+            document.getElementById('runBtn').disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!srcFile || !items.length) return;
+            try {
+                setProgress(30, 'Rebuilding in new order...');
+                var buf = await readAsArrayBuffer(srcFile);
+                var src = await PDFLib.PDFDocument.load(buf);
+                var order = items.map(function(it){ return it.orig; });
+                var out = await PDFLib.PDFDocument.create();
+                var pages = await out.copyPages(src, order);
+                pages.forEach(function(p){ out.addPage(p); });
+                setProgress(85, 'Saving...');
+                var bytes = await out.save();
+                setProgress(100, 'Done');
+                download(new Blob([bytes], {type:'application/pdf'}), srcFile.name.replace(/\.pdf$/i,'') + '-organized.pdf', 'application/pdf');
+                hideProgress();
+                var removed = pageCount - items.length;
+                showStatus('Saved ' + items.length + ' pages in the order shown' + (removed ? ' (' + removed + ' removed)' : '') + '.', 'success');
+            } catch (err) { hideProgress(); showStatus('Error: ' + err.message, 'error'); }
+        });
+
+    </script>
+</body>
+</html>

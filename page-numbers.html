@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Page Numbers to PDF Online Free – Includes Bates Numbering | PDFMerger</title>
+    <meta name="description" content="Stamp page numbers or Bates numbers (prefix + zero padding) onto every PDF page, with position and format options. Free, private, browser-based.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/page-numbers.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Add Page Numbers to PDF Online Free – Includes Bates Numbering">
+    <meta property="og:description" content="Stamp page numbers or Bates numbers (prefix + zero padding) onto every PDF page, with position and format options. Free, private, browser-based.">
+    <meta property="og:url" content="https://freepdfmerger.org/page-numbers.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Page Numbers &amp; Bates Numbering</h1>
+            <p class="subtitle">Stamp sequential numbers — plain, 'Page N', 'N of Total', or Bates style with prefix and padding — privately in your browser.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-list-ol"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — configure numbering below with a live preview</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div class="options" id="optionsBox" style="display:none;">
+                    <label>Position</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="pnpos" value="bc" checked> Bottom center</label>
+                        <label><input type="radio" name="pnpos" value="br"> Bottom right</label>
+                        <label><input type="radio" name="pnpos" value="bl"> Bottom left</label>
+                        <label><input type="radio" name="pnpos" value="tr"> Top right</label>
+                    </div>
+                    <label>Format</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="pnfmt" value="n" checked> 1, 2, 3</label>
+                        <label><input type="radio" name="pnfmt" value="pn"> Page 1</label>
+                        <label><input type="radio" name="pnfmt" value="nofm"> 1 of N</label>
+                    </div>
+                    <label for="pnStart">Start numbering at</label>
+                    <input type="text" id="pnStart" value="1" inputmode="numeric" style="max-width:120px;">
+                    <label for="pnPrefix">Prefix (optional — for Bates numbering, e.g. ABC-)</label>
+                    <input type="text" id="pnPrefix" value="" maxlength="20" placeholder="leave empty for plain page numbers">
+                    <label for="pnPad">Zero padding (Bates style: 3 &rarr; 001)</label>
+                    <select id="pnPad" style="max-width:200px;">
+                        <option value="0" selected>None</option>
+                        <option value="3">3 digits (001)</option>
+                        <option value="4">4 digits (0001)</option>
+                        <option value="6">6 digits (000001)</option>
+                    </select>
+                    <p class="preview-note" style="margin-top:10px;">Live example on page 1: <strong id="pnExample">1</strong></p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-list-ol"></i> Add Numbers &amp; Download</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool stamps page numbers onto every page of a PDF — plain numbers, "Page N", or "N of Total" — in your choice of corner. With the optional prefix and zero-padding, it also produces <strong>Bates numbering</strong> (e.g. <em>ABC-000123</em>), the sequential identification format used in legal discovery, court bundles, and audit documentation. A live example updates as you type, and processing stays entirely in your browser.</p>
+            <h3>Why Merged Bundles Need Numbers</h3>
+            <p>When several documents are <a href="index.html">merged</a> into one filing, the original page numbers printed on each document no longer match the combined file's sequence. Continuous numbering across the whole bundle is what lets a covering letter say "see page 47" unambiguously — and many tribunals and departments require it. Our <a href="prepare-pdf-documents-tax-gst-filing.html">filing checklist</a> covers where numbering fits in the assembly workflow: merge first, number last.</p>
+            <h3>Bates Numbering</h3>
+            <p>Set a prefix (matter code, party initials) and zero padding, and start each production batch where the previous one ended by changing "Start numbering at". Because numbers are drawn into the page content, they survive printing and re-copying. Note that this tool stamps <em>new</em> numbers; it does not detect or remove numbering already printed on the pages — position the new numbers in a corner the originals leave empty.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, pageCount = 0;
+
+        function labelFor(pageIdx) {
+            var start = parseInt(document.getElementById('pnStart').value, 10);
+            if (isNaN(start)) start = 1;
+            var n = start + pageIdx;
+            var pad = parseInt(document.getElementById('pnPad').value, 10);
+            var numStr = String(n);
+            if (pad > 0) while (numStr.length < pad) numStr = '0' + numStr;
+            var prefix = document.getElementById('pnPrefix').value;
+            var fmt = document.querySelector('input[name=pnfmt]:checked').value;
+            var core = prefix + numStr;
+            if (fmt === 'pn') return 'Page ' + core;
+            if (fmt === 'nofm') return core + ' of ' + (pageCount || 'N');
+            return core;
+        }
+        function updateExample() { document.getElementById('pnExample').textContent = labelFor(0); }
+        ['pnStart','pnPrefix','pnPad'].forEach(function(id){
+            document.getElementById(id).addEventListener('input', updateExample);
+            document.getElementById(id).addEventListener('change', updateExample);
+        });
+        document.querySelectorAll('input[name=pnfmt]').forEach(function(r){ r.addEventListener('change', updateExample); });
+
+        wireDropArea('dropArea', 'fileInput', function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            readAsArrayBuffer(f).then(function(buf){
+                return PDFLib.PDFDocument.load(buf).then(function(doc){
+                    srcFile = f; pageCount = doc.getPageCount();
+                    document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pageCount + ' pages';
+                    document.getElementById('optionsBox').style.display = 'block';
+                    document.getElementById('runBtn').disabled = false;
+                    updateExample();
+                });
+            }).catch(function(){
+                srcFile = null;
+                showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first.', 'error');
+            });
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; pageCount = 0;
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('optionsBox').style.display = 'none';
+            document.getElementById('runBtn').disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!srcFile) return;
+            var start = parseInt(document.getElementById('pnStart').value, 10);
+            if (isNaN(start) || start < 0) { showStatus('"Start numbering at" must be a number (0 or higher).', 'error'); return; }
+            var pos = document.querySelector('input[name=pnpos]:checked').value;
+            try {
+                setProgress(20, 'Loading PDF...');
+                var buf = await readAsArrayBuffer(srcFile);
+                var doc = await PDFLib.PDFDocument.load(buf);
+                var font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+                var pages = doc.getPages();
+                var SIZE = 10, MARGIN = 24;
+                for (var i = 0; i < pages.length; i++) {
+                    if (i % 20 === 0) setProgress(20 + Math.round((i/pages.length)*65), 'Numbering page ' + (i+1) + ' of ' + pages.length + '...');
+                    var page = pages[i];
+                    var w = page.getWidth(), h = page.getHeight();
+                    var text = labelFor(i);
+                    var tw = font.widthOfTextAtSize(text, SIZE);
+                    var x = (pos === 'bc') ? (w - tw)/2 : (pos === 'bl') ? MARGIN : (w - tw - MARGIN);
+                    var y = (pos === 'tr') ? (h - MARGIN) : MARGIN;
+                    page.drawText(text, { x: x, y: y, size: SIZE, font: font, color: PDFLib.rgb(0.25, 0.25, 0.3) });
+                }
+                setProgress(90, 'Saving...');
+                var bytes = await doc.save();
+                setProgress(100, 'Done');
+                download(new Blob([bytes], {type:'application/pdf'}), srcFile.name.replace(/\.pdf$/i,'') + '-numbered.pdf', 'application/pdf');
+                hideProgress();
+                showStatus('Numbered all ' + pages.length + ' pages ("' + labelFor(0) + '" … "' + labelFor(pages.length-1) + '").', 'success');
+            } catch (err) { hideProgress(); showStatus('Error: ' + err.message, 'error'); }
+        });
+
+    </script>
+</body>
+</html>

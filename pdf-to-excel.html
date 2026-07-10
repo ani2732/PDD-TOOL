@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Excel Converter Free – Convert PDF Tables to .xlsx in Your Browser | PDFMerger</title>
+    <meta name="description" content="Convert bank statements and PDF tables to Excel (.xlsx) privately in your browser — live preview, real numbers, Indian number format supported. No uploads.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/pdf-to-excel.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to Excel Converter Free – Convert PDF Tables to .xlsx in Your Browser">
+    <meta property="og:description" content="Convert bank statements and PDF tables to Excel (.xlsx) privately in your browser — live preview, real numbers, Indian number format supported. No uploads.">
+    <meta property="og:url" content="https://freepdfmerger.org/pdf-to-excel.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>PDF to Excel</h1>
+            <p class="subtitle">Turn bank e-statements and PDF tables into a real .xlsx — columns detected, amounts as numbers, live preview — without your financial data ever leaving your device.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-file-excel"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>works with bank e-statements and any digitally generated PDF — the extracted table previews below</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div class="options" id="optionsBox" style="display:none;">
+                    <label>Sheet layout</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="xlsheet" value="one" checked> One continuous sheet (best for bank statements)</label>
+                        <label><input type="radio" name="xlsheet" value="per"> One sheet per PDF page</label>
+                    </div>
+                    <label>Numbers</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="xlnum" value="auto" checked> Convert amounts to real numbers (1,23,456.78 &rarr; 123456.78)</label>
+                        <label><input type="radio" name="xlnum" value="text"> Keep everything as text</label>
+                    </div>
+                </div>
+                <div id="previewArea" style="display:none;">
+                    <div class="preview-head">
+                        <h3><i class="fas fa-table"></i> Live Table Preview — first rows of the extraction</h3>
+                    </div>
+                    <p class="preview-note" id="previewNote"></p>
+                    <div class="xl-wrap"><table class="xl-table" id="xlTable"></table></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled style="display:none;"><i class="fas fa-download"></i> Download Excel (.xlsx)</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>Bank Statement &amp; PDF Tables to Excel — Privately</h2>
+            <p>This tool reads the text inside a digital PDF along with its exact position on the page, reconstructs the rows and columns, and writes a real .xlsx file — <strong>with amounts converted to genuine numbers</strong> (including Indian-format figures like 1,23,456.78) so they sum, sort, and filter immediately in Excel. A live preview shows the detected table before you download.</p>
+            <p>Crucially for bank statements: <strong>the file never leaves your device.</strong> Uploading months of transactions — balances, payees, account numbers — to an unknown conversion server is exactly what you should not do with financial data. Here, extraction runs in your own browser.</p>
+            <h3>Getting the Best Result from a Bank Statement</h3>
+            <ol>
+                <li><strong>Use the e-statement downloaded from net banking,</strong> not a scan of a printed copy. E-statements are digital PDFs with a text layer; scans are photographs and need OCR first.</li>
+                <li><strong>Remove the password first.</strong> Bank PDFs are usually locked with your account number or date of birth — see the safe on-device methods in our <a href="how-to-remove-pdf-password.html">password removal guide</a>.</li>
+                <li><strong>Keep "one continuous sheet"</strong> so a multi-page statement becomes one uninterrupted transaction table.</li>
+                <li><strong>Expect light cleanup.</strong> Header/footer lines from each page land as ordinary rows — sort or filter them out in Excel. Long descriptions that wrap across two PDF lines arrive as two rows.</li>
+            </ol>
+            <h3>What This Tool Doesn't Do</h3>
+            <p>It doesn't OCR scanned documents, and it doesn't guess at tables in free-flowing prose — it reconstructs what is positionally laid out as columns. For extracting plain paragraphs instead, use <a href="pdf-to-text.html">PDF to Text</a>; for an editable document, use <a href="pdf-to-word.html">PDF to Word</a>.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, pageRows = null; // pageRows: array per page of arrays-of-cells {x0, text}
+
+        // ---- table reconstruction engine ----
+        function itemsToCells(items) {
+            // items -> rows of merged cells with x-position
+            var pts = [];
+            items.forEach(function(it){
+                if (it.str.trim() === '') return;
+                pts.push({ x: it.transform[4], y: it.transform[5], w: it.width || 0, str: it.str });
+            });
+            pts.sort(function(a,b){ return (b.y - a.y) || (a.x - b.x); });
+            var rows = [], cur = [], lastY = null, TOL = 3;
+            pts.forEach(function(p){
+                if (lastY !== null && Math.abs(p.y - lastY) > TOL) { rows.push(cur); cur = []; }
+                cur.push(p); lastY = p.y;
+            });
+            if (cur.length) rows.push(cur);
+            // merge horizontally-adjacent items into cells
+            return rows.map(function(row){
+                row.sort(function(a,b){ return a.x - b.x; });
+                var cells = [];
+                row.forEach(function(p){
+                    var last = cells[cells.length - 1];
+                    if (last && (p.x - last.xEnd) < 6) {
+                        last.text += (p.x - last.xEnd > 0.8 ? ' ' : '') + p.str;
+                        last.xEnd = p.x + p.w;
+                    } else {
+                        cells.push({ x0: p.x, xEnd: p.x + p.w, text: p.str });
+                    }
+                });
+                return cells;
+            });
+        }
+        function clusterColumns(allCells) {
+            // cluster start-x positions across the whole document
+            var xs = allCells.map(function(c){ return c.x0; }).sort(function(a,b){ return a - b; });
+            var cols = [], TOL = 12;
+            xs.forEach(function(x){
+                var last = cols[cols.length - 1];
+                if (last && x - last.max <= TOL) { last.max = Math.max(last.max, x); last.sum += x; last.n++; }
+                else cols.push({ min: x, max: x, sum: x, n: 1 });
+            });
+            return cols.map(function(c){ return c.sum / c.n; });
+        }
+        function nearestCol(centers, x) {
+            var best = 0, bd = Infinity;
+            for (var i = 0; i < centers.length; i++) {
+                var d = Math.abs(centers[i] - x);
+                if (d < bd) { bd = d; best = i; }
+            }
+            return best;
+        }
+        function maybeNumber(text) {
+            var t = text.trim();
+            // plain, western (1,234,567.89) and Indian (12,34,567.89) formats, optional trailing Cr/Dr
+            var m = t.match(/^(-?)([\d,]+)(\.\d+)?$/);
+            if (!m) return text;
+            var digits = m[2].replace(/,/g, '');
+            if (!/^\d+$/.test(digits)) return text;
+            var n = parseFloat(m[1] + digits + (m[3] || ''));
+            return isFinite(n) ? n : text;
+        }
+        function buildAoa(rowsOfCells, centers, numeric) {
+            return rowsOfCells.map(function(cells){
+                var arr = new Array(centers.length).fill('');
+                cells.forEach(function(c){
+                    var col = nearestCol(centers, c.x0);
+                    var val = numeric ? maybeNumber(c.text) : c.text;
+                    arr[col] = arr[col] === '' ? val : (String(arr[col]) + ' ' + String(val));
+                });
+                return arr;
+            });
+        }
+        function collectAoa() {
+            var numeric = document.querySelector('input[name=xlnum]:checked').value === 'auto';
+            var all = [];
+            pageRows.forEach(function(rows){ rows.forEach(function(r){ r.forEach(function(c){ all.push(c); }); }); });
+            var centers = clusterColumns(all);
+            var perPage = pageRows.map(function(rows){ return buildAoa(rows, centers, numeric); });
+            return { perPage: perPage, cols: centers.length };
+        }
+        function renderPreview() {
+            if (!pageRows) return;
+            var data = collectAoa();
+            var flat = [];
+            data.perPage.forEach(function(p){ flat = flat.concat(p); });
+            var tbl = document.getElementById('xlTable');
+            tbl.innerHTML = '';
+            var N = Math.min(flat.length, 30);
+            for (var r = 0; r < N; r++) {
+                var tr = document.createElement('tr');
+                flat[r].forEach(function(v){
+                    var td = document.createElement('td');
+                    td.textContent = v;
+                    if (typeof v === 'number') td.style.textAlign = 'right';
+                    tr.appendChild(td);
+                });
+                tbl.appendChild(tr);
+            }
+            document.getElementById('previewNote').textContent =
+                'Detected ' + data.cols + ' columns and ' + flat.length + ' rows' +
+                (flat.length > N ? ' (showing first ' + N + ')' : '') +
+                '. Adjust the options above and the preview updates live.';
+        }
+        document.querySelectorAll('input[name=xlnum], input[name=xlsheet]').forEach(function(r){
+            r.addEventListener('change', renderPreview);
+        });
+
+        wireDropArea('dropArea', 'fileInput', async function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            try {
+                var buf = await readAsArrayBuffer(f);
+                var pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+                srcFile = f;
+                document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pdf.numPages + ' pages';
+                pageRows = [];
+                var texty = 0;
+                for (var i = 1; i <= pdf.numPages; i++) {
+                    setProgress(Math.round((i/pdf.numPages)*95), 'Reading page ' + i + ' of ' + pdf.numPages + '...');
+                    var page = await pdf.getPage(i);
+                    var tc = await page.getTextContent();
+                    var rows = itemsToCells(tc.items);
+                    if (rows.length) texty++;
+                    pageRows.push(rows);
+                    page.cleanup();
+                }
+                var numPages = pdf.numPages;
+                pdf.destroy();
+                hideProgress();
+                if (texty === 0) {
+                    pageRows = null;
+                    showStatus('No selectable text found — this PDF appears to be a scanned image. Table extraction needs a digital PDF (like a bank e-statement downloaded from net banking). Scans would require OCR first.', 'error');
+                    return;
+                }
+                document.getElementById('optionsBox').style.display = 'block';
+                document.getElementById('previewArea').style.display = 'block';
+                var runBtn = document.getElementById('runBtn');
+                runBtn.style.display = 'inline-flex'; runBtn.disabled = false;
+                renderPreview();
+                showStatus(texty === numPages ? 'Extracted tables from all ' + numPages + ' pages — review the preview, then download.' : ('Extracted text from ' + texty + ' of ' + numPages + ' pages; the rest appear to be scans.'), 'success');
+            } catch (err) {
+                srcFile = null; hideProgress();
+                showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first (bank statements usually are; see our password guide).', 'error');
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; pageRows = null;
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('optionsBox').style.display = 'none';
+            document.getElementById('previewArea').style.display = 'none';
+            document.getElementById('xlTable').innerHTML = '';
+            var runBtn = document.getElementById('runBtn');
+            runBtn.style.display = 'none'; runBtn.disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', function(){
+            if (!pageRows) return;
+            try {
+                var data = collectAoa();
+                var perSheet = document.querySelector('input[name=xlsheet]:checked').value === 'per';
+                var wb = XLSX.utils.book_new();
+                if (perSheet) {
+                    data.perPage.forEach(function(aoa, i){
+                        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa.length ? aoa : [['']]), 'Page ' + (i+1));
+                    });
+                } else {
+                    var flat = [];
+                    data.perPage.forEach(function(p){ flat = flat.concat(p); });
+                    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(flat), 'Extracted');
+                }
+                var out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                download(new Blob([out], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),
+                         srcFile.name.replace(/\.pdf$/i,'') + '.xlsx',
+                         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                showStatus('Excel file downloaded — exactly what the preview shows.', 'success');
+            } catch (err) { showStatus('Error: ' + err.message, 'error'); }
+        });
+
+    </script>
+</body>
+</html>

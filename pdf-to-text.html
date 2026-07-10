@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Text Extractor Online Free – Copy or Download as TXT | PDFMerger</title>
+    <meta name="description" content="Extract all text from a PDF in your browser with a live preview — copy to clipboard or download as .txt. Free, private, no uploads.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/pdf-to-text.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to Text Extractor Online Free – Copy or Download as TXT">
+    <meta property="og:description" content="Extract all text from a PDF in your browser with a live preview — copy to clipboard or download as .txt. Free, private, no uploads.">
+    <meta property="og:url" content="https://freepdfmerger.org/pdf-to-text.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>PDF to Text</h1>
+            <p class="subtitle">Extract every page's text with a live preview — copy it or download a .txt file, all privately in your browser.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-file-lines"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — extracted text appears below for review before download</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div id="previewArea" style="display:none;">
+                    <div class="preview-head">
+                        <h3><i class="fas fa-eye"></i> Extracted Text — live preview</h3>
+                        <button class="btn btn-small btn-secondary" id="copyBtn" type="button"><i class="fas fa-copy"></i> Copy all</button>
+                    </div>
+                    <textarea id="textOut" readonly style="min-height:320px;font-family:ui-monospace,Consolas,monospace;font-size:0.88rem;white-space:pre-wrap;"></textarea>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled style="display:none;"><i class="fas fa-download"></i> Download .txt</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool pulls the text out of a PDF into plain, copyable form — shown live in a preview box, ready to copy to the clipboard or download as a .txt file, with page markers preserved. Extraction runs entirely in your browser, which makes it safe for contracts, statements, and reports you wouldn't paste into a random website.</p>
+            <h3>What It Can and Cannot Read</h3>
+            <p>A PDF contains selectable text only if it was created digitally (exported from Word, generated by software, or OCR-processed). <strong>Scanned documents are photographs of pages</strong> — there is no text inside them to extract, and this tool will tell you so per page rather than returning gibberish. Converting scans to text requires OCR (optical character recognition), which is a much heavier process this tool deliberately doesn't attempt; run the scan through your scanner software's OCR option first, then extract here.</p>
+            <h3>Practical Uses</h3>
+            <ul>
+                <li><strong>Reusing clauses and paragraphs:</strong> pull text from an agreement or report into a new draft without retyping.</li>
+                <li><strong>Getting data out of statements:</strong> extracted bank-statement text can be cleaned up in a spreadsheet far faster than manual entry.</li>
+                <li><strong>Word counts and searching:</strong> plain text is easy to search, diff, and count in any editor.</li>
+            </ul>
+            <p>Layout caveat: PDFs store position, not structure, so multi-column pages and complex tables come out in reading order that may need rearranging. For a faithful <em>visual</em> copy of pages instead, use <a href="pdf-to-jpg.html">PDF to JPG</a>.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        async function renderPageCanvas(pdf, pageNum, targetW) {
+            var page = await pdf.getPage(pageNum);
+            var vp1 = page.getViewport({scale: 1});
+            var scale = targetW / vp1.width;
+            var vp = page.getViewport({scale: scale});
+            var canvas = document.createElement('canvas');
+            canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            await page.render({canvasContext: ctx, viewport: vp}).promise;
+            page.cleanup();
+            return canvas;
+        }
+        function makeThumb(canvas, label) {
+            var div = document.createElement('div');
+            div.className = 'page-thumb';
+            var wrap = document.createElement('div');
+            wrap.className = 'canvas-wrap';
+            wrap.appendChild(canvas);
+            var num = document.createElement('div');
+            num.className = 'pnum';
+            num.textContent = label;
+            div.appendChild(wrap); div.appendChild(num);
+            return div;
+        }
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, extracted = '';
+
+        wireDropArea('dropArea', 'fileInput', async function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            try {
+                var buf = await readAsArrayBuffer(f);
+                var pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+                srcFile = f;
+                document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pdf.numPages + ' pages';
+                var parts = [], nonEmpty = 0;
+                for (var i = 1; i <= pdf.numPages; i++) {
+                    setProgress(Math.round((i/pdf.numPages)*95), 'Extracting text from page ' + i + ' of ' + pdf.numPages + '...');
+                    var page = await pdf.getPage(i);
+                    var tc = await page.getTextContent();
+                    // group items into lines by their vertical position
+                    var lines = [], lastY = null, line = [];
+                    tc.items.forEach(function(item){
+                        var y = Math.round(item.transform[5]);
+                        if (lastY !== null && Math.abs(y - lastY) > 2) { lines.push(line.join(' ')); line = []; }
+                        if (item.str.trim() !== '') line.push(item.str);
+                        lastY = y;
+                    });
+                    if (line.length) lines.push(line.join(' '));
+                    var pageText = lines.join('\n').trim();
+                    if (pageText) nonEmpty++;
+                    parts.push('----- Page ' + i + ' -----\n\n' + (pageText || '[no selectable text on this page]'));
+                    page.cleanup();
+                }
+                var numPages = pdf.numPages;
+                pdf.destroy();
+                extracted = parts.join('\n\n');
+                document.getElementById('textOut').value = extracted;
+                document.getElementById('previewArea').style.display = 'block';
+                var runBtn = document.getElementById('runBtn');
+                runBtn.style.display = 'inline-flex';
+                runBtn.disabled = false;
+                hideProgress();
+                if (nonEmpty === 0) {
+                    showStatus('No selectable text found — this PDF appears to be a scan (pictures of pages). Text extraction needs a text layer; a scanned document would require OCR, which this tool does not perform.', 'error');
+                } else if (nonEmpty < numPages) {
+                    showStatus('Extracted text from ' + nonEmpty + ' of ' + numPages + ' pages — the rest appear to be scanned images without a text layer.', 'success');
+                } else {
+                    showStatus('Extracted text from all ' + numPages + ' pages. Review above, then copy or download.', 'success');
+                }
+            } catch (err) {
+                srcFile = null; hideProgress();
+                showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first.', 'error');
+            }
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function(){
+            var ta = document.getElementById('textOut');
+            ta.select();
+            try { navigator.clipboard.writeText(ta.value); showStatus('Copied to clipboard.', 'success'); }
+            catch (e) { document.execCommand('copy'); showStatus('Copied to clipboard.', 'success'); }
+        });
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; extracted = '';
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('previewArea').style.display = 'none';
+            document.getElementById('textOut').value = '';
+            var runBtn = document.getElementById('runBtn');
+            runBtn.style.display = 'none'; runBtn.disabled = true;
+            hideStatus(); hideProgress();
+        });
+        document.getElementById('runBtn').addEventListener('click', function(){
+            if (!extracted) return;
+            download(new Blob([extracted], {type:'text/plain'}), srcFile.name.replace(/\.pdf$/i,'') + '.txt', 'text/plain');
+            showStatus('Downloaded as a .txt file.', 'success');
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete PDF Pages Online Free – Click Pages to Remove | PDFMerger</title>
+    <meta name="description" content="Remove pages from a PDF visually: preview every page, click the ones to delete, and download the cleaned file. Free, private, browser-based — no uploads.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/delete-pages.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Delete PDF Pages Online Free – Click Pages to Remove">
+    <meta property="og:description" content="Remove pages from a PDF visually: preview every page, click the ones to delete, and download the cleaned file. Free, private, browser-based — no uploads.">
+    <meta property="og:url" content="https://freepdfmerger.org/delete-pages.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Delete PDF Pages</h1>
+            <p class="subtitle">Preview every page, click the ones you don't want, and download a clean copy — processed privately in your browser.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-eraser"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — click pages below to mark them for deletion</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div id="previewArea" style="display:none;">
+                    <div class="preview-head">
+                        <h3><i class="fas fa-eye"></i> Live Preview — click pages to delete them</h3>
+                        <button class="btn btn-small btn-secondary" id="undoAllBtn" type="button"><i class="fas fa-rotate-left"></i> Restore all</button>
+                    </div>
+                    <p class="preview-note" id="previewNote"></p>
+                    <div class="pages-grid" id="pagesGrid"></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-eraser"></i> Delete Pages &amp; Download</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool removes unwanted pages from a PDF — blank scanner pages, duplicated sheets, or sections that shouldn't be shared. Every page previews as a thumbnail; click the ones to remove and they fade with a delete mark, so you can see the result before committing. Processing happens entirely in your browser; the file is never uploaded.</p>
+            <h3>Common Uses</h3>
+            <ul>
+                <li><strong>Blank pages from double-sided scanning:</strong> automatic document feeders often insert empty pages — spot them instantly in the preview and click them away.</li>
+                <li><strong>Removing sensitive pages before sharing:</strong> drop the salary annexure from a contract copy, or internal notes from a client file. (Note: this removes whole pages; it does not redact content <em>within</em> a page.)</li>
+                <li><strong>Trimming oversized filings:</strong> combined with the <a href="compress-pdf.html">compressor</a>, deleting unneeded pages is the fastest way to get under a portal's upload limit.</li>
+            </ul>
+            <p>Need to keep only a few pages rather than delete a few? The <a href="split-pdf.html">Split tool</a> works the opposite way — click the pages you want to <em>keep</em>. And if pages are in the wrong order rather than unwanted, use <a href="organize-pdf.html">Organize Pages</a>.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        async function renderPageCanvas(pdf, pageNum, targetW) {
+            var page = await pdf.getPage(pageNum);
+            var vp1 = page.getViewport({scale: 1});
+            var scale = targetW / vp1.width;
+            var vp = page.getViewport({scale: scale});
+            var canvas = document.createElement('canvas');
+            canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            await page.render({canvasContext: ctx, viewport: vp}).promise;
+            page.cleanup();
+            return canvas;
+        }
+        function makeThumb(canvas, label) {
+            var div = document.createElement('div');
+            div.className = 'page-thumb';
+            var wrap = document.createElement('div');
+            wrap.className = 'canvas-wrap';
+            wrap.appendChild(canvas);
+            var num = document.createElement('div');
+            num.className = 'pnum';
+            num.textContent = label;
+            div.appendChild(wrap); div.appendChild(num);
+            return div;
+        }
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, pageCount = 0, deleted = [], thumbs = [];
+        var MAX_THUMBS = 100;
+
+        function refresh() {
+            var n = deleted.filter(Boolean).length;
+            for (var i = 0; i < thumbs.length; i++) {
+                if (!thumbs[i]) continue;
+                thumbs[i].style.opacity = deleted[i] ? '0.35' : '1';
+                thumbs[i].querySelector('.del-mark').style.display = deleted[i] ? 'flex' : 'none';
+            }
+            var btn = document.getElementById('runBtn');
+            btn.innerHTML = n ? '<i class="fas fa-eraser"></i> Delete ' + n + ' Page' + (n>1?'s':'') + ' &amp; Download' : '<i class="fas fa-eraser"></i> Delete Pages &amp; Download';
+        }
+
+        wireDropArea('dropArea', 'fileInput', async function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            try {
+                var buf = await readAsArrayBuffer(f);
+                var pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+                srcFile = f; pageCount = pdf.numPages;
+                deleted = new Array(pageCount).fill(false);
+                thumbs = new Array(pageCount).fill(null);
+                document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pageCount + ' pages';
+                var grid = document.getElementById('pagesGrid');
+                grid.innerHTML = '';
+                document.getElementById('previewArea').style.display = 'block';
+                var shown = Math.min(pageCount, MAX_THUMBS);
+                document.getElementById('previewNote').textContent = pageCount > MAX_THUMBS ? ('Previewing the first ' + MAX_THUMBS + ' of ' + pageCount + ' pages. Pages beyond the preview are kept.') : '';
+                for (var i = 0; i < shown; i++) {
+                    setProgress(Math.round((i/shown)*100), 'Rendering preview ' + (i+1) + ' of ' + shown + '...');
+                    var canvas = await renderPageCanvas(pdf, i+1, 220);
+                    var thumb = makeThumb(canvas, 'Page ' + (i+1));
+                    thumb.classList.add('selectable');
+                    var mark = document.createElement('div');
+                    mark.className = 'del-mark';
+                    mark.style.cssText = 'display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:2.2rem;color:var(--err-fg);';
+                    mark.innerHTML = '<i class="fas fa-trash"></i>';
+                    thumb.appendChild(mark);
+                    (function(idx){ thumb.addEventListener('click', function(){ deleted[idx] = !deleted[idx]; refresh(); }); })(i);
+                    thumbs[i] = thumb;
+                    grid.appendChild(thumb);
+                }
+                pdf.destroy();
+                hideProgress();
+                document.getElementById('runBtn').disabled = false;
+                refresh();
+            } catch (err) {
+                srcFile = null; hideProgress();
+                showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first.', 'error');
+            }
+        });
+
+        document.getElementById('undoAllBtn').addEventListener('click', function(){ deleted = deleted.map(function(){ return false; }); refresh(); });
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; pageCount = 0; deleted = []; thumbs = [];
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('previewArea').style.display = 'none';
+            document.getElementById('pagesGrid').innerHTML = '';
+            document.getElementById('runBtn').disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!srcFile) return;
+            var keep = [];
+            for (var i = 0; i < pageCount; i++) if (!deleted[i]) keep.push(i);
+            var removed = pageCount - keep.length;
+            if (!removed) { showStatus('Click pages in the preview to mark them for deletion first.', 'error'); return; }
+            if (!keep.length) { showStatus('You cannot delete every page — at least one page must remain.', 'error'); return; }
+            try {
+                setProgress(30, 'Removing ' + removed + ' page(s)...');
+                var buf = await readAsArrayBuffer(srcFile);
+                var src = await PDFLib.PDFDocument.load(buf);
+                var out = await PDFLib.PDFDocument.create();
+                var pages = await out.copyPages(src, keep);
+                pages.forEach(function(p){ out.addPage(p); });
+                setProgress(85, 'Saving...');
+                var bytes = await out.save();
+                setProgress(100, 'Done');
+                download(new Blob([bytes], {type:'application/pdf'}), srcFile.name.replace(/\.pdf$/i,'') + '-edited.pdf', 'application/pdf');
+                hideProgress();
+                showStatus('Deleted ' + removed + ' page(s). The new PDF has ' + keep.length + ' pages.', 'success');
+            } catch (err) { hideProgress(); showStatus('Error: ' + err.message, 'error'); }
+        });
+
+    </script>
+</body>
+</html>

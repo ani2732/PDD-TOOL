@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Watermark to PDF Online Free – Live Preview | PDFMerger</title>
+    <meta name="description" content="Stamp CONFIDENTIAL, DRAFT, or any text across every PDF page with a live preview of angle, colour, and opacity. Free, private, browser-based.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/watermark-pdf.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Add Watermark to PDF Online Free – Live Preview">
+    <meta property="og:description" content="Stamp CONFIDENTIAL, DRAFT, or any text across every PDF page with a live preview of angle, colour, and opacity. Free, private, browser-based.">
+    <meta property="og:url" content="https://freepdfmerger.org/watermark-pdf.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Watermark PDF</h1>
+            <p class="subtitle">Stamp text across every page — adjust angle, colour, and opacity with a live preview, all privately in your browser.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-stamp"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — set the watermark below and see it on page 1 before applying</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div class="options" id="optionsBox" style="display:none;">
+                    <label for="wmText">Watermark text</label>
+                    <input type="text" id="wmText" value="CONFIDENTIAL" maxlength="60">
+                    <label>Style</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="wmangle" value="diag" checked> Diagonal</label>
+                        <label><input type="radio" name="wmangle" value="horiz"> Horizontal (center)</label>
+                    </div>
+                    <label>Color</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="wmcolor" value="gray" checked> Gray</label>
+                        <label><input type="radio" name="wmcolor" value="red"> Red</label>
+                        <label><input type="radio" name="wmcolor" value="blue"> Blue</label>
+                    </div>
+                    <label for="wmOpacity">Opacity: <span id="wmOpacityVal">25%</span></label>
+                    <input type="range" id="wmOpacity" min="10" max="60" value="25" style="max-width:340px;">
+                </div>
+                <div id="previewArea" style="display:none;">
+                    <div class="preview-head"><h3><i class="fas fa-eye"></i> Live Preview — page 1 with your watermark</h3></div>
+                    <div class="pages-grid" style="grid-template-columns:minmax(220px,340px);justify-content:center;">
+                        <div class="page-thumb"><div class="canvas-wrap" style="height:auto;"><canvas id="wmCanvas" style="max-width:100%;max-height:420px;"></canvas></div><div class="pnum">Page 1 preview — the same watermark is applied to every page</div></div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-stamp"></i> Apply Watermark &amp; Download</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool stamps a text watermark — <em>CONFIDENTIAL</em>, <em>DRAFT</em>, <em>COPY</em>, a client name, anything up to 60 characters — across every page of a PDF. You see a live preview on page 1 as you adjust the text, angle, colour, and opacity, so there's no guessing how it will look. Processing is entirely in-browser; the document never leaves your device, which matters precisely because watermarked documents are usually the sensitive ones.</p>
+            <h3>Practical Uses</h3>
+            <ul>
+                <li><strong>DRAFT / FOR REVIEW:</strong> mark working versions so they can't be mistaken for finals in an email chain.</li>
+                <li><strong>COPY / DUPLICATE:</strong> when sharing copies of certificates or agreements while retaining the clean original.</li>
+                <li><strong>Client or recipient names:</strong> a light watermark like "Shared with Fernandez &amp; Co" discourages onward forwarding of confidential documents.</li>
+            </ul>
+            <h3>Good to Know</h3>
+            <p>The watermark is drawn <em>on top of</em> the page content as part of the PDF itself, so it prints and displays everywhere. Keep opacity around 20–30% so underlying text stays readable. Note that a determined person can remove a text watermark with editing software — treat it as a strong label, not a security control. For documents that truly must not leak, limit distribution rather than relying on markings. Pair with <a href="page-numbers.html">page numbers</a> for court and filing bundles.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        async function renderPageCanvas(pdf, pageNum, targetW) {
+            var page = await pdf.getPage(pageNum);
+            var vp1 = page.getViewport({scale: 1});
+            var scale = targetW / vp1.width;
+            var vp = page.getViewport({scale: scale});
+            var canvas = document.createElement('canvas');
+            canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            await page.render({canvasContext: ctx, viewport: vp}).promise;
+            page.cleanup();
+            return canvas;
+        }
+        function makeThumb(canvas, label) {
+            var div = document.createElement('div');
+            div.className = 'page-thumb';
+            var wrap = document.createElement('div');
+            wrap.className = 'canvas-wrap';
+            wrap.appendChild(canvas);
+            var num = document.createElement('div');
+            num.className = 'pnum';
+            num.textContent = label;
+            div.appendChild(wrap); div.appendChild(num);
+            return div;
+        }
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, pageCount = 0, basePage1 = null; // offscreen canvas of page 1
+        var COLORS = { gray: [0.45,0.45,0.5], red: [0.75,0.15,0.2], blue: [0.15,0.3,0.75] };
+
+        function settings() {
+            return {
+                text: (document.getElementById('wmText').value || 'CONFIDENTIAL').trim() || 'CONFIDENTIAL',
+                diag: document.querySelector('input[name=wmangle]:checked').value === 'diag',
+                color: COLORS[document.querySelector('input[name=wmcolor]:checked').value],
+                opacity: parseInt(document.getElementById('wmOpacity').value, 10) / 100
+            };
+        }
+        function drawPreview() {
+            if (!basePage1) return;
+            var s = settings();
+            var c = document.getElementById('wmCanvas');
+            c.width = basePage1.width; c.height = basePage1.height;
+            var ctx = c.getContext('2d');
+            ctx.drawImage(basePage1, 0, 0);
+            var col = s.color.map(function(v){ return Math.round(v*255); });
+            ctx.save();
+            ctx.globalAlpha = s.opacity;
+            ctx.fillStyle = 'rgb(' + col.join(',') + ')';
+            // font size so text spans ~70% of the drawing axis
+            var span = s.diag ? Math.sqrt(c.width*c.width + c.height*c.height) : c.width;
+            var size = (span * 0.7) / (s.text.length * 0.6);
+            ctx.font = '700 ' + size + 'px Helvetica, Arial, sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.translate(c.width/2, c.height/2);
+            if (s.diag) ctx.rotate(-Math.atan2(c.height, c.width));
+            ctx.fillText(s.text, 0, 0);
+            ctx.restore();
+        }
+        ['input','change'].forEach(function(ev){
+            document.getElementById('wmText').addEventListener(ev, drawPreview);
+            document.getElementById('wmOpacity').addEventListener(ev, function(){
+                document.getElementById('wmOpacityVal').textContent = this.value + '%';
+                drawPreview();
+            });
+        });
+        document.querySelectorAll('input[name=wmangle], input[name=wmcolor]').forEach(function(r){ r.addEventListener('change', drawPreview); });
+
+        wireDropArea('dropArea', 'fileInput', async function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            try {
+                var buf = await readAsArrayBuffer(f);
+                var pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+                srcFile = f; pageCount = pdf.numPages;
+                document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pageCount + ' pages';
+                setProgress(50, 'Rendering preview...');
+                basePage1 = await renderPageCanvas(pdf, 1, 620);
+                pdf.destroy();
+                hideProgress();
+                document.getElementById('optionsBox').style.display = 'block';
+                document.getElementById('previewArea').style.display = 'block';
+                document.getElementById('runBtn').disabled = false;
+                drawPreview();
+            } catch (err) {
+                srcFile = null; hideProgress();
+                showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first.', 'error');
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; pageCount = 0; basePage1 = null;
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('optionsBox').style.display = 'none';
+            document.getElementById('previewArea').style.display = 'none';
+            document.getElementById('runBtn').disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!srcFile) return;
+            var s = settings();
+            try {
+                setProgress(20, 'Loading PDF...');
+                var buf = await readAsArrayBuffer(srcFile);
+                var doc = await PDFLib.PDFDocument.load(buf);
+                var font = await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+                var pages = doc.getPages();
+                for (var i = 0; i < pages.length; i++) {
+                    if (i % 10 === 0) setProgress(20 + Math.round((i/pages.length)*65), 'Watermarking page ' + (i+1) + ' of ' + pages.length + '...');
+                    var page = pages[i];
+                    var w = page.getWidth(), h = page.getHeight();
+                    var span = s.diag ? Math.sqrt(w*w + h*h) : w;
+                    var size = (span * 0.7) / (s.text.length * 0.6);
+                    var tw = font.widthOfTextAtSize(s.text, size);
+                    var angle = s.diag ? Math.atan2(h, w) : 0;   // radians, counter-clockwise in PDF space
+                    var cos = Math.cos(angle), sin = Math.sin(angle);
+                    // center the text's midpoint on the page center (baseline approx. mid via size*0.35)
+                    var x = w/2 - (tw/2)*cos + (size*0.35)*sin;
+                    var y = h/2 - (tw/2)*sin - (size*0.35)*cos;
+                    page.drawText(s.text, {
+                        x: x, y: y, size: size, font: font,
+                        color: PDFLib.rgb(s.color[0], s.color[1], s.color[2]),
+                        opacity: s.opacity,
+                        rotate: PDFLib.radians(angle)
+                    });
+                }
+                setProgress(90, 'Saving...');
+                var bytes = await doc.save();
+                setProgress(100, 'Done');
+                download(new Blob([bytes], {type:'application/pdf'}), srcFile.name.replace(/\.pdf$/i,'') + '-watermarked.pdf', 'application/pdf');
+                hideProgress();
+                showStatus('Watermarked all ' + pages.length + ' pages, matching the preview.', 'success');
+            } catch (err) { hideProgress(); showStatus('Error: ' + err.message, 'error'); }
+        });
+
+    </script>
+</body>
+</html>

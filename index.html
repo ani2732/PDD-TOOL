@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ====== SEO META TAGS ====== -->
+    <title>Free Online PDF Merger – Combine PDF Files in Your Browser | PDFMerger</title>
+    <meta name="description" content="Merge multiple PDF files into one document for free. 100% browser-based, no uploads, no signup. Fast, private, and works on any device.">
+    <meta name="keywords" content="pdf merger, merge pdf, combine pdf, join pdf files, free pdf tool, online pdf merger">
+    <meta name="author" content="PDFMerger Team">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/">
+
+    <!-- ====== OPEN GRAPH / SOCIAL ====== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Free Online PDF Merger – Combine PDF Files in Your Browser">
+    <meta property="og:description" content="Merge multiple PDF files into one document for free. 100% browser-based, no uploads, no signup.">
+    <meta property="og:url" content="https://freepdfmerger.org/">
+    <meta property="og:site_name" content="PDFMerger">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Online PDF Merger">
+    <meta name="twitter:description" content="Combine multiple PDF files into one – fast, free, and private.">
+
+    <!-- ====== FAVICON ====== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a2980'/%3E%3Ctext x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EPDF%3C/text%3E%3C/svg%3E">
+
+    <!-- ====== STRUCTURED DATA (helps Google understand your site) ====== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "PDFMerger",
+          "url": "https://freepdfmerger.org/",
+          "description": "Free online tool to merge multiple PDF files into one."
+        },
+        {
+          "@type": "WebApplication",
+          "name": "PDF Merger",
+          "applicationCategory": "UtilityApplication",
+          "operatingSystem": "Any (browser-based)",
+          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {"@type": "Question", "name": "Is this PDF merger free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The tool is completely free to use with no signup or download required."}},
+            {"@type": "Question", "name": "Are my files uploaded to a server?", "acceptedAnswer": {"@type": "Answer", "text": "No. All merging happens locally inside your web browser using JavaScript. Your files never leave your device."}},
+            {"@type": "Question", "name": "Is there a file size or count limit?", "acceptedAnswer": {"@type": "Answer", "text": "There is no hard limit, but very large files (several hundred MB combined) may be slow depending on your device's memory."}},
+            {"@type": "Question", "name": "Does it work on mobile?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The tool works on any modern browser including mobile devices running Chrome, Safari, Firefox, or Edge."}},
+            {"@type": "Question", "name": "Can I merge password-protected PDFs?", "acceptedAnswer": {"@type": "Answer", "text": "Encrypted or password-protected PDFs cannot be merged directly. You must remove the password first using your PDF reader."}}
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- ====== NAVIGATION ====== -->
+    <nav class="topbar" aria-label="Main navigation">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Free Online PDF Merger</h1>
+            <p class="subtitle">Combine multiple PDF files into one document directly in your browser. No uploads, no signup, no installation — just a fast, private, and free tool that works on any device.</p>
+        </header>
+
+              <main id="main">
+        <div class="app-container">
+            <!-- Upload -->
+            <section class="upload-section" aria-labelledby="upload-heading">
+                <h2 id="upload-heading" class="section-title"><i class="fas fa-cloud-upload-alt"></i> Upload PDF Files</h2>
+                <div class="drop-area" id="dropArea" role="button" tabindex="0" aria-label="Drop PDF files here or click to browse">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>Drag & Drop PDF Files Here</h3>
+                    <p>or click to browse your files</p>
+                    <button class="btn" id="browseBtn" type="button"><i class="fas fa-folder-open"></i> Select Files</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf" multiple>
+                </div>
+                <div class="file-list" id="fileList"></div>
+                <div class="action-buttons">
+                    <button class="btn" id="mergeBtn" type="button"><i class="fas fa-object-group"></i> Merge PDFs</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear All</button>
+                </div>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+            </section>
+
+            <!-- Preview -->
+            <section class="preview-section" aria-labelledby="preview-heading">
+                <h2 id="preview-heading" class="section-title"><i class="fas fa-eye"></i> Live Preview</h2>
+                <div class="preview-container">
+                    <div class="preview-placeholder" id="previewPlaceholder">
+                        <i class="fas fa-file-pdf"></i>
+                        <h3>Add PDFs and every page appears here, live, in merge order</h3>
+                    </div>
+                    <canvas id="pdfPreview" style="display: none; max-width: 100%;"></canvas>
+                    <div class="pages-grid" id="mergePreviewGrid" style="display: none;"></div>
+                    <p class="preview-note" id="mergePreviewNote" style="display: none;"></p>
+                </div>
+                <div class="action-buttons" id="downloadSection" style="display: none;">
+                    <button class="btn" id="downloadBtn" type="button"><i class="fas fa-download"></i> Download Merged PDF</button>
+                    <button class="btn btn-secondary" id="newMergeBtn" type="button"><i class="fas fa-sync-alt"></i> Start New Merge</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Feature highlights -->
+        <div class="features" aria-label="Tool highlights">
+            <div class="feature"><i class="fas fa-shield-alt"></i><h3>Browser-Based</h3><p>Processing happens locally on your device</p></div>
+            <div class="feature"><i class="fas fa-bolt"></i><h3>Fast</h3><p>Most merges finish in seconds</p></div>
+            <div class="feature"><i class="fas fa-infinity"></i><h3>No File Limit</h3><p>Merge as many files as your device can handle</p></div>
+            <div class="feature"><i class="fas fa-mobile-alt"></i><h3>Mobile Friendly</h3><p>Works on phones, tablets, and desktops</p></div>
+        </div>
+
+
+        <!-- More tools -->
+        <article class="content-card">
+            <h2>More Free PDF Tools</h2>
+            <p>Merging is just one step. These 14 companion tools — all free and all processed privately in your browser — cover the rest of a typical document workflow:</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:16px;">
+                <a href="split-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-cut" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Split PDF</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Click pages in a live preview to extract them.</p>
+                </a>
+                <a href="compress-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-compress-alt" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Compress PDF</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Shrink scans, with before/after quality preview.</p>
+                </a>
+                <a href="rotate-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-sync-alt" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Rotate PDF</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Rotate pages with a live preview that turns as you click.</p>
+                </a>
+                <a href="jpg-to-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-images" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">JPG to PDF</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Images to one PDF, with live page-order preview.</p>
+                </a>
+                <a href="delete-pages.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-eraser" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Delete Pages</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Click pages in a preview to remove them.</p>
+                </a>
+                <a href="organize-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-layer-group" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Organize Pages</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Reorder pages inside a PDF, visually.</p>
+                </a>
+                <a href="watermark-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-stamp" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Watermark</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Stamp text on every page, live preview.</p>
+                </a>
+                <a href="page-numbers.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-list-ol" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Page Numbers</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Number pages, including Bates stamps.</p>
+                </a>
+                <a href="pdf-to-jpg.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-file-image" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">PDF to JPG</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Every page becomes an image.</p>
+                </a>
+                <a href="pdf-to-excel.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-file-excel" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">PDF to Excel</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Bank statements to .xlsx, privately.</p>
+                </a>
+                <a href="sign-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-signature" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Fill & Sign</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Type, draw, or upload your signature.</p>
+                </a>
+                <a href="pdf-to-word.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-file-word" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">PDF to Word</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Extract text into an editable .docx.</p>
+                </a>
+                <a href="resize-pdf.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-expand" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">Resize Pages</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Convert to A4/Letter or scale pages.</p>
+                </a>
+                <a href="pdf-to-text.html" style="text-decoration:none;background:var(--surface-2);border-left:4px solid var(--accent);border-radius:10px;padding:16px;display:block;">
+                    <i class="fas fa-file-lines" style="font-size:1.5rem;color:var(--primary);"></i>
+                    <h3 style="color:var(--primary);margin:8px 0 4px;font-size:1.02rem;">PDF to Text</h3>
+                    <p style="color:var(--text-2);font-size:0.9rem;margin:0;">Extract text, copy or download .txt.</p>
+                </a>
+            </div>
+            <p style="margin-top:16px;text-align:center;"><a href="tools.html" style="font-weight:700;">Browse all 15 free PDF tools &rarr;</a></p>
+        </article>
+
+        <!-- How to use -->
+        <article class="content-card">
+            <h2>How to Merge PDF Files in 4 Easy Steps</h2>
+            <div class="steps">
+                <div class="step"><div class="step-number">1</div><h3>Select Files</h3><p>Click "Select Files" or drag PDFs into the upload area.</p></div>
+                <div class="step"><div class="step-number">2</div><h3>Arrange Order</h3><p>Use the up/down arrows to put files in the order you want.</p></div>
+                <div class="step"><div class="step-number">3</div><h3>Click Merge</h3><p>Press the Merge PDFs button. Processing runs in your browser.</p></div>
+                <div class="step"><div class="step-number">4</div><h3>Download</h3><p>Save your single combined PDF to your device.</p></div>
+            </div>
+        </article>
+
+        <!-- Main article content -->
+        <article class="content-card">
+            <h2>A Complete Guide to Merging PDF Files</h2>
+            <p>PDF (Portable Document Format) is the most widely used document format for sharing, archiving, and printing. Created by Adobe in the 1990s and made an open standard in 2008, it preserves the exact look of a document across operating systems, devices, and printers. Because PDFs are reliable and universal, almost every workplace, school, and government office relies on them.</p>
+            <p>But PDFs often arrive in pieces. You may have a scanned invoice, an attached signature page, a contract supplement, and a cover letter — each as a separate file. Sending four attachments is inconvenient for the recipient and easy to mix up. That is why PDF merging exists: it lets you combine separate PDF documents into one ordered file that you can send, sign, archive, or print as a single unit.</p>
+
+            <h3>Why Merge PDFs Instead of Just Sending Multiple Files?</h3>
+            <p>There are several practical reasons people merge PDFs:</p>
+            <ul>
+                <li><strong>Professional presentation.</strong> A single, well-ordered PDF looks more polished to clients, professors, and tax officers than a scattered email of attachments.</li>
+                <li><strong>Easier archiving.</strong> One file means one filename, one date stamp, and one entry in your records system.</li>
+                <li><strong>Email size limits.</strong> Combining several small PDFs into one often reduces total size and bypasses awkward multi-attachment limits.</li>
+                <li><strong>Print convenience.</strong> Sending a merged file to a printer ensures pages stay in order and no document is forgotten.</li>
+                <li><strong>Compliance and legal use.</strong> Court filings, tax submissions, and audit packages are usually required as a single PDF.</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+            <p>PDF merging is useful in almost every walk of life. A student may combine an assignment cover sheet with their submission. A small business owner may bundle invoices for monthly accounting. A tax professional may combine a return, computation sheet, and supporting schedules into one filing. A job applicant may combine a resume, cover letter, and certificates into a single attachment. The pattern is the same: many short documents that belong together as one.</p>
+
+            <h3>How Browser-Based PDF Merging Works</h3>
+            <p>Traditional online PDF tools upload your files to a remote server, process them there, and send the result back. This is convenient but raises privacy concerns: your documents — sometimes containing financial, medical, or personal information — temporarily exist on someone else's hardware.</p>
+            <p>Our tool takes a different approach. It uses a JavaScript library called <a href="https://pdf-lib.js.org/" rel="nofollow noopener" target="_blank">pdf-lib</a> that runs entirely inside your web browser. When you click "Merge", your browser reads the files from your local disk, combines them in memory, and produces the output — all without contacting any server. When you close the tab, every trace is gone.</p>
+            <p>This approach has trade-offs. Very large files (hundreds of megabytes) may be slow because all the work happens on your device's CPU and memory. But for typical documents — a handful of contracts, scans, or reports — it is fast, private, and free.</p>
+
+            <h3>Tips for Best Results</h3>
+            <ol>
+                <li><strong>Remove passwords first.</strong> Encrypted PDFs cannot be merged. Open them in your PDF reader, "Print to PDF" without a password, and use the new copy.</li>
+                <li><strong>Check the order before merging.</strong> Reordering after merging means starting over.</li>
+                <li><strong>Use clear filenames.</strong> "01-cover.pdf", "02-resume.pdf", "03-certificates.pdf" keeps things organised.</li>
+                <li><strong>Avoid very large scans.</strong> A 500-page scan at 600 dpi can crash a mobile browser. Reduce the resolution first if needed.</li>
+                <li><strong>Verify the result.</strong> Open the merged file before sending. Confirm page count and order.</li>
+            </ol>
+
+            <h3>Is It Safe?</h3>
+            <p>Because the merging happens locally, your files are not transmitted to us or to any third party. The page does, however, load JavaScript libraries from public Content Delivery Networks (CDNs) and shows advertisements served by Google AdSense, which use cookies. Full details are in our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+        </article>
+
+        <!-- FAQ -->
+        <article class="content-card">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item"><div class="faq-q">Is this PDF merger really free? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes. There is no signup, no payment, and no watermark. The site is supported by advertising.</div></div>
+            <div class="faq-item"><div class="faq-q">Are my files uploaded to a server? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No. All merging happens locally inside your web browser using JavaScript. Your PDF files never leave your device.</div></div>
+            <div class="faq-item"><div class="faq-q">Is there a file size or count limit? <i class="fas fa-chevron-down"></i></div><div class="faq-a">There is no hard limit set by us, but very large files (several hundred megabytes combined) may be slow or fail depending on your device's available memory.</div></div>
+            <div class="faq-item"><div class="faq-q">Does it work on mobile phones? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes. The tool works in any modern mobile browser including Chrome, Safari, Firefox, and Edge on iOS and Android.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I merge password-protected PDFs? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Encrypted PDFs cannot be merged directly. Remove the password from your own document first — our guide on <a href="how-to-remove-pdf-password.html">removing a PDF password</a> shows the safe, on-device methods — then merge.</div></div>
+            <div class="faq-item"><div class="faq-q">Will the merged file keep its quality? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes. The tool copies pages without re-compressing them, so text, images, and formatting are preserved exactly.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I reorder pages within a single PDF? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — use our <a href="organize-pdf.html">Organize Pages tool</a>, which shows every page as a thumbnail so you can rearrange or remove pages visually.</div></div>
+            <div class="faq-item"><div class="faq-q">Why did my merge fail? <i class="fas fa-chevron-down"></i></div><div class="faq-a">The most common cause is a corrupted or encrypted file. Try opening the file in your PDF reader first to confirm it is valid and unprotected.</div></div>
+        </article>
+        </main>
+    </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>PDFMerger</h4>
+                <p style="font-size: 0.9rem; opacity: 0.85; line-height: 1.6;">A free, privacy-friendly tool for merging PDF documents directly in your browser. No uploads, no signup.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Site</h4>
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="privacy-policy.html#cookies">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p style="font-size: 0.9rem; opacity: 0.85;">Questions or feedback?<br><a href="contact.html">Visit our contact page</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="footer-year">2026</span> PDFMerger. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ====== COOKIE CONSENT (required for EU/UK/India DPDPA visitors) ====== -->
+    <div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+        <div id="cookie-banner-inner">
+            <p>We use cookies to improve your experience and to serve relevant advertising via Google AdSense. By continuing to use this site, you agree to our use of cookies. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+            <button type="button" id="cookie-accept">Accept</button>
+        </div>
+    </div>
+
+    <script>
+        // Footer year
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+        // Cookie banner
+        (function(){
+            var banner = document.getElementById('cookie-banner');
+            if (!localStorage.getItem('cookieAccepted')) {
+                banner.style.display = 'block';
+            }
+            document.getElementById('cookie-accept').addEventListener('click', function(){
+                localStorage.setItem('cookieAccepted', '1');
+                banner.style.display = 'none';
+            });
+        })();
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-item').forEach(function(item){
+            item.querySelector('.faq-q').addEventListener('click', function(){
+                item.classList.toggle('open');
+            });
+        });
+
+
+        // ===== Live merge preview =====
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const mergePreviewGrid = document.getElementById('mergePreviewGrid');
+        const mergePreviewNote = document.getElementById('mergePreviewNote');
+        const previewContainerEl = document.querySelector('.preview-container');
+        const PREVIEW_PER_FILE = 20;   // thumbnails cached per file
+        const PREVIEW_TOTAL = 40;      // thumbnails shown at once
+        let previewToken = 0;
+
+        async function buildThumbs(pdfObj) {
+            // Renders up to PREVIEW_PER_FILE pages of one file into cached dataURLs
+            const buf = await pdfObj.file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+            pdfObj.totalPages = pdf.numPages;
+            const thumbs = [];
+            const n = Math.min(pdf.numPages, PREVIEW_PER_FILE);
+            for (let i = 1; i <= n; i++) {
+                const page = await pdf.getPage(i);
+                const vp1 = page.getViewport({scale: 1});
+                const vp = page.getViewport({scale: 160 / vp1.width});
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                await page.render({canvasContext: ctx, viewport: vp}).promise;
+                thumbs.push(canvas.toDataURL('image/jpeg', 0.8));
+                page.cleanup();
+            }
+            pdf.destroy();
+            pdfObj.thumbs = thumbs;
+        }
+
+        async function renderMergePreview() {
+            const token = ++previewToken;
+            if (pdfFiles.length === 0) {
+                mergePreviewGrid.style.display = 'none';
+                mergePreviewGrid.innerHTML = '';
+                mergePreviewNote.style.display = 'none';
+                previewPlaceholder.style.display = 'block';
+                previewContainerEl.classList.remove('has-preview');
+                return;
+            }
+            previewPlaceholder.style.display = 'none';
+            previewContainerEl.classList.add('has-preview');
+            mergePreviewGrid.style.display = 'grid';
+            // Build thumbs for any file that lacks them (one at a time)
+            for (const pdfObj of pdfFiles) {
+                if (!pdfObj.thumbs && !pdfObj.thumbError) {
+                    try { await buildThumbs(pdfObj); }
+                    catch (e) { pdfObj.thumbError = true; }
+                    if (token !== previewToken) return; // superseded by a newer render
+                }
+            }
+            if (token !== previewToken) return;
+            mergePreviewGrid.innerHTML = '';
+            let shown = 0, totalPages = 0, hiddenPages = 0, globalPage = 0;
+            for (const pdfObj of pdfFiles) {
+                if (pdfObj.thumbError) {
+                    const div = document.createElement('div');
+                    div.className = 'page-thumb';
+                    div.innerHTML = '<div class="canvas-wrap"><i class="fas fa-exclamation-triangle" style="font-size:2rem;color:#dc3545;"></i></div><div class="pnum"></div>';
+                    div.querySelector('.pnum').textContent = pdfObj.name + ' — cannot preview (encrypted?)';
+                    mergePreviewGrid.appendChild(div);
+                    continue;
+                }
+                const fileTotal = pdfObj.totalPages || pdfObj.thumbs.length;
+                totalPages += fileTotal;
+                for (let i = 0; i < fileTotal; i++) {
+                    globalPage++;
+                    if (i >= pdfObj.thumbs.length || shown >= PREVIEW_TOTAL) { hiddenPages++; continue; }
+                    shown++;
+                    const div = document.createElement('div');
+                    div.className = 'page-thumb';
+                    const wrap = document.createElement('div');
+                    wrap.className = 'canvas-wrap';
+                    const img = document.createElement('img');
+                    img.src = pdfObj.thumbs[i];
+                    wrap.appendChild(img);
+                    const num = document.createElement('div');
+                    num.className = 'pnum';
+                    num.textContent = 'Page ' + globalPage + ' · ' + pdfObj.name;
+                    div.appendChild(wrap); div.appendChild(num);
+                    mergePreviewGrid.appendChild(div);
+                }
+            }
+            if (hiddenPages > 0) {
+                mergePreviewNote.style.display = 'block';
+                mergePreviewNote.textContent = '+' + hiddenPages + ' more page(s) not previewed — all ' + totalPages + ' pages will be included in the merge, in this order.';
+            } else {
+                mergePreviewNote.style.display = 'none';
+            }
+        }
+
+        // ====== PDF MERGER LOGIC (original functionality preserved) ======
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const browseBtn = document.getElementById('browseBtn');
+        const fileList = document.getElementById('fileList');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const statusMessage = document.getElementById('statusMessage');
+        const previewPlaceholder = document.getElementById('previewPlaceholder');
+        const pdfPreview = document.getElementById('pdfPreview');
+        const downloadSection = document.getElementById('downloadSection');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const newMergeBtn = document.getElementById('newMergeBtn');
+
+        let pdfFiles = [];
+
+        browseBtn.addEventListener('click', () => fileInput.click());
+        dropArea.addEventListener('click', (e) => { if (e.target === dropArea || e.target.closest('.drop-area') === dropArea && e.target.tagName !== 'BUTTON') fileInput.click(); });
+        fileInput.addEventListener('change', handleFileSelect);
+        dropArea.addEventListener('dragover', handleDragOver);
+        dropArea.addEventListener('dragleave', handleDragLeave);
+        dropArea.addEventListener('drop', handleDrop);
+        mergeBtn.addEventListener('click', mergePdfs);
+        clearBtn.addEventListener('click', clearAll);
+        downloadBtn.addEventListener('click', downloadMergedPdf);
+        newMergeBtn.addEventListener('click', resetApp);
+
+        function handleFileSelect(e) { addFilesToArray(e.target.files); renderFileList(); fileInput.value = ''; }
+        function handleDragOver(e) { e.preventDefault(); dropArea.classList.add('drag-over'); }
+        function handleDragLeave(e) { e.preventDefault(); dropArea.classList.remove('drag-over'); }
+        function handleDrop(e) { e.preventDefault(); dropArea.classList.remove('drag-over'); addFilesToArray(e.dataTransfer.files); renderFileList(); }
+
+        function addFilesToArray(files) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                    pdfFiles.push({ file: file, name: file.name, size: formatFileSize(file.size), id: Date.now() + i });
+                }
+            }
+        }
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024; const sizes = ['Bytes','KB','MB','GB'];
+            const i = Math.floor(Math.log(bytes)/Math.log(k));
+            return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        function renderFileList() {
+            if (pdfFiles.length === 0) { fileList.innerHTML = '<p style="color:var(--text-3);font-size:0.92rem;">No files selected yet</p>'; renderMergePreview(); return; }
+            fileList.innerHTML = '';
+            pdfFiles.forEach((pdf, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.draggable = true;
+                item.dataset.index = index;
+                item.innerHTML = `
+                    <div class="file-info">
+                        <i class="fas fa-file-pdf file-icon"></i>
+                        <div><div class="file-name">${escapeHtml(pdf.name)}</div><div class="file-size">${pdf.size}</div></div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn move-up" title="Move Up" type="button"><i class="fas fa-arrow-up"></i></button>
+                        <button class="action-btn move-down" title="Move Down" type="button"><i class="fas fa-arrow-down"></i></button>
+                        <button class="action-btn remove-file" title="Remove" type="button"><i class="fas fa-times"></i></button>
+                    </div>`;
+                fileList.appendChild(item);
+            });
+            document.querySelectorAll('.remove-file').forEach(btn => btn.addEventListener('click', e => removeFile(e.target.closest('.file-item').dataset.index)));
+            document.querySelectorAll('.move-up').forEach(btn => btn.addEventListener('click', e => { const i = parseInt(e.target.closest('.file-item').dataset.index); if (i > 0) moveFile(i, i-1); }));
+            document.querySelectorAll('.move-down').forEach(btn => btn.addEventListener('click', e => { const i = parseInt(e.target.closest('.file-item').dataset.index); if (i < pdfFiles.length-1) moveFile(i, i+1); }));
+            document.querySelectorAll('.file-item').forEach(item => {
+                item.addEventListener('dragstart', function(e){ e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain', this.dataset.index); setTimeout(()=>this.classList.add('dragging'),0); });
+                item.addEventListener('dragover', function(e){ e.preventDefault(); });
+                item.addEventListener('drop', function(e){ e.preventDefault(); const src = e.dataTransfer.getData('text/plain'); const tgt = this.dataset.index; if (src !== tgt) moveFile(parseInt(src), parseInt(tgt)); });
+                item.addEventListener('dragend', function(){ this.classList.remove('dragging'); });
+            });
+            renderMergePreview();
+        }
+        function escapeHtml(s) { return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+        function moveFile(from, to) { const f = pdfFiles.splice(from,1)[0]; pdfFiles.splice(to,0,f); renderFileList(); }
+        function removeFile(i) { pdfFiles.splice(i,1); renderFileList(); }
+        function clearAll() { pdfFiles = []; renderFileList(); statusMessage.style.display='none'; }
+
+        async function mergePdfs() {
+            if (pdfFiles.length === 0) { showStatus('Please select at least one PDF file', 'error'); return; }
+            if (pdfFiles.length === 1) { showStatus('You need at least two files to merge', 'error'); return; }
+            try {
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '10%';
+                progressText.textContent = 'Starting merge...';
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+                for (let i = 0; i < pdfFiles.length; i++) {
+                    progressBar.style.width = `${10 + (i/pdfFiles.length)*80}%`;
+                    progressText.textContent = `Processing file ${i+1} of ${pdfFiles.length}...`;
+                    const bytes = await readFileAsArrayBuffer(pdfFiles[i].file);
+                    try {
+                        const pdf = await PDFDocument.load(bytes);
+                        const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                        pages.forEach(p => mergedPdf.addPage(p));
+                    } catch (err) {
+                        showStatus(`Error processing ${pdfFiles[i].name}. It may be corrupted or encrypted.`, 'error');
+                        progressContainer.style.display = 'none';
+                        return;
+                    }
+                }
+                progressBar.style.width = '95%';
+                progressText.textContent = 'Finalizing...';
+                const mergedBytes = await mergedPdf.save();
+                window.mergedPdfBytes = mergedBytes;
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Merge complete!';
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    showStatus('PDFs merged successfully! The pages above show the exact result.', 'success');
+                    downloadSection.style.display = 'flex';
+                    pdfPreview.style.display = 'none';
+                }, 800);
+            } catch (err) {
+                showStatus('Error merging PDFs: ' + err.message, 'error');
+                progressContainer.style.display = 'none';
+            }
+        }
+        function readFileAsArrayBuffer(file) {
+            return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsArrayBuffer(file); });
+        }
+        function showStatus(msg, type) { statusMessage.textContent = msg; statusMessage.className = `status ${type}`; statusMessage.style.display = 'block'; }
+        function downloadMergedPdf() {
+            if (!window.mergedPdfBytes) { showStatus('No merged PDF available', 'error'); return; }
+            download(new Blob([window.mergedPdfBytes], { type: 'application/pdf' }), 'merged-document.pdf', 'application/pdf');
+        }
+        function resetApp() {
+            pdfFiles = []; window.mergedPdfBytes = null;
+            renderFileList();
+            statusMessage.style.display = 'none';
+            downloadSection.style.display = 'none';
+            previewPlaceholder.innerHTML = '<i class="fas fa-file-pdf"></i><h3>Add PDFs and every page appears here, live, in merge order</h3>';
+            previewPlaceholder.style.display = 'block';
+            pdfPreview.style.display = 'none';
+        }
+        renderFileList();
+    </script>
+</body>
+</html>

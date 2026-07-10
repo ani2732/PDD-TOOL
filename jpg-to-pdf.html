@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PDF Converter Online Free – Live Page Order Preview | PDFMerger</title>
+    <meta name="description" content="Convert JPG and PNG images into one PDF with a live thumbnail preview of page order. Free, browser-based — no uploads, no signup.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/jpg-to-pdf.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="JPG to PDF Converter Online Free – Live Page Order Preview">
+    <meta property="og:description" content="Convert JPG and PNG images into one PDF with a live thumbnail preview of page order. Free, browser-based — no uploads, no signup.">
+    <meta property="og:url" content="https://freepdfmerger.org/jpg-to-pdf.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>JPG to PDF Converter</h1>
+            <p class="subtitle">Add images, see them as live page thumbnails, rearrange the order, and convert — privately in your browser.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-images"></i>
+                    <h3>Drag &amp; Drop Images Here</h3>
+                    <p>JPG or PNG &middot; thumbnails appear below in page order — rearrange them live</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select Images</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".jpg,.jpeg,.png,image/jpeg,image/png" multiple>
+                </div>
+
+                <div id="previewArea" style="display:none;">
+                    <div class="preview-head"><h3><i class="fas fa-eye"></i> Live Page Order — use the arrows to rearrange</h3></div>
+                    <div class="pages-grid" id="pagesGrid"></div>
+                </div>
+
+                <div class="options" id="optionsBox" style="display:none;">
+                    <label>Page size</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="pagesize" value="a4" checked> A4 (image fitted with margin)</label>
+                        <label><input type="radio" name="pagesize" value="fit"> Same size as each image</label>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-file-pdf"></i> Convert to PDF</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear All</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This converter turns JPG and PNG images into a single PDF — one image per page. Every image you add appears as a <strong>live thumbnail in page order</strong>, so you can see exactly how the finished PDF will read; rearrange with the arrows and the numbering updates instantly. Like every tool on this site, it runs entirely in your browser: your photos are never uploaded anywhere, which matters when they are photos of ID cards, certificates, or signed pages.</p>
+            <h3>A4 or Original Size?</h3>
+            <ul>
+                <li><strong>A4 (recommended for documents):</strong> each image is centered on a standard A4 page with a small margin, using landscape orientation automatically for wide images. This is what portals, printers, and offices expect.</li>
+                <li><strong>Same size as image:</strong> the page exactly matches each image's pixel dimensions. Best for photos and graphics where you don't want white borders.</li>
+            </ul>
+            <h3>Better Results with Photos of Paper</h3>
+            <p>If your images are phone photos of paper documents, you'll get a cleaner and far smaller PDF by using a scanning app instead of the plain camera — it straightens the page and removes shadows. See our full guide on <a href="scan-documents-with-phone-into-one-pdf.html">scanning documents with your phone</a>. If the resulting PDF is too large to email, see <a href="how-to-reduce-pdf-file-size.html">how to reduce PDF file size</a>. You can also combine the output with existing PDFs using the <a href="index.html">merger</a>.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function parseRange(str, max) {
+            var out = [], seen = {}, parts = str.split(',');
+            for (var p = 0; p < parts.length; p++) {
+                var s = parts[p].trim();
+                if (!s) continue;
+                var m = s.match(/^(\d+)\s*-\s*(\d+)$/);
+                if (m) {
+                    var a = parseInt(m[1],10), b = parseInt(m[2],10);
+                    if (a < 1 || b > max || a > b) return null;
+                    for (var i = a; i <= b; i++) if (!seen[i-1]) { seen[i-1] = 1; out.push(i-1); }
+                } else if (/^\d+$/.test(s)) {
+                    var n = parseInt(s,10);
+                    if (n < 1 || n > max) return null;
+                    if (!seen[n-1]) { seen[n-1] = 1; out.push(n-1); }
+                } else return null;
+            }
+            return out.length ? out : null;
+        }
+        function compressIndices(arr) {
+            // [0,1,2,4] -> "1-3,5"
+            if (!arr.length) return '';
+            var s = arr.slice().sort(function(a,b){ return a-b; });
+            var parts = [], start = s[0], prev = s[0];
+            for (var i = 1; i <= s.length; i++) {
+                if (i < s.length && s[i] === prev + 1) { prev = s[i]; continue; }
+                parts.push(start === prev ? String(start+1) : (start+1) + '-' + (prev+1));
+                if (i < s.length) { start = s[i]; prev = s[i]; }
+            }
+            return parts.join(',');
+        }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var images = [];
+        function render() {
+            var grid = document.getElementById('pagesGrid');
+            var has = images.length > 0;
+            document.getElementById('previewArea').style.display = has ? 'block' : 'none';
+            document.getElementById('optionsBox').style.display = has ? 'block' : 'none';
+            var btn = document.getElementById('runBtn');
+            btn.disabled = !has;
+            btn.innerHTML = has
+                ? '<i class="fas fa-file-pdf"></i> Convert ' + images.length + ' Image' + (images.length > 1 ? 's' : '') + ' to PDF'
+                : '<i class="fas fa-file-pdf"></i> Convert to PDF';
+            grid.innerHTML = '';
+            images.forEach(function(item, i){
+                var div = document.createElement('div');
+                div.className = 'page-thumb';
+                var wrap = document.createElement('div');
+                wrap.className = 'canvas-wrap';
+                var img = document.createElement('img');
+                img.src = item.url;
+                img.alt = item.file.name;
+                wrap.appendChild(img);
+                var num = document.createElement('div');
+                num.className = 'pnum';
+                num.textContent = 'Page ' + (i+1) + ' \u00b7 ' + fmtSize(item.file.size);
+                var btns = document.createElement('div');
+                btns.className = 'thumb-btns';
+                btns.innerHTML = '<button title="Move earlier" type="button"><i class="fas fa-arrow-left"></i></button><button title="Move later" type="button"><i class="fas fa-arrow-right"></i></button><button title="Remove" type="button"><i class="fas fa-times"></i></button>';
+                btns.children[0].addEventListener('click', function(){ if (i > 0) { images.splice(i-1, 0, images.splice(i,1)[0]); render(); } });
+                btns.children[1].addEventListener('click', function(){ if (i < images.length-1) { images.splice(i+1, 0, images.splice(i,1)[0]); render(); } });
+                btns.children[2].addEventListener('click', function(){ URL.revokeObjectURL(item.url); images.splice(i,1); render(); });
+                div.appendChild(wrap); div.appendChild(num); div.appendChild(btns);
+                grid.appendChild(div);
+            });
+        }
+        wireDropArea('dropArea', 'fileInput', function(files){
+            for (var i = 0; i < files.length; i++) {
+                var f = files[i], n = f.name.toLowerCase();
+                if (f.type === 'image/jpeg' || f.type === 'image/png' || n.endsWith('.jpg') || n.endsWith('.jpeg') || n.endsWith('.png')) {
+                    images.push({file: f, url: URL.createObjectURL(f)});
+                }
+            }
+            hideStatus(); render();
+        });
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            images.forEach(function(it){ URL.revokeObjectURL(it.url); });
+            images = []; render(); hideStatus(); hideProgress();
+        });
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!images.length) return;
+            var mode = document.querySelector('input[name=pagesize]:checked').value;
+            var A4W = 595.28, A4H = 841.89, MARGIN = 28;
+            try {
+                var doc = await PDFLib.PDFDocument.create();
+                for (var i = 0; i < images.length; i++) {
+                    setProgress(Math.round((i/images.length)*90), 'Adding page ' + (i+1) + ' of ' + images.length + '...');
+                    var f = images[i].file;
+                    var bytes = await readAsArrayBuffer(f);
+                    var isPng = f.type === 'image/png' || f.name.toLowerCase().endsWith('.png');
+                    var img = isPng ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
+                    if (mode === 'fit') {
+                        var page = doc.addPage([img.width, img.height]);
+                        page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+                    } else {
+                        var landscape = img.width > img.height;
+                        var pw = landscape ? A4H : A4W, ph = landscape ? A4W : A4H;
+                        var page = doc.addPage([pw, ph]);
+                        var scale = Math.min((pw - 2*MARGIN) / img.width, (ph - 2*MARGIN) / img.height);
+                        var w = img.width * scale, h = img.height * scale;
+                        page.drawImage(img, { x: (pw - w)/2, y: (ph - h)/2, width: w, height: h });
+                    }
+                }
+                setProgress(95, 'Saving PDF...');
+                var out = await doc.save();
+                setProgress(100, 'Done');
+                download(new Blob([out], {type:'application/pdf'}), 'images-to-pdf.pdf', 'application/pdf');
+                hideProgress();
+                showStatus('Created a ' + images.length + '-page PDF — pages in exactly the order shown above.', 'success');
+            } catch (err) {
+                hideProgress();
+                showStatus('Error: ' + err.message + ' (very large images can exceed browser memory — try resizing them first)', 'error');
+            }
+        });
+        render();
+
+    </script>
+</body>
+</html>

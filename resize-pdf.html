@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resize PDF Online Free – Convert to A4, Letter, Legal or Scale | PDFMerger</title>
+    <meta name="description" content="Change PDF page size to A4, Letter, or Legal, or scale by percentage — content centered, never cropped. Free, private, browser-based.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/resize-pdf.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Resize PDF Online Free – Convert to A4, Letter, Legal or Scale">
+    <meta property="og:description" content="Change PDF page size to A4, Letter, or Legal, or scale by percentage — content centered, never cropped. Free, private, browser-based.">
+    <meta property="og:url" content="https://freepdfmerger.org/resize-pdf.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Resize PDF Pages</h1>
+            <p class="subtitle">Convert pages to A4, Letter, or Legal — or scale by percentage — with content centered and proportions preserved, privately in your browser.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-expand"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — convert page size or scale the whole document</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div class="options" id="optionsBox" style="display:none;">
+                    <label>Resize mode</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="rsmode" value="a4" checked> Convert to A4</label>
+                        <label><input type="radio" name="rsmode" value="letter"> Convert to US Letter</label>
+                        <label><input type="radio" name="rsmode" value="legal"> Convert to Legal</label>
+                        <label><input type="radio" name="rsmode" value="scale"> Scale by percentage</label>
+                    </div>
+                    <div id="scaleBox" style="display:none;">
+                        <label for="rsPct">Scale: <span id="rsPctVal">70%</span></label>
+                        <input type="range" id="rsPct" min="30" max="150" value="70" style="max-width:340px;">
+                    </div>
+                    <p class="preview-note" style="margin-top:8px;"><i class="fas fa-info-circle"></i> Content is scaled proportionally and centered — nothing is cropped. Landscape pages stay landscape.</p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-expand"></i> Resize &amp; Download</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool changes the physical page size of a PDF — converting odd-sized documents to standard A4, Letter, or Legal, or scaling the whole document up or down by percentage. Content is scaled proportionally and centered, never cropped or distorted, and landscape pages automatically stay landscape. All processing happens in your browser.</p>
+            <h3>When Page Size Matters</h3>
+            <ul>
+                <li><strong>Printing:</strong> a PDF built at a non-standard size prints with unexpected margins or gets shrunk unpredictably; converting to A4 first gives consistent output.</li>
+                <li><strong>Merging mixed sources:</strong> combining an A4 letter with a Letter-size statement and a receipt-sized scan produces a bundle where every page is a different size — normalise everything to A4 first, then <a href="index.html">merge</a>, and the result looks professional.</li>
+                <li><strong>Portals with size expectations:</strong> some e-filing systems assume A4; oversized pages can render zoomed-out or fail validation.</li>
+            </ul>
+            <h3>Resizing vs Compressing</h3>
+            <p>Resizing changes the page <em>dimensions</em>; it barely changes the file's size in megabytes. To shrink the download size of a heavy scan, use the <a href="compress-pdf.html">compressor</a> — or both: resize to A4 for consistency, then compress to meet the upload limit.</p>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, pageCount = 0;
+        var SIZES = { a4: [595.28, 841.89], letter: [612, 792], legal: [612, 1008] };
+
+        document.querySelectorAll('input[name=rsmode]').forEach(function(r){
+            r.addEventListener('change', function(){
+                document.getElementById('scaleBox').style.display = (this.value === 'scale') ? 'block' : 'none';
+            });
+        });
+        document.getElementById('rsPct').addEventListener('input', function(){
+            document.getElementById('rsPctVal').textContent = this.value + '%';
+        });
+
+        wireDropArea('dropArea', 'fileInput', function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            readAsArrayBuffer(f).then(function(buf){
+                return PDFLib.PDFDocument.load(buf).then(function(doc){
+                    srcFile = f; pageCount = doc.getPageCount();
+                    var p1 = doc.getPage(0);
+                    document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pageCount + ' pages &middot; page 1 is ' + Math.round(p1.getWidth()) + ' &times; ' + Math.round(p1.getHeight()) + ' pt';
+                    document.getElementById('optionsBox').style.display = 'block';
+                    document.getElementById('runBtn').disabled = false;
+                });
+            }).catch(function(){
+                srcFile = null;
+                showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first.', 'error');
+            });
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; pageCount = 0;
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('optionsBox').style.display = 'none';
+            document.getElementById('runBtn').disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!srcFile) return;
+            var mode = document.querySelector('input[name=rsmode]:checked').value;
+            var runBtn = this; runBtn.disabled = true;
+            try {
+                var buf = await readAsArrayBuffer(srcFile);
+                var srcBytes = new Uint8Array(buf);
+                var out = await PDFLib.PDFDocument.create();
+                for (var i = 0; i < pageCount; i++) {
+                    setProgress(Math.round((i/pageCount)*85), 'Resizing page ' + (i+1) + ' of ' + pageCount + '...');
+                    var embedded = (await out.embedPdf(srcBytes, [i]))[0];
+                    var ew = embedded.width, eh = embedded.height;
+                    var tw, th, w, h;
+                    if (mode === 'scale') {
+                        var pct = parseInt(document.getElementById('rsPct').value, 10) / 100;
+                        tw = ew * pct; th = eh * pct; w = tw; h = th;
+                    } else {
+                        var s = SIZES[mode];
+                        var landscape = ew > eh;
+                        tw = landscape ? s[1] : s[0];
+                        th = landscape ? s[0] : s[1];
+                        var k = Math.min(tw / ew, th / eh);
+                        w = ew * k; h = eh * k;
+                    }
+                    var page = out.addPage([tw, th]);
+                    page.drawPage(embedded, { x: (tw - w) / 2, y: (th - h) / 2, width: w, height: h });
+                }
+                setProgress(92, 'Saving...');
+                var bytes = await out.save();
+                setProgress(100, 'Done');
+                download(new Blob([bytes], {type:'application/pdf'}), srcFile.name.replace(/\.pdf$/i,'') + '-resized.pdf', 'application/pdf');
+                hideProgress();
+                showStatus('Resized all ' + pageCount + ' pages' + (mode === 'scale' ? '.' : ' to ' + mode.toUpperCase() + '.'), 'success');
+            } catch (err) { hideProgress(); showStatus('Error: ' + err.message, 'error'); }
+            finally { runBtn.disabled = false; }
+        });
+
+    </script>
+</body>
+</html>
