@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Word Converter Free – Keeps Page Size, Fonts, Alignment, Images & Tables | PDFMerger</title>
+    <meta name="description" content="Convert PDF to Word (.docx) preserving page size, font sizes, alignment, images and tables. Pick Exact-layout (pixel-perfect) or Editable mode. Runs privately in your browser.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/pdf-to-word.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to Word Converter Free – Pixel-perfect or Editable Modes">
+    <meta property="og:description" content="Convert PDF to Word (.docx) preserving page size, font sizes, alignment, images and tables — privately in your browser.">
+    <meta property="og:url" content="https://freepdfmerger.org/pdf-to-word.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+<nav class="topbar">
+    <div class="topbar-inner">
+        <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="tools.html">Tools</a>
+            <a href="guides.html">Guides</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy-policy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <header class="hero">
+        <h1>PDF to Word (.docx)</h1>
+        <p class="subtitle">Editable .docx that keeps page size, font sizes, alignment, tables — or a pixel-perfect visual copy with images, logos and colours. Runs entirely in your browser.</p>
+    </header>
+
+    <main>
+        <div class="tool-card">
+
+            <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                <i class="fas fa-file-word"></i>
+                <h3>Drag &amp; Drop a PDF Here</h3>
+                <p>or click to browse — pick Exact layout or Editable mode below</p>
+                <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+            </div>
+            <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+            <div class="options" id="optionsBox" style="display:none;">
+                <label>Conversion mode</label>
+                <div class="radio-row">
+                    <label><input type="radio" name="wmode" value="exact" checked> <strong>Exact layout</strong> — pixel-perfect visual copy (images, logos, colours, exact positions)</label>
+                    <label><input type="radio" name="wmode" value="fmt"> <strong>Editable + Images</strong> — real Word text, real Word tables, <em>and</em> the PDF's images embedded inline (all editable)</label>
+                    <label><input type="radio" name="wmode" value="plain"> <strong>Plain text</strong> — simple paragraphs</label>
+                </div>
+                <p class="preview-note" style="margin-top:8px;">
+                    <em>Exact layout</em> reproduces every page as a high-resolution image — perfect fidelity, but text sits on the image.
+                    <em>Editable + Images</em> extracts every embedded image from the PDF and drops it inline near where it appeared, alongside real editable text, alphabets and tables (fonts, sizes, bold/italic, alignment, borders — all preserved and re-typable in Word).
+                </p>
+            </div>
+            <div id="previewArea" style="display:none;">
+                <div class="preview-head"><h3><i class="fas fa-eye"></i> Extraction Preview</h3></div>
+                <p class="preview-note" id="fmtSummary"></p>
+                <textarea id="textOut" readonly style="min-height:280px;font-size:0.92rem;white-space:pre-wrap;"></textarea>
+            </div>
+            <div class="action-buttons">
+                <button class="btn" id="runBtn" type="button" disabled style="display:none;"><i class="fas fa-download"></i> Download Word (.docx)</button>
+                <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+            </div>
+
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                <p id="progressText">Processing...</p>
+            </div>
+            <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+        </div>
+
+        <article class="content-card">
+            <h2>Two Modes, One Honest Trade-off</h2>
+            <p>Turning a PDF into a Word document is really two different jobs. If you want the result to <strong>look</strong> exactly like the PDF — every image, logo, coloured header, box, rule, and column exactly where it was — use <strong>Exact layout</strong>. Each page is rendered at high resolution and embedded as an image inside a page-sized Word document, so what you see in Word is what you saw in the PDF. If you want to <strong>edit</strong> the words — retype a paragraph, change a number, fix a table — use <strong>Editable</strong> mode, which rebuilds every line as real Word text with the right font size, alignment, and paragraph spacing, and turns tabular runs into real Word tables with borders and proportional column widths.</p>
+            <h3>What Each Mode Preserves</h3>
+            <ul>
+                <li><strong>Exact layout:</strong> page dimensions and orientation, every image and logo, background colours, exact position of every word, fonts as they appear, decorative graphics — pixel-for-pixel. Text is part of the page image (not flowing text), so heavy editing is limited.</li>
+                <li><strong>Editable:</strong> page dimensions, per-line font sizes, font family class (serif → Times New Roman, sans-serif → Arial, monospace → Courier New), bold/italic where the PDF declares them, left/centre/right alignment, blank-line spacing, page breaks, and tables as editable Word tables. Decorative images and background colours are dropped.</li>
+                <li><strong>Plain text:</strong> just the words, in reading order — smallest file, most portable.</li>
+            </ul>
+            <h3>Scans Need OCR First</h3>
+            <p>A scanned document is a photograph — Editable and Plain modes will report no selectable text. Exact-layout mode still works on scans (it images each page), but the resulting Word file will also be image-only. For tabular data, <a href="pdf-to-excel.html">PDF to Excel</a> gives you the columns as a spreadsheet instead.</p>
+        </article>
+
+    </main>
+</div>
+
+<footer>
+    <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="services.html">Services</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+</footer>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+function showStatus(msg, type){var el=document.getElementById('statusMessage');el.textContent=msg;el.className='status '+type;el.style.display='block';}
+function hideStatus(){document.getElementById('statusMessage').style.display='none';}
+function setProgress(pct,text){var pc=document.getElementById('progressContainer');pc.style.display='block';document.getElementById('progressBar').style.width=pct+'%';if(text)document.getElementById('progressText').textContent=text;}
+function hideProgress(){document.getElementById('progressContainer').style.display='none';}
+function readAsArrayBuffer(f){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result);};r.onerror=rej;r.readAsArrayBuffer(f);});}
+function fmtSize(b){if(!b)return'0 Bytes';var k=1024,s=['Bytes','KB','MB','GB'],i=Math.floor(Math.log(b)/Math.log(k));return parseFloat((b/Math.pow(k,i)).toFixed(2))+' '+s[i];}
+function wireDropArea(dropId,inputId,onFiles){var drop=document.getElementById(dropId),input=document.getElementById(inputId);drop.addEventListener('click',function(e){if(e.target.tagName!=='BUTTON'&&!e.target.closest('button'))input.click();});drop.querySelector('button').addEventListener('click',function(){input.click();});input.addEventListener('change',function(e){onFiles(e.target.files);input.value='';});drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('drag-over');});drop.addEventListener('dragleave',function(e){e.preventDefault();drop.classList.remove('drag-over');});drop.addEventListener('drop',function(e){e.preventDefault();drop.classList.remove('drag-over');onFiles(e.dataTransfer.files);});}
+
+var srcFile=null, srcBuffer=null, pageData=null, pageCount=0;
+// pageData per page: {w,h,lines:[{y,size,family,bold,italic,cells:[{x0,xEnd,text,size,family,bold,italic}]}]}
+
+function xmlEsc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function famToWord(f){if(!f)return'Arial';f=f.toLowerCase();if(f.indexOf('mono')!==-1||f.indexOf('courier')!==-1)return'Courier New';if(f.indexOf('serif')!==-1&&f.indexOf('sans')===-1)return'Times New Roman';return'Arial';}
+function detectBold(fontName){if(!fontName)return false;var n=fontName.toLowerCase();return n.indexOf('bold')!==-1||n.indexOf('black')!==-1||n.indexOf('heavy')!==-1;}
+function detectItalic(fontName){if(!fontName)return false;var n=fontName.toLowerCase();return n.indexOf('italic')!==-1||n.indexOf('oblique')!==-1;}
+
+// ---------- extraction: items -> positioned lines of cells ----------
+function extractPage(tc,vp){
+    var pts=[];
+    tc.items.forEach(function(it){
+        if(!it.str||it.str.trim()==='')return;
+        var tr=it.transform;
+        var size=Math.hypot(tr[2],tr[3])||Math.abs(tr[3])||10;
+        var st=tc.styles&&tc.styles[it.fontName];
+        pts.push({x:tr[4],y:tr[5],w:it.width||0,str:it.str,size:size,
+                  family:st?st.fontFamily:'sans-serif',
+                  bold:detectBold(it.fontName),italic:detectItalic(it.fontName)});
+    });
+    pts.sort(function(a,b){return(b.y-a.y)||(a.x-b.x);});
+    var lines=[],cur=[],lastY=null;
+    pts.forEach(function(p){
+        var tol=Math.max(2.5,p.size*0.35);
+        if(lastY!==null&&Math.abs(p.y-lastY)>tol){lines.push(cur);cur=[];}
+        cur.push(p);lastY=p.y;
+    });
+    if(cur.length)lines.push(cur);
+    return lines.map(function(row){
+        row.sort(function(a,b){return a.x-b.x;});
+        var size=0,famCount={},boldCount=0,italicCount=0,total=0;
+        row.forEach(function(p){size=Math.max(size,p.size);famCount[p.family]=(famCount[p.family]||0)+p.str.length;total+=p.str.length;if(p.bold)boldCount+=p.str.length;if(p.italic)italicCount+=p.str.length;});
+        var family=Object.keys(famCount).sort(function(a,b){return famCount[b]-famCount[a];})[0];
+        var cells=[];
+        row.forEach(function(p){
+            var last=cells[cells.length-1];
+            var gapTol=Math.max(6,p.size*0.6);
+            if(last&&(p.x-last.xEnd)<gapTol&&last.bold===p.bold&&last.italic===p.italic){
+                last.text+=(p.x-last.xEnd>0.8?' ':'')+p.str;
+                last.xEnd=p.x+p.w;
+            }else cells.push({x0:p.x,xEnd:p.x+p.w,text:p.str,size:p.size,family:p.family,bold:p.bold,italic:p.italic});
+        });
+        return {y:row[0].y,size:size,family:family,bold:boldCount>total*0.5,italic:italicCount>total*0.5,cells:cells};
+    });
+}
+
+// ---------- table detection ----------
+function clusterCols(lines){
+    var xs=[];lines.forEach(function(l){l.cells.forEach(function(c){xs.push(c.x0);});});
+    xs.sort(function(a,b){return a-b;});
+    var cols=[],TOL=12;
+    xs.forEach(function(x){
+        var last=cols[cols.length-1];
+        if(last&&x-last.max<=TOL){last.max=Math.max(last.max,x);last.sum+=x;last.n++;}
+        else cols.push({min:x,max:x,sum:x,n:1});
+    });
+    return cols.map(function(c){return c.sum/c.n;});
+}
+function nearestCol(centers,x){var b=0,bd=Infinity;for(var i=0;i<centers.length;i++){var d=Math.abs(centers[i]-x);if(d<bd){bd=d;b=i;}}return b;}
+
+// ---------- image extraction from PDF operator stream ----------
+function mulM(a,b){return [a[0]*b[0]+a[2]*b[1], a[1]*b[0]+a[3]*b[1], a[0]*b[2]+a[2]*b[3], a[1]*b[2]+a[3]*b[3], a[0]*b[4]+a[2]*b[5]+a[4], a[1]*b[4]+a[3]*b[5]+a[5]];}
+function getObjSafe(objs,name){try{if(objs.has&&objs.has(name))return objs.get(name);}catch(e){}try{return objs.get(name);}catch(e){return null;}}
+async function imgToPng(img){
+    var w=img.width, h=img.height;
+    if(!w||!h)return null;
+    var cnv=document.createElement('canvas');cnv.width=w;cnv.height=h;
+    var cx=cnv.getContext('2d');
+    try{
+        if(img.bitmap){cx.drawImage(img.bitmap,0,0);}
+        else if(img.data){
+            var id=cx.createImageData(w,h);var src=img.data;
+            if(src.length===w*h*4){id.data.set(src);}
+            else if(src.length===w*h*3){for(var p=0,q=0;p<src.length;p+=3,q+=4){id.data[q]=src[p];id.data[q+1]=src[p+1];id.data[q+2]=src[p+2];id.data[q+3]=255;}}
+            else if(src.length===w*h){for(var p=0,q=0;p<src.length;p++,q+=4){id.data[q]=id.data[q+1]=id.data[q+2]=src[p];id.data[q+3]=255;}}
+            else return null;
+            cx.putImageData(id,0,0);
+        } else return null;
+    }catch(e){return null;}
+    var blob=await new Promise(function(r){cnv.toBlob(r,'image/png');});
+    if(!blob)return null;
+    var buf=await blob.arrayBuffer();
+    return new Uint8Array(buf);
+}
+async function extractPageImages(page,vp){
+    var OPS=pdfjsLib.OPS;
+    var ops;try{ops=await page.getOperatorList();}catch(e){return [];}
+    var ctm=[1,0,0,1,0,0], stack=[];
+    var out=[];
+    for(var i=0;i<ops.fnArray.length;i++){
+        var fn=ops.fnArray[i], args=ops.argsArray[i];
+        if(fn===OPS.save)stack.push(ctm.slice());
+        else if(fn===OPS.restore)ctm=stack.pop()||[1,0,0,1,0,0];
+        else if(fn===OPS.transform)ctm=mulM(ctm,args);
+        else if(fn===OPS.paintImageXObject||fn===OPS.paintJpegXObject||fn===OPS.paintInlineImageXObject||fn===OPS.paintImageXObjectRepeat){
+            var name=args[0], img=null;
+            if(fn===OPS.paintInlineImageXObject){img=args[0];}
+            else{img=getObjSafe(page.objs,name);if(!img)img=getObjSafe(page.commonObjs,name);}
+            if(!img)continue;
+            var bytes=await imgToPng(img);
+            if(!bytes)continue;
+            var wPt=Math.abs(ctm[0])||img.width, hPt=Math.abs(ctm[3])||img.height;
+            out.push({bytes:bytes, wPt:wPt, hPt:hPt, y:ctm[5]+(ctm[3]>0?hPt:0), x:ctm[4]});
+        }
+    }
+    return out;
+}
+
+// ---------- editable docx builders ----------
+function runXml(text,sizePt,family,bold,italic){
+    var half=Math.round(Math.min(Math.max(sizePt,6),72)*2);
+    var fam=famToWord(family);
+    var rPr='<w:rPr><w:rFonts w:ascii="'+fam+'" w:hAnsi="'+fam+'"/>';
+    if(bold)rPr+='<w:b/><w:bCs/>';
+    if(italic)rPr+='<w:i/><w:iCs/>';
+    rPr+='<w:sz w:val="'+half+'"/><w:szCs w:val="'+half+'"/></w:rPr>';
+    return '<w:r>'+rPr+'<w:t xml:space="preserve">'+xmlEsc(text)+'</w:t></w:r>';
+}
+function paraXml(line,pageW){
+    var minX=line.cells[0].x0;
+    var maxX=line.cells[line.cells.length-1].xEnd;
+    var left=minX,right=pageW-maxX;
+    var jc='left';
+    if(left>40&&Math.abs(left-right)<Math.max(14,pageW*0.02))jc='center';
+    else if(right<25&&left>pageW*0.35)jc='right';
+    // preserve per-cell bold/italic
+    var runs=line.cells.map(function(c,i){
+        var t=(i>0?'  ':'')+c.text;
+        return runXml(t,c.size||line.size,c.family||line.family,c.bold,c.italic);
+    }).join('');
+    // paragraph indent for non-left aligned lines uses first-line indent
+    var ind='';
+    if(jc==='left'&&left>50){ind='<w:ind w:left="'+Math.round(left*20)+'"/>';}
+    return '<w:p><w:pPr>'+ind+'<w:jc w:val="'+jc+'"/></w:pPr>'+runs+'</w:p>';
+}
+function tableXml(lines,pageW){
+    var centers=clusterCols(lines);
+    var startX=Math.min.apply(null,lines.map(function(l){return l.cells[0].x0;}));
+    var endX=Math.max.apply(null,lines.map(function(l){return l.cells[l.cells.length-1].xEnd;}));
+    var bounds=[startX];
+    for(var i=0;i<centers.length-1;i++)bounds.push((centers[i]+centers[i+1])/2);
+    bounds.push(Math.max(endX,bounds[bounds.length-1]+40));
+    var widths=[];
+    for(i=0;i<centers.length;i++)widths.push(Math.max(300,Math.round((bounds[i+1]-bounds[i])*20)));
+    var grid='<w:tblGrid>'+widths.map(function(w){return '<w:gridCol w:w="'+w+'"/>';}).join('')+'</w:tblGrid>';
+    var bord='<w:tblBorders>'+['top','left','bottom','right','insideH','insideV'].map(function(side){return '<w:'+side+' w:val="single" w:sz="4" w:color="808080"/>';}).join('')+'</w:tblBorders>';
+    var rows=lines.map(function(l,ri){
+        var byCol=new Array(centers.length).fill(null);
+        l.cells.forEach(function(c){
+            var col=nearestCol(centers,c.x0);
+            if(!byCol[col])byCol[col]={text:c.text,size:c.size||l.size,family:c.family||l.family,bold:c.bold,italic:c.italic};
+            else byCol[col].text+=' '+c.text;
+        });
+        var tcs=byCol.map(function(cell,ci){
+            var content=cell?runXml(cell.text,cell.size,cell.family,cell.bold||ri===0,cell.italic):'';
+            return '<w:tc><w:tcPr><w:tcW w:w="'+widths[ci]+'" w:type="dxa"/></w:tcPr><w:p>'+content+'</w:p></w:tc>';
+        }).join('');
+        return '<w:tr>'+tcs+'</w:tr>';
+    }).join('');
+    return '<w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/>'+bord+'</w:tblPr>'+grid+rows+'</w:tbl><w:p/>';
+}
+function imageParaXml(img, pageW, ridOffset){
+    // Fit within page width, keep aspect
+    var maxWpt = Math.min(img.wPt||img.pxW||200, pageW-40);
+    var scale = maxWpt/(img.wPt||maxWpt);
+    var wPt = (img.wPt||maxWpt)*scale;
+    var hPt = (img.hPt||wPt)*scale;
+    var cx = Math.max(1000, Math.round(wPt*12700));
+    var cy = Math.max(1000, Math.round(hPt*12700));
+    var rid = 'rId'+ridOffset;
+    return '<w:p><w:pPr><w:jc w:val="left"/></w:pPr><w:r><w:drawing>'+
+      '<wp:inline distT="0" distB="0" distL="0" distR="0" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">'+
+        '<wp:extent cx="'+cx+'" cy="'+cy+'"/><wp:effectExtent l="0" t="0" r="0" b="0"/>'+
+        '<wp:docPr id="'+ridOffset+'" name="Image '+ridOffset+'"/>'+
+        '<wp:cNvGraphicFramePr><a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/></wp:cNvGraphicFramePr>'+
+        '<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'+
+          '<a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'+
+            '<pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">'+
+              '<pic:nvPicPr><pic:cNvPr id="'+ridOffset+'" name="Image '+ridOffset+'"/><pic:cNvPicPr/></pic:nvPicPr>'+
+              '<pic:blipFill><a:blip xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:embed="'+rid+'"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>'+
+              '<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="'+cx+'" cy="'+cy+'"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr>'+
+            '</pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>';
+}
+function pageBodyXml(page,stats,imgCounter){
+    var out='',i=0,lines=page.lines;
+    var prevY=null,prevSize=12;
+    // interleave images by y position (PDF y grows upward)
+    var pendingImgs=(page.images||[]).slice().sort(function(a,b){return b.y-a.y;});
+    function flushImgsAbove(y){
+        while(pendingImgs.length && pendingImgs[0].y >= y-2){
+            var im=pendingImgs.shift();
+            imgCounter.n++;
+            out+=imageParaXml(im,page.w,imgCounter.n+1); // rId1 reserved
+            stats.images++;
+        }
+    }
+    while(i<lines.length){
+        flushImgsAbove(lines[i].y);
+        if(lines[i].cells.length>=2){
+            var j=i;
+            while(j<lines.length&&lines[j].cells.length>=2)j++;
+            var run=lines.slice(i,j);
+            var centers=clusterCols(run);
+            if(run.length>=2&&centers.length>=2){
+                out+=tableXml(run,page.w);
+                stats.tables++;
+                prevY=run[run.length-1].y;prevSize=run[run.length-1].size;
+                i=j;continue;
+            }
+        }
+        var l=lines[i];
+        if(prevY!==null&&(prevY-l.y)>Math.max(prevSize,l.size)*2.2)out+='<w:p/>';
+        out+=paraXml(l,page.w);
+        stats.paras++;
+        prevY=l.y;prevSize=l.size;
+        i++;
+    }
+    // any remaining images below last line
+    while(pendingImgs.length){
+        var im=pendingImgs.shift();
+        imgCounter.n++;
+        out+=imageParaXml(im,page.w,imgCounter.n+1);
+        stats.images++;
+    }
+    return out;
+}
+function buildFormattedDocx(pages){
+    var stats={tables:0,paras:0,images:0};
+    var imgCounter={n:0};
+    var allImages=[];
+    var body='';
+    pages.forEach(function(pg,pi){
+        (pg.images||[]).forEach(function(im){allImages.push(im);});
+        body+=pageBodyXml(pg,stats,imgCounter);
+        if(pi<pages.length-1)body+='<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+    });
+    if(!body)body='<w:p/>';
+    var pgW=Math.round(pages[0].w*20),pgH=Math.round(pages[0].h*20);
+    var orient=pages[0].w>pages[0].h?' w:orient="landscape"':'';
+    var sect='<w:sectPr><w:pgSz w:w="'+pgW+'" w:h="'+pgH+'"'+orient+'/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr>';
+    var xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
+        '<w:body>'+body+sect+'</w:body></w:document>';
+    return {xml:xml,stats:stats,images:allImages};
+}
+function buildPlainDocx(pages){
+    var body='';
+    pages.forEach(function(pg,pi){
+        pg.lines.forEach(function(l){
+            var text=l.cells.map(function(c){return c.text;}).join('  ');
+            body+='<w:p><w:r><w:t xml:space="preserve">'+xmlEsc(text)+'</w:t></w:r></w:p>';
+        });
+        if(pi<pages.length-1)body+='<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+    });
+    if(!body)body='<w:p/>';
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'+
+        '<w:body>'+body+'<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134"/></w:sectPr></w:body></w:document>';
+}
+
+// ---------- exact-layout builder: render each page to PNG, embed page-sized ----------
+async function renderPageToPng(pdf,pageNum,scale){
+    var page=await pdf.getPage(pageNum);
+    var vp=page.getViewport({scale:scale});
+    var canvas=document.createElement('canvas');
+    canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
+    var ctx=canvas.getContext('2d');
+    await page.render({canvasContext:ctx,viewport:vp}).promise;
+    var w=vp.width,h=vp.height;
+    var blob=await new Promise(function(res){canvas.toBlob(res,'image/png');});
+    var buf=await blob.arrayBuffer();
+    page.cleanup();
+    return {bytes:new Uint8Array(buf),pxW:canvas.width,pxH:canvas.height,ptW:w/scale*scale/scale*1,ptWpt:w/scale,ptHpt:h/scale};
+}
+async function buildExactDocx(){
+    if(!srcBuffer)throw new Error('No source PDF');
+    var pdf=await pdfjsLib.getDocument({data:new Uint8Array(srcBuffer.slice(0))}).promise;
+    var scale=2.0; // ~144 DPI for crisp images
+    var images=[]; // {rel, name, bytes, ptW, ptH}
+    var firstPage=null;
+    for(var i=1;i<=pdf.numPages;i++){
+        setProgress(20+Math.round((i/pdf.numPages)*70),'Rendering page '+i+' of '+pdf.numPages+' (Exact layout)...');
+        var page=await pdf.getPage(i);
+        var vpBase=page.getViewport({scale:1});
+        var vp=page.getViewport({scale:scale});
+        var canvas=document.createElement('canvas');
+        canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
+        await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
+        var blob=await new Promise(function(res){canvas.toBlob(res,'image/png');});
+        var buf=await blob.arrayBuffer();
+        images.push({bytes:new Uint8Array(buf),ptW:vpBase.width,ptH:vpBase.height});
+        if(i===1)firstPage={w:vpBase.width,h:vpBase.height};
+        page.cleanup();
+    }
+    pdf.destroy();
+
+    // EMU: 914400 per inch, 72pt per inch => 12700 EMU/pt
+    var body='';
+    images.forEach(function(img,idx){
+        var cx=Math.round(img.ptW*12700);
+        var cy=Math.round(img.ptH*12700);
+        var rid='rId'+(idx+2); // rId1 reserved
+        var drawing=
+            '<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/></w:pPr>'+
+            '<w:r><w:drawing>'+
+              '<wp:inline distT="0" distB="0" distL="0" distR="0" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing">'+
+                '<wp:extent cx="'+cx+'" cy="'+cy+'"/>'+
+                '<wp:effectExtent l="0" t="0" r="0" b="0"/>'+
+                '<wp:docPr id="'+(idx+1)+'" name="Page '+(idx+1)+'"/>'+
+                '<wp:cNvGraphicFramePr><a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/></wp:cNvGraphicFramePr>'+
+                '<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'+
+                  '<a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'+
+                    '<pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">'+
+                      '<pic:nvPicPr><pic:cNvPr id="'+(idx+1)+'" name="Page '+(idx+1)+'"/><pic:cNvPicPr/></pic:nvPicPr>'+
+                      '<pic:blipFill><a:blip xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:embed="'+rid+'"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>'+
+                      '<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="'+cx+'" cy="'+cy+'"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr>'+
+                    '</pic:pic>'+
+                  '</a:graphicData>'+
+                '</a:graphic>'+
+              '</wp:inline>'+
+            '</w:drawing></w:r></w:p>';
+        body+=drawing;
+        if(idx<images.length-1)body+='<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+    });
+
+    var pgW=Math.round(firstPage.w*20),pgH=Math.round(firstPage.h*20);
+    var orient=firstPage.w>firstPage.h?' w:orient="landscape"':'';
+    var sect='<w:sectPr><w:pgSz w:w="'+pgW+'" w:h="'+pgH+'"'+orient+'/><w:pgMar w:top="0" w:right="0" w:bottom="0" w:left="0" w:header="0" w:footer="0" w:gutter="0"/></w:sectPr>';
+    var documentXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
+        '<w:body>'+body+sect+'</w:body></w:document>';
+
+    return {documentXml:documentXml,images:images};
+}
+
+// ---------- packaging ----------
+function packDocxEditable(documentXml, images){
+    images = images || [];
+    var hasImg = images.length>0;
+    var contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+        '<Default Extension="xml" ContentType="application/xml"/>'+
+        (hasImg?'<Default Extension="png" ContentType="image/png"/>':'')+
+        '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>';
+    var pkgRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+        '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+    var zip=new JSZip();
+    zip.file('[Content_Types].xml',contentTypes);
+    zip.file('_rels/.rels',pkgRels);
+    zip.file('word/document.xml',documentXml);
+    if(hasImg){
+        var docRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+            '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+        images.forEach(function(img,idx){
+            docRels+='<Relationship Id="rId'+(idx+2)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/img'+(idx+1)+'.png"/>';
+        });
+        docRels+='</Relationships>';
+        zip.file('word/_rels/document.xml.rels',docRels);
+        images.forEach(function(img,idx){zip.file('word/media/img'+(idx+1)+'.png',img.bytes);});
+    }
+    return zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+}
+function packDocxExact(documentXml,images){
+    var contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+        '<Default Extension="xml" ContentType="application/xml"/>'+
+        '<Default Extension="png" ContentType="image/png"/>'+
+        '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>';
+    var pkgRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+        '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+    var docRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+    images.forEach(function(img,idx){
+        docRels+='<Relationship Id="rId'+(idx+2)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/page'+(idx+1)+'.png"/>';
+    });
+    docRels+='</Relationships>';
+    var zip=new JSZip();
+    zip.file('[Content_Types].xml',contentTypes);
+    zip.file('_rels/.rels',pkgRels);
+    zip.file('word/_rels/document.xml.rels',docRels);
+    zip.file('word/document.xml',documentXml);
+    images.forEach(function(img,idx){zip.file('word/media/page'+(idx+1)+'.png',img.bytes);});
+    return zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+}
+
+// ---------- load ----------
+wireDropArea('dropArea','fileInput',async function(files){
+    if(!files.length)return;
+    var f=files[0];
+    if(f.type!=='application/pdf'&&!f.name.toLowerCase().endsWith('.pdf')){showStatus('Please select a PDF file.','error');return;}
+    hideStatus();
+    try{
+        var buf=await readAsArrayBuffer(f);
+        srcBuffer=buf;
+        var pdf=await pdfjsLib.getDocument({data:new Uint8Array(buf.slice(0))}).promise;
+        srcFile=f;pageCount=pdf.numPages;
+        document.getElementById('fileInfo').innerHTML='<strong>'+f.name+'</strong> &middot; '+fmtSize(f.size)+' &middot; '+pdf.numPages+' pages';
+        pageData=[];var texty=0,totalImgs=0;
+        for(var i=1;i<=pdf.numPages;i++){
+            setProgress(Math.round((i/pdf.numPages)*95),'Reading page '+i+' of '+pdf.numPages+' (text + images)...');
+            var page=await pdf.getPage(i);
+            var vp=page.getViewport({scale:1});
+            var tc=await page.getTextContent();
+            var lines=extractPage(tc,vp);
+            var imgs=await extractPageImages(page,vp);
+            totalImgs+=imgs.length;
+            if(lines.length)texty++;
+            pageData.push({w:vp.width,h:vp.height,lines:lines,images:imgs});
+            page.cleanup();
+        }
+        pdf.destroy();
+        hideProgress();
+        var hasText=texty>0;
+        document.getElementById('optionsBox').style.display='block';
+        document.getElementById('previewArea').style.display='block';
+        if(hasText){
+            document.getElementById('textOut').value=pageData.map(function(pg,i){
+                return '----- Page '+(i+1)+' -----\n\n'+pg.lines.map(function(l){return l.cells.map(function(c){return c.text;}).join('  ');}).join('\n');
+            }).join('\n\n');
+        }else{
+            document.getElementById('textOut').value='(No selectable text detected — this PDF appears to be scanned images. Editable and Plain modes will produce an empty document. Use Exact layout to keep the pages as-is.)';
+            // force Exact mode
+            document.querySelector('input[name=wmode][value="exact"]').checked=true;
+        }
+        var fmt=hasText?buildFormattedDocx(pageData):{stats:{tables:0,paras:0,images:0}};
+        document.getElementById('fmtSummary').textContent=
+            'Original page size: '+Math.round(pageData[0].w)+' \u00d7 '+Math.round(pageData[0].h)+' pt across '+pageCount+' page(s). '+
+            'Editable + Images mode detected: '+fmt.stats.tables+' table(s), '+fmt.stats.paras+' paragraph(s), '+totalImgs+' image(s) embedded. '+
+            'Exact-layout mode embeds each full page as a high-resolution image (perfect visual fidelity).';
+        var runBtn=document.getElementById('runBtn');
+        runBtn.style.display='inline-flex';runBtn.disabled=false;
+        showStatus(hasText?(texty===pageCount?'Ready — pick a mode and download.':('Extracted text from '+texty+' of '+pageCount+' pages; the rest look like scans — use Exact layout for those.')):'Scanned PDF detected — Exact layout will still reproduce every page perfectly.','success');
+    }catch(err){
+        srcFile=null;srcBuffer=null;hideProgress();
+        showStatus('Could not read this PDF. It may be corrupted or password-protected — remove the password first.','error');
+    }
+});
+
+document.getElementById('clearBtn').addEventListener('click',function(){
+    srcFile=null;srcBuffer=null;pageData=null;pageCount=0;
+    document.getElementById('fileInfo').textContent='No file selected yet.';
+    document.getElementById('optionsBox').style.display='none';
+    document.getElementById('previewArea').style.display='none';
+    document.getElementById('textOut').value='';
+    var runBtn=document.getElementById('runBtn');
+    runBtn.style.display='none';runBtn.disabled=true;
+    hideStatus();hideProgress();
+});
+
+document.getElementById('runBtn').addEventListener('click',async function(){
+    if(!srcFile)return;
+    try{
+        var mode=document.querySelector('input[name=wmode]:checked').value;
+        var blob;
+        if(mode==='exact'){
+            setProgress(10,'Preparing pages...');
+            var ex=await buildExactDocx();
+            setProgress(95,'Packaging .docx...');
+            blob=await packDocxExact(ex.documentXml,ex.images);
+        }else if(mode==='fmt'){
+            if(!pageData){showStatus('No text extracted — switch to Exact layout.','error');return;}
+            setProgress(50,'Building editable .docx with embedded images...');
+            var built=buildFormattedDocx(pageData);
+            blob=await packDocxEditable(built.xml, built.images);
+        }else{
+            if(!pageData){showStatus('No text extracted — switch to Exact layout.','error');return;}
+            setProgress(50,'Building plain .docx...');
+            blob=await packDocxEditable(buildPlainDocx(pageData));
+        }
+        setProgress(100,'Done');
+        download(blob,srcFile.name.replace(/\.pdf$/i,'')+'.docx','application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        hideProgress();
+        showStatus('Word document downloaded — open it in Word, LibreOffice, or Google Docs.','success');
+    }catch(err){hideProgress();showStatus('Error: '+err.message,'error');}
+});
+</script>
+</body>
+</html>
