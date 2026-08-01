@@ -341,9 +341,16 @@
             colKind = colKind || headerRow.map(inferColKind);
             var perPage = pagesRaw.map(function(){ return []; });
             var current = null;
+            var summaryStarted = false;
             pagesRaw.forEach(function(rows, pageIdx){
                 rows.forEach(function(row){
-                    if (!row.length) return;
+                    if (!row.length || summaryStarted) return;
+                    // A trailing "Statement Summary" / "Account Summary" totals block reports
+                    // aggregate Dr/Cr figures that legitimately look like real amounts, so the
+                    // column-type check alone can't reject them — stop processing entirely once
+                    // this section starts, since nothing after it is a real transaction.
+                    var rowText = row.map(function(w){ return w.str; }).join(' ');
+                    if (/\b(statement|account)\s+summary\b/i.test(rowText)) { summaryStarted = true; return; }
                     var buckets = {};
                     row.forEach(function(w){
                         var col = mergeInto[nearestCol(centers, w.x)];
