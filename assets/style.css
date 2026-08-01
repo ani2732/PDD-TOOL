@@ -252,7 +252,8 @@ textarea { resize: vertical; min-height: 130px; }
 /* ---------- Options / info ---------- */
 .options { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px 18px; margin: 14px 0; }
 .options label { font-weight: 600; color: var(--text-1); margin: 10px 0 5px; }
-.options input[type=text], .options select { max-width: 340px; margin-bottom: 0; }
+.options input[type=text], .options input[type=password], .options select { max-width: 340px; margin-bottom: 0; }
+.options input[type=checkbox] { width: auto; }
 .options input.invalid { border-color: var(--err-fg); background: var(--err-bg); }
 .options .radio-row { display: flex; gap: 18px; flex-wrap: wrap; margin: 6px 0; }
 .options .radio-row label { font-weight: 500; color: var(--text-2); margin: 0; display: flex; align-items: center; gap: 7px; cursor: pointer; }
