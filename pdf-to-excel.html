@@ -180,7 +180,14 @@
             return rowsFromItems(items).map(mergeRow);
         }
         function looksLikeDate(s) {
-            return /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test((s || '').trim());
+            var t = (s || '').trim();
+            // numeric, day-first: 01/04/2025, 01-04-25, 01.04.2025
+            if (/^\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}$/.test(t)) return true;
+            // ISO / year-first: 2025-04-01, 2025/04/01
+            if (/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/.test(t)) return true;
+            // month-name: 01-Apr-2025, 01 Apr 25, 1-April-2025
+            if (/^\d{1,2}[\-\/\s][A-Za-z]{3,9}[\-\/\s]\d{2,4}$/.test(t)) return true;
+            return false;
         }
         // Detect a bank/financial-statement style header row (Date | Narration | ... | Amount/Balance)
         // anywhere in the document, so letterhead boilerplate and wrapped narration lines can be
@@ -330,6 +337,27 @@
             perPage[headerPageIndex].unshift(headerRow);
             return perPage;
         }
+        // Drop columns that carry no data anywhere in the whole document (e.g. a stray
+        // reference-number x-position cluster that rarely fires) so the output only shows real
+        // fields with real header names instead of empty "Column N" placeholders.
+        function pruneEmptyColumns(perPage, headerPageIndex) {
+            var colCount = 0;
+            perPage.forEach(function(p){ p.forEach(function(r){ colCount = Math.max(colCount, r.length); }); });
+            if (!colCount) return perPage;
+            var hasData = new Array(colCount).fill(false);
+            perPage.forEach(function(page, pi){
+                page.forEach(function(row, ri){
+                    if (pi === headerPageIndex && ri === 0) return; // the header row itself doesn't count as "data"
+                    row.forEach(function(v, ci){ if (v !== '' && v !== null && typeof v !== 'undefined') hasData[ci] = true; });
+                });
+            });
+            var keep = [];
+            for (var i = 0; i < colCount; i++) if (hasData[i]) keep.push(i);
+            if (!keep.length || keep.length === colCount) return perPage;
+            return perPage.map(function(page){
+                return page.map(function(row){ return keep.map(function(ci){ return row[ci]; }); });
+            });
+        }
         function clusterColumns(allCells) {
             // cluster start-x positions across the whole document
             var xs = allCells.map(function(c){ return c.x0; }).sort(function(a,b){ return a - b; });
@@ -392,7 +420,8 @@
             var numeric = document.querySelector('input[name=xlnum]:checked').value === 'auto';
             if (bankMode) {
                 var perPage = buildBankStatementAoa(pageRawRows, bankCenters, bankNarrationColIdx, bankHeaderLabels.slice(), bankHeaderInfo.pageIndex, numeric);
-                return { perPage: perPage, cols: bankCenters.length };
+                perPage = pruneEmptyColumns(perPage, bankHeaderInfo.pageIndex);
+                return { perPage: perPage, cols: perPage.length ? (perPage[bankHeaderInfo.pageIndex][0] || []).length : bankCenters.length };
             }
             var all = [];
             pageRows.forEach(function(rows){ rows.forEach(function(r){ r.forEach(function(c){ all.push(c); }); }); });
