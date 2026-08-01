@@ -321,15 +321,24 @@
             if (text.length > 180) return true;
             return /this is a system generated|does not require.{0,25}signature|customer care|toll.?free|visit us at|www\.[a-z0-9.-]+\.[a-z]{2,}|statement summary|generated statement/i.test(text);
         }
+        // What kind of value a column should hold, inferred from its header label — used to reject
+        // obviously-wrong fills (e.g. the word "Debits" or "Statement of account" landing in an
+        // amount column because it happened to share x-position with a stray footer/summary line).
+        function inferColKind(label) {
+            if (/\bdate\b|\bdt\b/i.test(label)) return 'date';
+            if (/amount|amt|balance|withdrawal|deposit|debit|credit/i.test(label)) return 'amount';
+            return 'text';
+        }
         // Build the flat, per-page transaction table for bank/financial statements: drops repeated
         // letterhead/header boilerplate, re-joins narration text that wraps across extra PDF lines
         // back onto its parent transaction row (even when the wrap spills onto the next page), and
         // fills in amount/reference columns that land on their own physical PDF line — some banks
         // render the numeric columns of a row at a slightly different baseline than the date and
         // narration, which otherwise makes them look like a separate, date-less row.
-        function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric, mergeInto) {
+        function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric, mergeInto, colKind) {
             var colCount = centers.length;
             mergeInto = mergeInto || centers.map(function(_, i){ return i; });
+            colKind = colKind || headerRow.map(inferColKind);
             var perPage = pagesRaw.map(function(){ return []; });
             var current = null;
             pagesRaw.forEach(function(rows, pageIdx){
@@ -363,9 +372,18 @@
                             var text = buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
                             if (ci === narrationColIdx) {
                                 current[ci] = (current[ci] ? current[ci] + ' ' : '') + text;
-                            } else if (current[ci] === '') {
-                                current[ci] = numeric ? maybeNumber(text) : text;
+                                return;
                             }
+                            if (current[ci] !== '') return;
+                            var kind = colKind[ci];
+                            // only accept the fill if the text actually looks like a valid value
+                            // for that column — this is what stops footer/summary words like
+                            // "Debits" or "Statement of account" from being written into an
+                            // amount or date column just because they landed at that x-position.
+                            if (kind === 'amount' && !isAmountLikeText(text)) return;
+                            if (kind === 'date' && !looksLikeDate(text)) return;
+                            if (kind === 'text' && text.length > 60) return;
+                            current[ci] = numeric ? maybeNumber(text) : text;
                         });
                     }
                     // else: repeated letterhead/address/header boilerplate — dropped
