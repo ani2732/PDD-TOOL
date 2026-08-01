@@ -222,6 +222,26 @@
             });
             return cols.map(function(c){ return c.sum / c.n; });
         }
+        // Identify which data column is the narration/description field purely from content:
+        // across real transaction (date-starting) rows, narration is always the column carrying
+        // by far the most characters — every other field (ref no, dates, amounts) is short.
+        function inferNarrationColIdx(pagesRaw, centers) {
+            var totals = new Array(centers.length).fill(0);
+            pagesRaw.forEach(function(rows){
+                rows.forEach(function(row){
+                    if (!row.length || !looksLikeDate(row[0].str)) return;
+                    var buckets = {};
+                    row.forEach(function(w){
+                        var ci = nearestCol(centers, w.x);
+                        buckets[ci] = (buckets[ci] || 0) + w.str.length;
+                    });
+                    Object.keys(buckets).forEach(function(k){ totals[Number(k)] += buckets[k]; });
+                });
+            });
+            var best = 1, bestLen = -1;
+            for (var i = 1; i < centers.length; i++) { if (totals[i] > bestLen) { bestLen = totals[i]; best = i; } }
+            return best;
+        }
         // Build the flat, per-page transaction table for bank/financial statements: drops repeated
         // letterhead/header boilerplate, and re-joins narration text that wraps across extra PDF lines
         // back onto its parent transaction row (even when the wrap spills onto the next page).
@@ -386,20 +406,25 @@
                 bankHeaderInfo = detectBankHeader(pageRawRows);
                 if (bankHeaderInfo) {
                     bankCenters = buildColumnModelFromAnchors(pageRawRows);
-                    // map each detected header label onto its nearest column center, so real
-                    // names ("Date", "Narration", "Withdrawal Amt.", ...) are used even when the
-                    // data-driven column count doesn't line up 1:1 with the header's own cells
-                    // (e.g. a reference-number column that splits into two x-position clusters).
+                    // Header label x-positions (often centered/padded) don't reliably line up with
+                    // where the actual left-aligned data starts, so map header cells onto data
+                    // columns by proportional left-to-right rank instead of raw x-proximity. This
+                    // keeps the correct order even when a field (e.g. a reference number) happens
+                    // to split into extra data-driven column clusters.
                     var rawLabels = bankHeaderInfo.cells;
                     bankHeaderLabels = [];
                     for (var hc = 0; hc < bankCenters.length; hc++) bankHeaderLabels.push('Column ' + (hc + 1));
-                    rawLabels.forEach(function(c){
-                        var ci = nearestCol(bankCenters, c.x0);
-                        bankHeaderLabels[ci] = c.text;
-                    });
-                    bankNarrationColIdx = 1;
-                    var idx = bankHeaderLabels.findIndex(function(t){ return /narration|description|particulars/i.test(t); });
-                    if (idx >= 0) bankNarrationColIdx = idx;
+                    if (rawLabels.length > 1 && bankCenters.length > 1) {
+                        rawLabels.forEach(function(c, hi){
+                            var ci = Math.round(hi * (bankCenters.length - 1) / (rawLabels.length - 1));
+                            bankHeaderLabels[ci] = c.text;
+                        });
+                    } else if (rawLabels.length === 1) {
+                        bankHeaderLabels[0] = rawLabels[0].text;
+                    }
+                    // Narration is always the busiest (longest, free-text) non-date column — derive
+                    // it directly from the data rather than trusting the (unreliable) label mapping.
+                    bankNarrationColIdx = inferNarrationColIdx(pageRawRows, bankCenters);
                     bankMode = bankCenters.length >= 4;
                 } else {
                     bankMode = false;
