@@ -222,25 +222,78 @@
             });
             return cols.map(function(c){ return c.sum / c.n; });
         }
-        // Identify which data column is the narration/description field purely from content:
-        // across real transaction (date-starting) rows, narration is always the column carrying
-        // by far the most characters — every other field (ref no, dates, amounts) is short.
-        function inferNarrationColIdx(pagesRaw, centers) {
-            var totals = new Array(centers.length).fill(0);
+        function isAmountLikeText(text) {
+            if (!/^[\d,]+(\.\d+)?$/.test(text)) return false;
+            if (text.indexOf(',') !== -1 || text.indexOf('.') !== -1) return true;
+            return text.length <= 6; // short un-grouped whole number — plausible small amount
+        }
+        // Classify each data column's role purely from its content across real transaction (date-
+        // starting) rows — never from header-label position, which doesn't reliably line up with
+        // where left-aligned data actually starts. Returns { labels, narrationColIdx }.
+        function classifyBankColumns(pagesRaw, centers, headerCells) {
+            var n = centers.length;
+            var dateCount = new Array(n).fill(0);
+            var amtCount = new Array(n).fill(0);
+            var totalCount = new Array(n).fill(0);
+            var charTotal = new Array(n).fill(0);
             pagesRaw.forEach(function(rows){
                 rows.forEach(function(row){
                     if (!row.length || !looksLikeDate(row[0].str)) return;
                     var buckets = {};
                     row.forEach(function(w){
                         var ci = nearestCol(centers, w.x);
-                        buckets[ci] = (buckets[ci] || 0) + w.str.length;
+                        (buckets[ci] = buckets[ci] || []).push(w);
                     });
-                    Object.keys(buckets).forEach(function(k){ totals[Number(k)] += buckets[k]; });
+                    Object.keys(buckets).forEach(function(k){
+                        var ci = Number(k);
+                        var text = buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
+                        totalCount[ci]++;
+                        charTotal[ci] += text.length;
+                        if (looksLikeDate(text)) dateCount[ci]++;
+                        else if (isAmountLikeText(text)) amtCount[ci]++;
+                    });
                 });
             });
-            var best = 1, bestLen = -1;
-            for (var i = 1; i < centers.length; i++) { if (totals[i] > bestLen) { bestLen = totals[i]; best = i; } }
-            return best;
+            var headerTexts = headerCells.map(function(c){ return c.text; });
+            function matchLabel(re, fallback) {
+                var found = headerTexts.find(function(t){ return re.test(t); });
+                return found || fallback;
+            }
+            var allIdx = []; for (var i = 0; i < n; i++) allIdx.push(i);
+            var used = {};
+            function pickBest(candidateIdxs, scoreArr) {
+                var best = -1, bestScore = 0;
+                candidateIdxs.forEach(function(i){
+                    if (used[i]) return;
+                    if (scoreArr[i] > bestScore) { bestScore = scoreArr[i]; best = i; }
+                });
+                return best;
+            }
+            var labels = new Array(n).fill(null);
+
+            labels[0] = matchLabel(/\bdate\b/i, 'Date'); used[0] = true;
+
+            var narrIdx = n > 1 ? pickBest(allIdx, charTotal) : -1;
+            if (narrIdx < 0) narrIdx = Math.min(1, n - 1);
+            labels[narrIdx] = matchLabel(/narration|description|particulars/i, 'Narration'); used[narrIdx] = true;
+
+            var balIdx = n - 1;
+            if (!used[balIdx]) { labels[balIdx] = matchLabel(/balance/i, 'Closing Balance'); used[balIdx] = true; }
+
+            var valueDtIdx = pickBest(allIdx, dateCount);
+            if (valueDtIdx >= 0 && dateCount[valueDtIdx] > 0) { labels[valueDtIdx] = matchLabel(/value.*dt|value.*date/i, 'Value Dt'); used[valueDtIdx] = true; }
+
+            var numericRemaining = allIdx.filter(function(i){ return !used[i] && amtCount[i] > 0; }).sort(function(a,b){ return a - b; });
+            var wIdx = numericRemaining.shift();
+            if (wIdx !== undefined) { labels[wIdx] = matchLabel(/withdrawal|debit/i, 'Withdrawal Amt.'); used[wIdx] = true; }
+            var dIdx = numericRemaining.shift();
+            if (dIdx !== undefined) { labels[dIdx] = matchLabel(/deposit|credit/i, 'Deposit Amt.'); used[dIdx] = true; }
+
+            var refIdx = pickBest(allIdx.filter(function(i){ return !used[i]; }), totalCount);
+            if (refIdx >= 0 && totalCount[refIdx] > 0) { labels[refIdx] = matchLabel(/ref|chq|cheque/i, 'Chq./Ref.No.'); used[refIdx] = true; }
+
+            for (var j = 0; j < n; j++) if (!labels[j]) labels[j] = 'Column ' + (j + 1);
+            return { labels: labels, narrationColIdx: narrIdx };
         }
         // Build the flat, per-page transaction table for bank/financial statements: drops repeated
         // letterhead/header boilerplate, and re-joins narration text that wraps across extra PDF lines
@@ -406,25 +459,13 @@
                 bankHeaderInfo = detectBankHeader(pageRawRows);
                 if (bankHeaderInfo) {
                     bankCenters = buildColumnModelFromAnchors(pageRawRows);
-                    // Header label x-positions (often centered/padded) don't reliably line up with
-                    // where the actual left-aligned data starts, so map header cells onto data
-                    // columns by proportional left-to-right rank instead of raw x-proximity. This
-                    // keeps the correct order even when a field (e.g. a reference number) happens
-                    // to split into extra data-driven column clusters.
-                    var rawLabels = bankHeaderInfo.cells;
-                    bankHeaderLabels = [];
-                    for (var hc = 0; hc < bankCenters.length; hc++) bankHeaderLabels.push('Column ' + (hc + 1));
-                    if (rawLabels.length > 1 && bankCenters.length > 1) {
-                        rawLabels.forEach(function(c, hi){
-                            var ci = Math.round(hi * (bankCenters.length - 1) / (rawLabels.length - 1));
-                            bankHeaderLabels[ci] = c.text;
-                        });
-                    } else if (rawLabels.length === 1) {
-                        bankHeaderLabels[0] = rawLabels[0].text;
-                    }
-                    // Narration is always the busiest (longest, free-text) non-date column — derive
-                    // it directly from the data rather than trusting the (unreliable) label mapping.
-                    bankNarrationColIdx = inferNarrationColIdx(pageRawRows, bankCenters);
+                    // Classify each data column by its actual content (dates vs amounts vs the
+                    // busiest free-text field vs the rightmost running-balance field) rather than
+                    // by header-label x-position, which doesn't reliably line up with left-aligned
+                    // data and would otherwise mislabel columns.
+                    var classified = classifyBankColumns(pageRawRows, bankCenters, bankHeaderInfo.cells);
+                    bankHeaderLabels = classified.labels;
+                    bankNarrationColIdx = classified.narrationColIdx;
                     bankMode = bankCenters.length >= 4;
                 } else {
                     bankMode = false;
