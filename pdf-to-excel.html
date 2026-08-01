@@ -142,7 +142,7 @@
 
         var srcFile = null, pageRows = null; // pageRows: array per page of arrays-of-cells {x0, text}
         var pageRawRows = null; // array per page of arrays-of-raw-words {x, y, w, str} (unmerged, used for bank-statement mode)
-        var bankMode = false, bankHeaderInfo = null, bankCenters = null, bankNarrationColIdx = 1, bankHeaderLabels = null;
+        var bankMode = false, bankHeaderInfo = null, bankCenters = null, bankNarrationColIdx = 1, bankHeaderLabels = null, bankMergeInto = null;
 
         // ---- table reconstruction engine ----
         function rowsFromItems(items) {
@@ -299,14 +299,25 @@
             var refIdx = pickBest(allIdx.filter(function(i){ return !used[i]; }), totalCount);
             if (refIdx >= 0 && totalCount[refIdx] > 0) { labels[refIdx] = matchLabel(/ref|chq|cheque/i, 'Chq./Ref.No.'); used[refIdx] = true; }
 
+            // Any column left unassigned is almost always the *same* reference-number field
+            // showing up at a second x-position (e.g. alphanumeric NEFT/RTGS refs vs plain-digit
+            // UPI refs land at different x0s but never both appear on the same row) — fold it
+            // into the ref-number column instead of leaving a confusing near-empty extra column.
+            var mergeInto = new Array(n);
+            for (var mi = 0; mi < n; mi++) mergeInto[mi] = mi;
+            if (refIdx >= 0) {
+                for (var ui = 0; ui < n; ui++) if (!used[ui]) mergeInto[ui] = refIdx;
+            }
+
             for (var j = 0; j < n; j++) if (!labels[j]) labels[j] = 'Column ' + (j + 1);
-            return { labels: labels, narrationColIdx: narrIdx };
+            return { labels: labels, narrationColIdx: narrIdx, mergeInto: mergeInto };
         }
         // Build the flat, per-page transaction table for bank/financial statements: drops repeated
         // letterhead/header boilerplate, and re-joins narration text that wraps across extra PDF lines
         // back onto its parent transaction row (even when the wrap spills onto the next page).
-        function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric) {
+        function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric, mergeInto) {
             var colCount = centers.length;
+            mergeInto = mergeInto || centers.map(function(_, i){ return i; });
             var perPage = pagesRaw.map(function(){ return []; });
             var current = null;
             pagesRaw.forEach(function(rows, pageIdx){
@@ -314,7 +325,7 @@
                     if (!row.length) return;
                     var buckets = {};
                     row.forEach(function(w){
-                        var col = nearestCol(centers, w.x);
+                        var col = mergeInto[nearestCol(centers, w.x)];
                         (buckets[col] = buckets[col] || []).push(w);
                     });
                     var populatedCols = Object.keys(buckets).map(Number);
@@ -323,7 +334,7 @@
                         var arr = new Array(colCount).fill('');
                         populatedCols.forEach(function(ci){
                             var text = buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
-                            arr[ci] = numeric ? maybeNumber(text) : text;
+                            arr[ci] = arr[ci] === '' ? (numeric ? maybeNumber(text) : text) : (String(arr[ci]) + ' ' + text);
                         });
                         perPage[pageIdx].push(arr);
                         current = arr;
@@ -419,7 +430,7 @@
         function collectAoa() {
             var numeric = document.querySelector('input[name=xlnum]:checked').value === 'auto';
             if (bankMode) {
-                var perPage = buildBankStatementAoa(pageRawRows, bankCenters, bankNarrationColIdx, bankHeaderLabels.slice(), bankHeaderInfo.pageIndex, numeric);
+                var perPage = buildBankStatementAoa(pageRawRows, bankCenters, bankNarrationColIdx, bankHeaderLabels.slice(), bankHeaderInfo.pageIndex, numeric, bankMergeInto);
                 perPage = pruneEmptyColumns(perPage, bankHeaderInfo.pageIndex);
                 return { perPage: perPage, cols: perPage.length ? (perPage[bankHeaderInfo.pageIndex][0] || []).length : bankCenters.length };
             }
@@ -495,6 +506,7 @@
                     var classified = classifyBankColumns(pageRawRows, bankCenters, bankHeaderInfo.cells);
                     bankHeaderLabels = classified.labels;
                     bankNarrationColIdx = classified.narrationColIdx;
+                    bankMergeInto = classified.mergeInto;
                     bankMode = bankCenters.length >= 4;
                 } else {
                     bankMode = false;
@@ -518,7 +530,7 @@
 
         document.getElementById('clearBtn').addEventListener('click', function(){
             srcFile = null; pageRows = null; pageRawRows = null;
-            bankMode = false; bankHeaderInfo = null; bankCenters = null; bankHeaderLabels = null; bankNarrationColIdx = 1;
+            bankMode = false; bankHeaderInfo = null; bankCenters = null; bankHeaderLabels = null; bankNarrationColIdx = 1; bankMergeInto = null;
             document.getElementById('fileInfo').textContent = 'No file selected yet.';
             document.getElementById('optionsBox').style.display = 'none';
             document.getElementById('previewArea').style.display = 'none';
