@@ -115,6 +115,23 @@
       });
     }
 
+    /* --- 3D tilt cards (pointer-tracked) --- */
+    if (canHover && !reduced) {
+      document.querySelectorAll('.tilt-3d').forEach(function (el) {
+        el.addEventListener('pointermove', function (e) {
+          var r = el.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width;
+          var py = (e.clientY - r.top) / r.height;
+          el.style.setProperty('--tiltX', ((0.5 - py) * 10).toFixed(2) + 'deg');
+          el.style.setProperty('--tiltY', ((px - 0.5) * 10).toFixed(2) + 'deg');
+        });
+        el.addEventListener('pointerleave', function () {
+          el.style.setProperty('--tiltX', '0deg');
+          el.style.setProperty('--tiltY', '0deg');
+        });
+      });
+    }
+
     /* --- Floating hero decorations --- */
     var hero = document.querySelector('header.hero, .hero');
     if (hero && !reduced) {

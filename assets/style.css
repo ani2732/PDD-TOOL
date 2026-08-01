@@ -493,6 +493,43 @@ html[data-theme="dark"] .glow-track::after {
 /* decorative motion honours reduced-motion via the global rule above */
 @media (max-width: 600px) { .float-deco { display: none; } .back-top { right: 14px; bottom: 14px; } }
 
+/* ---------- Hero 3D document stack ---------- */
+.hero-3d { display: flex; justify-content: center; margin: 6px 0 2px; perspective: 900px; position: relative; z-index: 1; }
+.hero-3d-stage { position: relative; width: 108px; height: 136px; transform-style: preserve-3d; animation: heroSpin 9s ease-in-out infinite; }
+.hero-3d .doc {
+  position: absolute; inset: 0; border-radius: 14px;
+  box-shadow: 0 22px 38px rgba(79, 70, 229, 0.28);
+}
+.hero-3d .doc-1 { transform: translateZ(-26px) translateY(10px); background: var(--grad-brand); opacity: 0.45; }
+.hero-3d .doc-2 { transform: translateZ(-13px) translateY(5px); background: var(--grad-brand); opacity: 0.7; }
+.hero-3d .doc-3 {
+  transform: translateZ(0);
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-3d .doc-3 i { font-size: 2.5rem; background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@keyframes heroSpin {
+  0%, 100% { transform: rotateY(-16deg) rotateX(5deg); }
+  50%      { transform: rotateY(16deg) rotateX(-5deg); }
+}
+@media (max-width: 600px) { .hero-3d { transform: scale(0.85); } }
+
+/* ---------- 3D tilt cards (pointer-tracked, vars set in theme.js) ---------- */
+.tilt-3d { transform-style: preserve-3d; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.value.tilt-3d:hover {
+  transform: perspective(700px) rotateX(var(--tiltX, 0deg)) rotateY(var(--tiltY, 0deg)) translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-2);
+}
+
+/* ---------- Reserved AdSense ad slot ---------- */
+.ad-slot {
+  margin: 28px auto; max-width: 970px; min-height: 100px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px dashed var(--border); border-radius: var(--r-md);
+  background: var(--surface-2); color: var(--text-3);
+  font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase;
+}
+
 /* ============================================================
    Fill & Sign tool + Excel preview
    ============================================================ */
