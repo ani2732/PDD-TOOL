@@ -312,9 +312,21 @@
             for (var j = 0; j < n; j++) if (!labels[j]) labels[j] = 'Column ' + (j + 1);
             return { labels: labels, narrationColIdx: narrIdx, mergeInto: mergeInto };
         }
+        // A continuation line that is unusually long, or reads like statement boilerplate
+        // ("this is a system generated statement...", helpline numbers, website URLs), is not a
+        // genuine wrapped narration fragment — those are always short (an account name or
+        // reference tail). Treat long/boilerplate-looking lines as page footer noise and drop them
+        // instead of gluing them onto whatever transaction happens to be current.
+        function looksLikeFooterBoilerplate(text) {
+            if (text.length > 180) return true;
+            return /this is a system generated|does not require.{0,25}signature|customer care|toll.?free|visit us at|www\.[a-z0-9.-]+\.[a-z]{2,}|statement summary|generated statement/i.test(text);
+        }
         // Build the flat, per-page transaction table for bank/financial statements: drops repeated
-        // letterhead/header boilerplate, and re-joins narration text that wraps across extra PDF lines
-        // back onto its parent transaction row (even when the wrap spills onto the next page).
+        // letterhead/header boilerplate, re-joins narration text that wraps across extra PDF lines
+        // back onto its parent transaction row (even when the wrap spills onto the next page), and
+        // fills in amount/reference columns that land on their own physical PDF line — some banks
+        // render the numeric columns of a row at a slightly different baseline than the date and
+        // narration, which otherwise makes them look like a separate, date-less row.
         function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric, mergeInto) {
             var colCount = centers.length;
             mergeInto = mergeInto || centers.map(function(_, i){ return i; });
@@ -338,9 +350,23 @@
                         });
                         perPage[pageIdx].push(arr);
                         current = arr;
-                    } else if (populatedCols.length === 1 && populatedCols[0] === narrationColIdx && current) {
-                        var text2 = buckets[narrationColIdx].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
-                        current[narrationColIdx] = (current[narrationColIdx] ? current[narrationColIdx] + ' ' : '') + text2;
+                    } else if (current && populatedCols.indexOf(0) === -1) {
+                        // Not a new transaction (no date in the leftmost column) and not letterhead
+                        // (letterhead rows on these statements always land at least one word in the
+                        // date column's x-position) — so this is either wrapped narration, or an
+                        // amount/reference that rendered on its own line for the current transaction.
+                        var combined = populatedCols.map(function(ci){
+                            return buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
+                        }).join(' ');
+                        if (looksLikeFooterBoilerplate(combined)) return;
+                        populatedCols.forEach(function(ci){
+                            var text = buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
+                            if (ci === narrationColIdx) {
+                                current[ci] = (current[ci] ? current[ci] + ' ' : '') + text;
+                            } else if (current[ci] === '') {
+                                current[ci] = numeric ? maybeNumber(text) : text;
+                            }
+                        });
                     }
                     // else: repeated letterhead/address/header boilerplate — dropped
                 });
