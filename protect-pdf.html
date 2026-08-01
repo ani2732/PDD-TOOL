@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protect PDF with a Password Online Free – AES-256 Encryption | PDFMerger</title>
+    <meta name="description" content="Add a password to your PDF with real AES-256 encryption, entirely in your browser. No uploads — set an open password and download the locked file.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/protect-pdf.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Protect PDF with a Password Online Free – AES-256 Encryption">
+    <meta property="og:description" content="Add a password to your PDF with real AES-256 encryption, entirely in your browser. No uploads — set an open password and download the locked file.">
+    <meta property="og:url" content="https://freepdfmerger.org/protect-pdf.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="assets/qpdf/qpdf.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Protect PDF</h1>
+            <p class="subtitle">Lock a PDF with a real password — AES encryption, set entirely in your browser. Nothing is uploaded.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-lock"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — then set a password below</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div class="options" id="optionsBox" style="display:none;">
+                    <label for="userPass">Password to open the file</label>
+                    <input type="password" id="userPass" autocomplete="new-password" placeholder="Enter a password" maxlength="128">
+                    <label for="userPass2">Confirm password</label>
+                    <input type="password" id="userPass2" autocomplete="new-password" placeholder="Re-enter the password" maxlength="128">
+                    <p class="form-note" id="passHint">Anyone opening this file will need to type this password. There is no recovery — if it's lost, the file cannot be opened by anyone, including us.</p>
+
+                    <label>Encryption strength</label>
+                    <div class="radio-row">
+                        <label><input type="radio" name="keyLen" value="256" checked> AES-256 (recommended)</label>
+                        <label><input type="radio" name="keyLen" value="128"> AES-128 (older readers)</label>
+                    </div>
+
+                    <label style="margin-top:14px;"><input type="checkbox" id="ownerToggle" style="width:auto;margin:0 8px 0 0;vertical-align:middle;accent-color:var(--primary);">Set a separate owner/permissions password (optional)</label>
+                    <div id="ownerBox" style="display:none;margin-top:8px;">
+                        <label for="ownerPass">Owner password</label>
+                        <input type="password" id="ownerPass" autocomplete="new-password" placeholder="Controls permissions, not required to view" maxlength="128">
+                        <p class="form-note">Left blank, the open password above is reused as the owner password. Most people don't need this — it only matters if you want a separate password that controls printing/editing permissions.</p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-lock"></i> Protect &amp; Download</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool encrypts your PDF with a genuine password using <a href="https://qpdf.readthedocs.io/" target="_blank" rel="noopener">QPDF</a>, the same open-source encryption engine relied on by developers and IT teams — compiled to WebAssembly so it runs entirely inside your browser tab. Your file is never uploaded anywhere: the password is set, the encryption is applied, and the protected PDF is handed straight back to you, all on your own device. The first time you use this tool your browser downloads the small QPDF engine (a one-time, cached download); after that it works instantly, even offline.</p>
+            <h3>Open Password vs. Owner Password</h3>
+            <ul>
+                <li><strong>Open password (user password):</strong> what most people mean by "password protect." Nobody can view the file without typing it in — this is the field above.</li>
+                <li><strong>Owner password (permissions password):</strong> optional and separate. The file opens without it, but it can restrict printing, copying, or editing in viewers that respect PDF permissions. Advisory only — not a strong security boundary on its own, so don't rely on it alone for sensitive content.</li>
+            </ul>
+            <h3>When to Use AES-128 vs AES-256</h3>
+            <p>AES-256 is the modern default and what we recommend — it's supported by every current PDF reader (Adobe Acrobat, Preview, Chrome, Edge). Only choose AES-128 if you specifically know the recipient is on very old software (roughly pre-2015) that can't open 256-bit encrypted files.</p>
+            <h3>Good to Know</h3>
+            <ul>
+                <li>There is genuinely no back door: PDF password recovery for AES-256 is not practically feasible. Store the password somewhere safe (a password manager, or the same secure channel you'll use to share the file) before you close this tab.</li>
+                <li>To send the password separately from the file — never in the same email — for anything sensitive like bank statements, contracts, or ID documents.</li>
+                <li>Need to remove a password instead? Use <a href="unlock-pdf.html">Unlock PDF</a> — same private, in-browser approach, in reverse.</li>
+                <li>Protect documents <em>after</em> you're done editing — <a href="index.html">merging</a>, <a href="watermark-pdf.html">watermarking</a>, or <a href="page-numbers.html">numbering</a> an encrypted file requires unlocking it first.</li>
+            </ul>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        QPDF.path = 'assets/qpdf/';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null;
+
+        document.getElementById('ownerToggle').addEventListener('change', function(){
+            document.getElementById('ownerBox').style.display = this.checked ? 'block' : 'none';
+        });
+
+        wireDropArea('dropArea', 'fileInput', async function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            try {
+                var buf = await readAsArrayBuffer(f);
+                var pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+                srcFile = f;
+                document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pdf.numPages + ' pages';
+                pdf.destroy();
+                document.getElementById('optionsBox').style.display = 'block';
+                document.getElementById('runBtn').disabled = false;
+                document.getElementById('userPass').focus();
+            } catch (err) {
+                srcFile = null;
+                if (err && err.name === 'PasswordException') {
+                    showStatus('This PDF is already password-protected. Remove the existing password first with Unlock PDF, then protect it again.', 'error');
+                } else {
+                    showStatus('Could not read this PDF. It may be corrupted.', 'error');
+                }
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null;
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('optionsBox').style.display = 'none';
+            document.getElementById('userPass').value = '';
+            document.getElementById('userPass2').value = '';
+            document.getElementById('ownerPass').value = '';
+            document.getElementById('ownerToggle').checked = false;
+            document.getElementById('ownerBox').style.display = 'none';
+            document.getElementById('runBtn').disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!srcFile) return;
+            var pass1 = document.getElementById('userPass').value;
+            var pass2 = document.getElementById('userPass2').value;
+            var ownerOn = document.getElementById('ownerToggle').checked;
+            var ownerPass = ownerOn ? document.getElementById('ownerPass').value : '';
+            var keyLength = parseInt(document.querySelector('input[name=keyLen]:checked').value, 10);
+
+            if (!pass1) { showStatus('Enter a password to protect the file.', 'error'); document.getElementById('userPass').focus(); return; }
+            if (pass1 !== pass2) { showStatus('Passwords do not match.', 'error'); document.getElementById('userPass2').focus(); return; }
+            if (pass1.length < 4) { showStatus('Use at least 4 characters for the password.', 'error'); return; }
+
+            try {
+                hideStatus();
+                setProgress(10, 'Loading the encryption engine (first run only)...');
+                var buf = await readAsArrayBuffer(srcFile);
+                QPDF.encrypt({
+                    arrayBuffer: buf,
+                    userPassword: pass1,
+                    ownerPassword: ownerPass || pass1,
+                    keyLength: keyLength,
+                    logger: function(line){ if (/^\[qpdf\] ready/.test(line)) setProgress(55, 'Encrypting with AES-' + keyLength + '...'); },
+                    callback: function(err, resultBuffer){
+                        hideProgress();
+                        if (err) { showStatus('Error: ' + err.message, 'error'); return; }
+                        setProgress(100, 'Done');
+                        download(new Blob([resultBuffer], {type:'application/pdf'}), srcFile.name.replace(/\.pdf$/i,'') + '-protected.pdf', 'application/pdf');
+                        hideProgress();
+                        showStatus('Password set with AES-' + keyLength + ' encryption, and downloaded the protected PDF. Store the password safely — it can\'t be recovered.', 'success');
+                    }
+                });
+            } catch (err) {
+                hideProgress();
+                showStatus('Error: ' + err.message, 'error');
+            }
+        });
+
+    </script>
+</body>
+</html>

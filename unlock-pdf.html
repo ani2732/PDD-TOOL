@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8662253235630377"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlock PDF Online Free – Remove a Password You Know | PDFMerger</title>
+    <meta name="description" content="Remove a password from your own PDF using the password you already know — decrypted entirely in your browser, no uploads. Free and private.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://freepdfmerger.org/unlock-pdf.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Unlock PDF Online Free – Remove a Password You Know">
+    <meta property="og:description" content="Remove a password from your own PDF using the password you already know — decrypted entirely in your browser, no uploads. Free and private.">
+    <meta property="og:url" content="https://freepdfmerger.org/unlock-pdf.html">
+    <meta property="og:site_name" content="PDFMerger">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="assets/qpdf/qpdf.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script src="assets/theme.js" defer></script>
+</head>
+<body>
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="logo"><i class="fas fa-file-pdf"></i> PDFMerger</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tools.html">Tools</a>
+                <a href="guides.html">Guides</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Unlock PDF</h1>
+            <p class="subtitle">Remove a password from your own PDF — decrypted privately in your browser using the password you already know. Nothing is uploaded.</p>
+        </header>
+
+        <main>
+            <div class="tool-card">
+
+                <div class="drop-area" id="dropArea" role="button" tabindex="0">
+                    <i class="fas fa-unlock-alt"></i>
+                    <h3>Drag &amp; Drop a PDF Here</h3>
+                    <p>or click to browse — we'll check if it's password-protected</p>
+                    <button class="btn" type="button"><i class="fas fa-folder-open"></i> Select PDF</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
+                </div>
+                <div class="fileinfo" id="fileInfo">No file selected yet.</div>
+
+                <div class="options" id="optionsBox" style="display:none;">
+                    <label for="pdfPass">PDF password</label>
+                    <input type="password" id="pdfPass" autocomplete="current-password" placeholder="Enter the password this PDF was locked with" maxlength="128">
+                    <p class="form-note">This only removes a password you already have — it can't crack, guess, or bypass a password you don't know.</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn" id="runBtn" type="button" disabled><i class="fas fa-unlock-alt"></i> Remove Password &amp; Download</button>
+                    <button class="btn btn-secondary" id="clearBtn" type="button"><i class="fas fa-trash-alt"></i> Clear</button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+                    <p id="progressText">Processing...</p>
+                </div>
+                <div class="status" id="statusMessage" role="status" aria-live="polite"></div>
+
+            </div>
+
+
+        <article class="content-card">
+            <h2>About This Tool</h2>
+            <p>This tool removes encryption from a PDF using <a href="https://qpdf.readthedocs.io/" target="_blank" rel="noopener">QPDF</a> — the same open-source engine our <a href="how-to-remove-pdf-password.html">password removal guide</a> recommends for the command line — compiled to WebAssembly so it runs entirely inside this browser tab. The file is read, decrypted, and handed back to you on your own device; it never touches a server. That matters here more than almost anywhere else on this site, because the documents people unlock are usually bank statements, salary slips, and tax forms — exactly what you shouldn't hand to a stranger's upload form along with the password pattern your bank uses.</p>
+            <h3>What This Tool Needs From You</h3>
+            <p>The password itself. If you select a locked PDF, we detect that with a quick local check and show a password field. Type the password you already have (the one your bank, employer, or the file's sender gave you), and the tool produces a byte-for-byte copy of the document with the encryption layer stripped out — same content, same quality, just no password. This is not a password-cracking or recovery tool: without the correct password, it can't open the file, by design.</p>
+            <h3>Two Kinds of PDF Password</h3>
+            <ul>
+                <li><strong>Open password (user password):</strong> required just to view the file — this is what this tool removes.</li>
+                <li><strong>Permissions password (owner password):</strong> the file opens freely, but printing, copying, or editing is restricted. If your PDF only has this kind, most viewers already ignore the restriction, and this tool clears it as part of the same decryption pass.</li>
+            </ul>
+            <h3>Good to Know</h3>
+            <ul>
+                <li>Only unlock documents you own or are authorised to handle — see our full guidance in <a href="how-to-remove-pdf-password.html">How to Remove a Password from a PDF You Own</a>.</li>
+                <li>Once unlocked, the file can be freely opened, printed, and edited by anyone who has it — store and share the unlocked copy as carefully as you would any sensitive document.</li>
+                <li>Unlocking is usually step one, not the last step: once a statement is unlocked you can <a href="index.html">merge</a> it with others, <a href="rotate-pdf.html">fix page orientation</a>, or <a href="pdf-to-excel.html">pull the numbers into Excel</a>.</li>
+                <li>Need to lock a file instead? Use <a href="protect-pdf.html">Protect PDF</a> — the same private, in-browser approach, in reverse.</li>
+            </ul>
+        </article>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="y"></span> PDFMerger &middot; <a href="index.html">Home</a> &middot; <a href="tools.html">Tools</a> &middot; <a href="guides.html">Guides</a> &middot; <a href="privacy-policy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="contact.html">Contact</a></p>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+
+        QPDF.path = 'assets/qpdf/';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        function showStatus(msg, type) { var el = document.getElementById('statusMessage'); el.textContent = msg; el.className = 'status ' + type; el.style.display = 'block'; }
+        function hideStatus() { document.getElementById('statusMessage').style.display = 'none'; }
+        function setProgress(pct, text) {
+            var pc = document.getElementById('progressContainer');
+            pc.style.display = 'block';
+            document.getElementById('progressBar').style.width = pct + '%';
+            if (text) document.getElementById('progressText').textContent = text;
+        }
+        function hideProgress() { document.getElementById('progressContainer').style.display = 'none'; }
+        function readAsArrayBuffer(file) { return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(file); }); }
+        function fmtSize(bytes) { if (!bytes) return '0 Bytes'; var k = 1024, sizes = ['Bytes','KB','MB','GB'], i = Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2)) + ' ' + sizes[i]; }
+        function wireDropArea(dropId, inputId, onFiles) {
+            var drop = document.getElementById(dropId), input = document.getElementById(inputId);
+            drop.addEventListener('click', function(e){ if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) input.click(); });
+            drop.querySelector('button').addEventListener('click', function(){ input.click(); });
+            input.addEventListener('change', function(e){ onFiles(e.target.files); input.value=''; });
+            drop.addEventListener('dragover', function(e){ e.preventDefault(); drop.classList.add('drag-over'); });
+            drop.addEventListener('dragleave', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){ e.preventDefault(); drop.classList.remove('drag-over'); onFiles(e.dataTransfer.files); });
+        }
+
+        var srcFile = null, isEncrypted = false;
+
+        wireDropArea('dropArea', 'fileInput', async function(files){
+            if (!files.length) return;
+            var f = files[0];
+            if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { showStatus('Please select a PDF file.', 'error'); return; }
+            hideStatus();
+            document.getElementById('optionsBox').style.display = 'none';
+            document.getElementById('runBtn').disabled = true;
+            try {
+                var buf = await readAsArrayBuffer(f);
+                srcFile = f;
+                try {
+                    var pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+                    pdf.destroy();
+                    isEncrypted = false;
+                    document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size);
+                    showStatus('This PDF isn’t password-protected — there’s nothing to remove.', 'success');
+                } catch (err) {
+                    if (err && err.name === 'PasswordException') {
+                        isEncrypted = true;
+                        document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; password-protected';
+                        document.getElementById('optionsBox').style.display = 'block';
+                        document.getElementById('runBtn').disabled = false;
+                        document.getElementById('pdfPass').focus();
+                    } else {
+                        srcFile = null;
+                        showStatus('Could not read this PDF. It may be corrupted.', 'error');
+                    }
+                }
+            } catch (err) {
+                srcFile = null;
+                showStatus('Could not read this file.', 'error');
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', function(){
+            srcFile = null; isEncrypted = false;
+            document.getElementById('fileInfo').textContent = 'No file selected yet.';
+            document.getElementById('optionsBox').style.display = 'none';
+            document.getElementById('pdfPass').value = '';
+            document.getElementById('runBtn').disabled = true;
+            hideStatus(); hideProgress();
+        });
+
+        document.getElementById('runBtn').addEventListener('click', async function(){
+            if (!srcFile || !isEncrypted) return;
+            var pass = document.getElementById('pdfPass').value;
+            if (!pass) { showStatus('Enter the PDF’s password.', 'error'); document.getElementById('pdfPass').focus(); return; }
+
+            try {
+                hideStatus();
+                setProgress(10, 'Loading the decryption engine (first run only)...');
+                var buf = await readAsArrayBuffer(srcFile);
+                QPDF.decrypt({
+                    arrayBuffer: buf,
+                    password: pass,
+                    logger: function(line){ if (/^\[qpdf\] ready/.test(line)) setProgress(55, 'Removing the password...'); },
+                    callback: function(err, resultBuffer){
+                        hideProgress();
+                        if (err) {
+                            showStatus('Could not remove the password — it’s probably incorrect. Double-check it and try again.', 'error');
+                            return;
+                        }
+                        setProgress(100, 'Done');
+                        download(new Blob([resultBuffer], {type:'application/pdf'}), srcFile.name.replace(/\.pdf$/i,'') + '-unlocked.pdf', 'application/pdf');
+                        hideProgress();
+                        showStatus('Password removed and downloaded the unlocked PDF.', 'success');
+                    }
+                });
+            } catch (err) {
+                hideProgress();
+                showStatus('Error: ' + err.message, 'error');
+            }
+        });
+
+    </script>
+</body>
+</html>
