@@ -102,7 +102,7 @@
                 <li><strong>Use the e-statement downloaded from net banking,</strong> not a scan of a printed copy. E-statements are digital PDFs with a text layer; scans are photographs and need OCR first.</li>
                 <li><strong>Remove the password first.</strong> Bank PDFs are usually locked with your account number or date of birth — see the safe on-device methods in our <a href="how-to-remove-pdf-password.html">password removal guide</a>.</li>
                 <li><strong>Keep "one continuous sheet"</strong> so a multi-page statement becomes one uninterrupted transaction table.</li>
-                <li><strong>Expect light cleanup.</strong> Header/footer lines from each page land as ordinary rows — sort or filter them out in Excel. Long descriptions that wrap across two PDF lines arrive as two rows.</li>
+                <li><strong>Bank statements get special handling.</strong> When a Date/Narration/Balance-style header is detected, repeated per-page letterhead and address blocks are dropped automatically, and descriptions that wrap across extra PDF lines are rejoined onto their original transaction row.</li>
             </ol>
             <h3>What This Tool Doesn't Do</h3>
             <p>It doesn't OCR scanned documents, and it doesn't guess at tables in free-flowing prose — it reconstructs what is positionally laid out as columns. For extracting plain paragraphs instead, use <a href="pdf-to-text.html">PDF to Text</a>; for an editable document, use <a href="pdf-to-word.html">PDF to Word</a>.</p>
@@ -141,10 +141,12 @@
         }
 
         var srcFile = null, pageRows = null; // pageRows: array per page of arrays-of-cells {x0, text}
+        var pageRawRows = null; // array per page of arrays-of-raw-words {x, y, w, str} (unmerged, used for bank-statement mode)
+        var bankMode = false, bankHeaderInfo = null, bankCenters = null, bankNarrationColIdx = 1, bankHeaderLabels = null;
 
         // ---- table reconstruction engine ----
-        function itemsToCells(items) {
-            // items -> rows of merged cells with x-position
+        function rowsFromItems(items) {
+            // items -> rows of raw word-points, grouped by y (row), sorted by x within each row. No horizontal merge.
             var pts = [];
             items.forEach(function(it){
                 if (it.str.trim() === '') return;
@@ -157,21 +159,103 @@
                 cur.push(p); lastY = p.y;
             });
             if (cur.length) rows.push(cur);
-            // merge horizontally-adjacent items into cells
-            return rows.map(function(row){
-                row.sort(function(a,b){ return a.x - b.x; });
-                var cells = [];
-                row.forEach(function(p){
-                    var last = cells[cells.length - 1];
-                    if (last && (p.x - last.xEnd) < 6) {
-                        last.text += (p.x - last.xEnd > 0.8 ? ' ' : '') + p.str;
-                        last.xEnd = p.x + p.w;
-                    } else {
-                        cells.push({ x0: p.x, xEnd: p.x + p.w, text: p.str });
+            rows.forEach(function(row){ row.sort(function(a,b){ return a.x - b.x; }); });
+            return rows;
+        }
+        function mergeRow(row) {
+            // merge horizontally-adjacent raw words in one row into cells (gap < 6pt)
+            var cells = [];
+            row.forEach(function(p){
+                var last = cells[cells.length - 1];
+                if (last && (p.x - last.xEnd) < 6) {
+                    last.text += (p.x - last.xEnd > 0.8 ? ' ' : '') + p.str;
+                    last.xEnd = p.x + p.w;
+                } else {
+                    cells.push({ x0: p.x, xEnd: p.x + p.w, text: p.str });
+                }
+            });
+            return cells;
+        }
+        function itemsToCells(items) {
+            return rowsFromItems(items).map(mergeRow);
+        }
+        function looksLikeDate(s) {
+            return /^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}$/.test((s || '').trim());
+        }
+        // Detect a bank/financial-statement style header row (Date | Narration | ... | Amount/Balance)
+        // anywhere in the document, so letterhead boilerplate and wrapped narration lines can be
+        // handled specially instead of polluting the generic column-clustering algorithm.
+        function detectBankHeader(pagesRaw) {
+            for (var pi = 0; pi < pagesRaw.length; pi++) {
+                var rows = pagesRaw[pi];
+                for (var ri = 0; ri < rows.length; ri++) {
+                    var row = rows[ri];
+                    if (row.length < 4) continue;
+                    var merged = mergeRow(row);
+                    if (merged.length < 4 || merged.length > 10) continue;
+                    var texts = merged.map(function(c){ return c.text.toLowerCase(); });
+                    var hasDate = texts.some(function(t){ return /\bdate\b|\bdt\b/.test(t); });
+                    var hasDesc = texts.some(function(t){ return /narration|description|particulars/.test(t); });
+                    var hasAmt = texts.some(function(t){ return /amount|amt|balance|withdrawal|deposit|debit|credit/.test(t); });
+                    if (hasDate && hasDesc && hasAmt) return { pageIndex: pi, rowIndex: ri, cells: merged };
+                }
+            }
+            return null;
+        }
+        // Build column centers purely from rows that start with a real date (transaction rows),
+        // so repeated per-page letterhead/address blocks never influence the column model.
+        function buildColumnModelFromAnchors(pagesRaw) {
+            var xs = [];
+            pagesRaw.forEach(function(rows){
+                rows.forEach(function(row){
+                    if (row.length && looksLikeDate(row[0].str)) {
+                        row.forEach(function(w){ xs.push(w.x); });
                     }
                 });
-                return cells;
             });
+            xs.sort(function(a,b){ return a - b; });
+            var cols = [], TOL = 14;
+            xs.forEach(function(x){
+                var last = cols[cols.length - 1];
+                if (last && x - last.max <= TOL) { last.max = Math.max(last.max, x); last.sum += x; last.n++; }
+                else cols.push({ min: x, max: x, sum: x, n: 1 });
+            });
+            return cols.map(function(c){ return c.sum / c.n; });
+        }
+        // Build the flat, per-page transaction table for bank/financial statements: drops repeated
+        // letterhead/header boilerplate, and re-joins narration text that wraps across extra PDF lines
+        // back onto its parent transaction row (even when the wrap spills onto the next page).
+        function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric) {
+            var colCount = centers.length;
+            var perPage = pagesRaw.map(function(){ return []; });
+            var current = null;
+            pagesRaw.forEach(function(rows, pageIdx){
+                rows.forEach(function(row){
+                    if (!row.length) return;
+                    var buckets = {};
+                    row.forEach(function(w){
+                        var col = nearestCol(centers, w.x);
+                        (buckets[col] = buckets[col] || []).push(w);
+                    });
+                    var populatedCols = Object.keys(buckets).map(Number);
+                    var isTxnStart = looksLikeDate(row[0].str);
+                    if (isTxnStart) {
+                        var arr = new Array(colCount).fill('');
+                        populatedCols.forEach(function(ci){
+                            var text = buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
+                            arr[ci] = numeric ? maybeNumber(text) : text;
+                        });
+                        perPage[pageIdx].push(arr);
+                        current = arr;
+                    } else if (populatedCols.length === 1 && populatedCols[0] === narrationColIdx && current) {
+                        var text2 = buckets[narrationColIdx].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
+                        current[narrationColIdx] = (current[narrationColIdx] ? current[narrationColIdx] + ' ' : '') + text2;
+                    }
+                    // else: repeated letterhead/address/header boilerplate — dropped
+                });
+            });
+            perPage[headerPageIndex].unshift(headerRow);
+            return perPage;
         }
         function clusterColumns(allCells) {
             // cluster start-x positions across the whole document
@@ -229,11 +313,15 @@
         }
         function collectAoa() {
             var numeric = document.querySelector('input[name=xlnum]:checked').value === 'auto';
+            if (bankMode) {
+                var perPage = buildBankStatementAoa(pageRawRows, bankCenters, bankNarrationColIdx, bankHeaderLabels.slice(), bankHeaderInfo.pageIndex, numeric);
+                return { perPage: perPage, cols: bankCenters.length };
+            }
             var all = [];
             pageRows.forEach(function(rows){ rows.forEach(function(r){ r.forEach(function(c){ all.push(c); }); }); });
             var centers = clusterColumns(all);
-            var perPage = pageRows.map(function(rows){ return buildAoa(rows, centers, numeric); });
-            return { perPage: perPage, cols: centers.length };
+            var perPage2 = pageRows.map(function(rows){ return buildAoa(rows, centers, numeric); });
+            return { perPage: perPage2, cols: centers.length };
         }
         function renderPreview() {
             if (!pageRows) return;
@@ -273,19 +361,41 @@
                 srcFile = f;
                 document.getElementById('fileInfo').innerHTML = '<strong>' + f.name + '</strong> &middot; ' + fmtSize(f.size) + ' &middot; ' + pdf.numPages + ' pages';
                 pageRows = [];
+                pageRawRows = [];
                 var texty = 0;
                 for (var i = 1; i <= pdf.numPages; i++) {
                     setProgress(Math.round((i/pdf.numPages)*95), 'Reading page ' + i + ' of ' + pdf.numPages + '...');
                     var page = await pdf.getPage(i);
                     var tc = await page.getTextContent();
-                    var rows = itemsToCells(tc.items);
+                    var rawRows = rowsFromItems(tc.items);
+                    var rows = rawRows.map(mergeRow);
                     if (rows.length) texty++;
                     pageRows.push(rows);
+                    pageRawRows.push(rawRows);
                     page.cleanup();
                 }
                 var numPages = pdf.numPages;
                 pdf.destroy();
                 hideProgress();
+                // detect bank/financial-statement layout so letterhead noise + wrapped narration
+                // lines can be handled correctly instead of feeding the generic column clustering
+                bankHeaderInfo = detectBankHeader(pageRawRows);
+                if (bankHeaderInfo) {
+                    bankCenters = buildColumnModelFromAnchors(pageRawRows);
+                    bankHeaderLabels = bankHeaderInfo.cells.map(function(c){ return c.text; });
+                    bankNarrationColIdx = 1;
+                    if (bankHeaderLabels.length === bankCenters.length) {
+                        var idx = bankHeaderLabels.findIndex(function(t){ return /narration|description|particulars/i.test(t); });
+                        if (idx >= 0) bankNarrationColIdx = idx;
+                    } else {
+                        // column count didn't line up 1:1 with header labels — fall back to generic numbered headers
+                        bankHeaderLabels = [];
+                        for (var hc = 0; hc < bankCenters.length; hc++) bankHeaderLabels.push('Column ' + (hc + 1));
+                    }
+                    bankMode = bankCenters.length >= 4;
+                } else {
+                    bankMode = false;
+                }
                 if (texty === 0) {
                     pageRows = null;
                     showStatus('No selectable text found — this PDF appears to be a scanned image. Table extraction needs a digital PDF (like a bank e-statement downloaded from net banking). Scans would require OCR first.', 'error');
@@ -304,7 +414,8 @@
         });
 
         document.getElementById('clearBtn').addEventListener('click', function(){
-            srcFile = null; pageRows = null;
+            srcFile = null; pageRows = null; pageRawRows = null;
+            bankMode = false; bankHeaderInfo = null; bankCenters = null; bankHeaderLabels = null; bankNarrationColIdx = 1;
             document.getElementById('fileInfo').textContent = 'No file selected yet.';
             document.getElementById('optionsBox').style.display = 'none';
             document.getElementById('previewArea').style.display = 'none';
