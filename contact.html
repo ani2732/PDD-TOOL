@@ -56,7 +56,7 @@
         </div>
 
         <h2>Send Us a Message</h2>
-        <div id="form-success">Thank you for your message. We will respond as soon as possible.</div>
+        <div id="form-success">Opening your email app with this message pre-filled — hit send there to reach us.</div>
         <form id="contact-form">
             <label for="name">Your Name</label>
             <input type="text" id="name" name="name" required autocomplete="name">
@@ -71,7 +71,7 @@
             <textarea id="message" name="message" required></textarea>
 
             <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
-            <p class="form-note">By sending this message, you agree that we may store your name, email, and message for the purpose of responding to your enquiry. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+            <p class="form-note">This opens your email app with the message pre-filled, addressed to us — nothing is sent from this page directly. By sending this message, you agree that we may store your name, email, and message for the purpose of responding to your enquiry. See our <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
         </form>
 
         <h2>Other Ways to Reach Us</h2>
@@ -83,12 +83,21 @@
     </footer>
     <script>
         document.getElementById('y').textContent = new Date().getFullYear();
-        // Demo handler – replace with real form backend (Formspree, Web3Forms, your own server, etc.)
+        // Opens the visitor's own email client with the message pre-filled.
+        // No third-party form backend or account needed; nothing is transmitted from this page itself.
         document.getElementById('contact-form').addEventListener('submit', function(e){
             e.preventDefault();
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var subject = document.getElementById('subject').value;
+            var message = document.getElementById('message').value;
+            var body = 'From: ' + name + ' (' + email + ')\n\n' + message;
+            var mailto = 'mailto:albinthomas2732@gmail.com'
+                + '?subject=' + encodeURIComponent('[PDFMerger Contact] ' + subject)
+                + '&body=' + encodeURIComponent(body);
             document.getElementById('form-success').style.display = 'block';
-            this.reset();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.location.href = mailto;
         });
     </script>
 </body>
