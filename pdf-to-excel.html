@@ -68,7 +68,7 @@
                     </div>
                     <label>Numbers</label>
                     <div class="radio-row">
-                        <label><input type="radio" name="xlnum" value="auto" checked> Convert amounts to real numbers (1,23,456.78 &rarr; 123456.78)</label>
+                        <label><input type="radio" name="xlnum" value="auto" checked> Convert amounts to real numbers (1,23,456.78 Dr &rarr; -123456.78)</label>
                         <label><input type="radio" name="xlnum" value="text"> Keep everything as text</label>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
 
         <article class="content-card">
             <h2>Bank Statement &amp; PDF Tables to Excel — Privately</h2>
-            <p>This tool reads the text inside a digital PDF along with its exact position on the page, reconstructs the rows and columns, and writes a real .xlsx file — <strong>with amounts converted to genuine numbers</strong> (including Indian-format figures like 1,23,456.78) so they sum, sort, and filter immediately in Excel. A live preview shows the detected table before you download.</p>
+            <p>This tool reads the text inside a digital PDF along with its exact position on the page, reconstructs the rows and columns, and writes a real .xlsx file — <strong>with amounts converted to genuine numbers</strong> (Indian-format figures like 1,23,456.78, western 1,234,567.89, a ₹/Rs./INR/$ prefix, and a trailing Cr/Dr marker are all recognised) so they sum, sort, and filter immediately in Excel. A trailing <strong>Dr</strong> or opening/closing parentheses converts the amount to a negative number and drops the label — <strong>Cr</strong> stays positive — matching how accountants total a single amount column in a spreadsheet. A live preview shows the detected table before you download.</p>
             <p>Crucially for bank statements: <strong>the file never leaves your device.</strong> Uploading months of transactions — balances, payees, account numbers — to an unknown conversion server is exactly what you should not do with financial data. Here, extraction runs in your own browser.</p>
             <h3>Getting the Best Result from a Bank Statement</h3>
             <ol>
@@ -194,13 +194,27 @@
         }
         function maybeNumber(text) {
             var t = text.trim();
-            // plain, western (1,234,567.89) and Indian (12,34,567.89) formats, optional trailing Cr/Dr
-            var m = t.match(/^(-?)([\d,]+)(\.\d+)?$/);
+            if (!t) return text;
+            // strip a leading currency symbol/code: ₹, Rs., INR, $, USD
+            var s = t.replace(/^(₹|Rs\.?|INR|USD|\$)\s*/i, '');
+            var sign = 1;
+            // trailing Cr/Dr (credit/debit) marker common on Indian bank statements — Dr becomes negative
+            var crDr = s.match(/^(.*\S)\s*(Cr|Dr)\.?$/i);
+            if (crDr) {
+                s = crDr[1];
+                if (/^dr$/i.test(crDr[2])) sign = -1;
+            }
+            // accounting-style negative in parentheses, e.g. (1,234.56)
+            var paren = s.match(/^\((.+)\)$/);
+            if (paren) { s = paren[1]; sign = -1; }
+            // plain, western (1,234,567.89) and Indian (12,34,567.89) formats, optional leading/trailing minus
+            var m = s.match(/^(-?)([\d,]+)(\.\d+)?(-?)$/);
             if (!m) return text;
             var digits = m[2].replace(/,/g, '');
             if (!/^\d+$/.test(digits)) return text;
-            var n = parseFloat(m[1] + digits + (m[3] || ''));
-            return isFinite(n) ? n : text;
+            if (m[1] === '-' || m[4] === '-') sign = -sign;
+            var n = parseFloat(digits + (m[3] || ''));
+            return isFinite(n) ? sign * n : text;
         }
         function buildAoa(rowsOfCells, centers, numeric) {
             return rowsOfCells.map(function(cells){
