@@ -296,6 +296,10 @@
             if (!m) return text;
             var digits = m[2].replace(/,/g, '');
             if (!/^\d+$/.test(digits)) return text;
+            // a long, un-grouped run of digits starting with 0 (e.g. a reference/cheque number
+            // like "0000102415554513") is an identifier, not a monetary amount — keep as text
+            // so leading zeros aren't silently dropped.
+            if (!m[3] && m[2].indexOf(',') === -1 && digits.length > 6 && digits[0] === '0') return text;
             if (m[1] === '-' || m[4] === '-') sign = -sign;
             var n = parseFloat(digits + (m[3] || ''));
             return isFinite(n) ? sign * n : text;
@@ -382,16 +386,20 @@
                 bankHeaderInfo = detectBankHeader(pageRawRows);
                 if (bankHeaderInfo) {
                     bankCenters = buildColumnModelFromAnchors(pageRawRows);
-                    bankHeaderLabels = bankHeaderInfo.cells.map(function(c){ return c.text; });
+                    // map each detected header label onto its nearest column center, so real
+                    // names ("Date", "Narration", "Withdrawal Amt.", ...) are used even when the
+                    // data-driven column count doesn't line up 1:1 with the header's own cells
+                    // (e.g. a reference-number column that splits into two x-position clusters).
+                    var rawLabels = bankHeaderInfo.cells;
+                    bankHeaderLabels = [];
+                    for (var hc = 0; hc < bankCenters.length; hc++) bankHeaderLabels.push('Column ' + (hc + 1));
+                    rawLabels.forEach(function(c){
+                        var ci = nearestCol(bankCenters, c.x0);
+                        bankHeaderLabels[ci] = c.text;
+                    });
                     bankNarrationColIdx = 1;
-                    if (bankHeaderLabels.length === bankCenters.length) {
-                        var idx = bankHeaderLabels.findIndex(function(t){ return /narration|description|particulars/i.test(t); });
-                        if (idx >= 0) bankNarrationColIdx = idx;
-                    } else {
-                        // column count didn't line up 1:1 with header labels — fall back to generic numbered headers
-                        bankHeaderLabels = [];
-                        for (var hc = 0; hc < bankCenters.length; hc++) bankHeaderLabels.push('Column ' + (hc + 1));
-                    }
+                    var idx = bankHeaderLabels.findIndex(function(t){ return /narration|description|particulars/i.test(t); });
+                    if (idx >= 0) bankNarrationColIdx = idx;
                     bankMode = bankCenters.length >= 4;
                 } else {
                     bankMode = false;
