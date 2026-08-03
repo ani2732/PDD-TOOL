@@ -96,7 +96,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/style.css">
-    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+    <script>(function(){try{var t=localStorage.getItem('pdfm-theme');var d=t==='dark'||(!t)||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
     <script src="assets/theme.js" defer></script>
 </head>
 <body>
@@ -182,11 +182,8 @@
             <p style="margin-top:16px;text-align:center;"><a href="tools.html" style="font-weight:700;">See all 17 free PDF tools &rarr;</a></p>
         </section>
 
-        <!-- Ad slot: reserved for Google AdSense once the site is approved.
-             After approval: AdSense → Ads → By ad unit → create a "Display ad",
-             then replace this placeholder div with the generated <ins class="adsbygoogle">
-             tag and its adsbygoogle.push({}) script. -->
-        <div class="ad-slot" aria-hidden="true"><span>Advertisement space</span></div>
+        <!-- Ad slot reserved here once AdSense approves: AdSense → Ads → By ad unit →
+             create a "Display ad", paste the <ins class="adsbygoogle"> + push script in this spot. -->
 
         <div class="app-container">
             <!-- Upload -->
@@ -376,8 +373,7 @@
             <p>Because the merging happens locally, your files are not transmitted to us or to any third party. The page does, however, load JavaScript libraries from public Content Delivery Networks (CDNs) and shows advertisements served by Google AdSense, which use cookies. Full details are in our <a href="privacy-policy.html">Privacy Policy</a>.</p>
         </article>
 
-        <!-- Ad slot: reserved for Google AdSense once the site is approved. See comment above for how to fill it in. -->
-        <div class="ad-slot" aria-hidden="true"><span>Advertisement space</span></div>
+        <!-- Ad slot reserved here once AdSense approves. See comment above for how to fill it in. -->
 
         <!-- FAQ -->
         <article class="content-card">
