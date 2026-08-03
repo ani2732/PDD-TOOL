@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Add Page Numbers to PDF","item":"https://freepdfmerger.org/page-numbers.html"}]}
+{"@type":"ListItem","position":3,"name":"Add Page Numbers to PDF","item":"https://freepdfmerger.org/page-numbers.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Can I resume numbering from where a previous batch left off?","acceptedAnswer":{"@type":"Answer","text":"Yes — set \"Start numbering at\" to one more than the last number used in the prior file, so a second production volume continues the same sequence instead of restarting at 1."}},
+{"@type":"Question","name":"Will the numbers cover up existing content on the page?","acceptedAnswer":{"@type":"Answer","text":"The stamp is placed in a page corner with a small margin, but it does sit on top of anything already printed there. Preview the output and pick a position that lands on blank space for your documents."}},
+{"@type":"Question","name":"Can I remove or change page numbers after adding them?","acceptedAnswer":{"@type":"Answer","text":"Not with this tool — the numbers become part of the page content. To change them, re-run the original file with different settings rather than editing the numbered output."}}
+]}
 ]}
     </script>
 </head>
@@ -121,6 +126,21 @@
             <p>When several documents are <a href="index.html">merged</a> into one filing, the original page numbers printed on each document no longer match the combined file's sequence. Continuous numbering across the whole bundle is what lets a covering letter say "see page 47" unambiguously — and many tribunals and departments require it. Our <a href="prepare-pdf-documents-tax-gst-filing.html">filing checklist</a> covers where numbering fits in the assembly workflow: merge first, number last.</p>
             <h3>Bates Numbering</h3>
             <p>Set a prefix (matter code, party initials) and zero padding, and start each production batch where the previous one ended by changing "Start numbering at". Because numbers are drawn into the page content, they survive printing and re-copying. Note that this tool stamps <em>new</em> numbers; it does not detect or remove numbering already printed on the pages — position the new numbers in a corner the originals leave empty.</p>
+            <h3>Choosing a Format</h3>
+            <p>Plain numbers ("1, 2, 3") suit internal drafts and personal archives. "Page N" reads naturally in printed reports handed to non-technical readers. "N of Total" ("3 of 42") is the format most reviewers expect in board packs and contracts, because it tells the reader up front whether pages are missing before they start reading. Bates numbering (prefix + zero padding) is specifically for legal and compliance production — matter codes and consistent digit counts make individual pages citable and sortable across a multi-volume production set.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item">
+                <h4>Can I resume numbering from where a previous batch left off?</h4>
+                <p>Yes — set "Start numbering at" to one more than the last number used in the prior file, so a second production volume continues the same sequence instead of restarting at 1.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Will the numbers cover up existing content on the page?</h4>
+                <p>The stamp is placed in a page corner with a small margin, but it does sit on top of anything already printed there. Preview the output and pick a position that lands on blank space for your particular documents.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I remove or change page numbers after adding them?</h4>
+                <p>Not with this tool — the numbers become part of the page content, the same as the rest of the text. To change them, re-run the original file with different settings rather than trying to edit the numbered output.</p>
+            </div>
         </article>
 
         </main>

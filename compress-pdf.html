@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Compress PDF","item":"https://freepdfmerger.org/compress-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"Compress PDF","item":"https://freepdfmerger.org/compress-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Why did my file get bigger instead of smaller?","acceptedAnswer":{"@type":"Answer","text":"PDFs exported directly from Word, Excel, or similar tools already store text and vector graphics efficiently. Re-rendering them as images typically produces a larger file, so the tool detects this and warns you instead of replacing your file with a worse one."}},
+{"@type":"Question","name":"Will the compressed PDF still be searchable?","acceptedAnswer":{"@type":"Answer","text":"No. Compression works by converting each page into a JPEG image, which removes the underlying text layer. Keep your original file if you need to search, copy, or select text later."}},
+{"@type":"Question","name":"Does compressing affect image-only pages differently than text pages?","acceptedAnswer":{"@type":"Answer","text":"Scanned pages usually shrink the most since scanners typically capture more resolution than needed. Pages that are already mostly image content compress less dramatically."}}
+]}
 ]}
     </script>
 </head>
@@ -121,6 +126,21 @@
             </ul>
             <h3>Still Too Big?</h3>
             <p>If even the compressed file exceeds a portal limit, the problem is usually upstream: rescan the source documents at 200&nbsp;dpi in black and white rather than compressing a 600&nbsp;dpi colour scan. Our guide on <a href="how-to-reduce-pdf-file-size.html">reducing PDF file size</a> covers the scan settings that prevent oversized files in the first place. Very long documents can also be <a href="split-pdf.html">split</a> into parts at logical boundaries.</p>
+            <h3>Recommended vs. Maximum — How to Choose</h3>
+            <p>"Recommended" renders pages at roughly 150&nbsp;dpi with moderate JPEG compression — enough resolution that printed body text still looks sharp, while file size drops sharply on anything scanned at higher resolution. "Maximum" drops to about 110&nbsp;dpi with heavier compression; it produces the smallest possible file but small fonts and fine lines can look noticeably softer on screen. Use the built-in before/after comparison rather than guessing — if the maximum setting is still legible for your document, keep it; if fine print blurs, step back to recommended.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item">
+                <h4>Why did my file get bigger instead of smaller?</h4>
+                <p>PDFs exported directly from Word, Excel, or similar tools already store text and vector graphics efficiently. Re-rendering them as images typically produces a larger file, so the tool detects this and warns you instead of replacing your file with a worse one.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Will the compressed PDF still be searchable?</h4>
+                <p>No. Compression works by converting each page into a JPEG image, which removes the underlying text layer. Keep your original file if you need to search, copy, or select text later.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Does compressing affect image-only pages differently than text pages?</h4>
+                <p>Scanned or photographed pages usually shrink the most, since scanners typically capture far more resolution than a screen or printer needs. Pages that are already mostly image content — like photos — will compress less dramatically because there's less redundant resolution to remove.</p>
+            </div>
         </article>
 
         </main>
