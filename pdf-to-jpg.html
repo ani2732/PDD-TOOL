@@ -37,7 +37,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"PDF to JPG Converter","item":"https://freepdfmerger.org/pdf-to-jpg.html"}]}
+{"@type":"ListItem","position":3,"name":"PDF to JPG Converter","item":"https://freepdfmerger.org/pdf-to-jpg.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Why does a text-heavy page look slightly soft at 150 dpi?","acceptedAnswer":{"@type":"Answer","text":"150 dpi is tuned for screen viewing and small file size. Switch to the 300 dpi high-quality setting for print or close zoom."}},
+{"@type":"Question","name":"Can I convert only specific pages instead of the whole document?","acceptedAnswer":{"@type":"Answer","text":"This tool converts every page. Use Split PDF or Delete Pages first to trim the file, then convert the result."}},
+{"@type":"Question","name":"What image format is used — is PNG available?","acceptedAnswer":{"@type":"Answer","text":"Output is JPEG, which keeps file sizes small for typical documents."}}
+]}
 ]}
     </script>
 </head>
@@ -112,6 +117,17 @@
             </ul>
             <h3>Choosing the Quality</h3>
             <p>Standard (150&nbsp;dpi) is right for screens, portals, and email — small files, fully readable. High (300&nbsp;dpi) matches print resolution and roughly quadruples the file size; use it only if the image will be printed or zoomed heavily. To go the other direction — images into a PDF — use the <a href="jpg-to-pdf.html">JPG to PDF converter</a>. To extract the <em>text</em> rather than a picture of the page, use <a href="pdf-to-text.html">PDF to Text</a>.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>How the Conversion Works</h2>
+            <p>Each page is rendered onto an HTML canvas using <a href="https://mozilla.github.io/pdf.js/" target="_blank" rel="noopener">pdf.js</a> — the same open-source engine Firefox uses to display PDFs natively — at the DPI you choose, then exported as a JPEG. This means the image reflects exactly how the page looks, including vector graphics, embedded fonts, and any images already on the page, flattened into one picture.</p>
+            <h3>Single Page vs. Multi-Page Files</h3>
+            <p>A one-page PDF downloads directly as a single <code>.jpg</code>. A multi-page PDF downloads as a ZIP file containing one numbered image per page (<code>page-1.jpg</code>, <code>page-2.jpg</code>, and so on), so you can pick out the specific pages you need without opening every image individually.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Why does a text-heavy page look slightly soft at 150 dpi? <i class="fas fa-chevron-down"></i></div><div class="faq-a">150 dpi is tuned for screen viewing and small file size. Switch to the 300 dpi high-quality setting if the image will be printed or zoomed in on closely.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I convert only specific pages instead of the whole document? <i class="fas fa-chevron-down"></i></div><div class="faq-a">This tool converts every page. To work with a subset first, use Split PDF or Delete Pages to trim the file down, then convert the result to JPG.</div></div>
+            <div class="faq-item"><div class="faq-q">What image format is used — is PNG available? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Output is JPEG, which keeps file sizes small for typical documents. For images where you need transparency or lossless quality, keep the source PDF instead.</div></div>
         </article>
 
         </main>

@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Delete PDF Pages","item":"https://freepdfmerger.org/delete-pages.html"}]}
+{"@type":"ListItem","position":3,"name":"Delete PDF Pages","item":"https://freepdfmerger.org/delete-pages.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Will deleted pages be recoverable from the downloaded file?","acceptedAnswer":{"@type":"Answer","text":"No — the output PDF is built fresh from only the pages you kept. Deleted pages are never written into the new file at all."}},
+{"@type":"Question","name":"Can I delete pages and reorder the rest in one pass?","acceptedAnswer":{"@type":"Answer","text":"This tool only removes pages, keeping the remaining order unchanged. Use Organize Pages afterwards to reorder."}},
+{"@type":"Question","name":"Does this work on scanned image-only PDFs?","acceptedAnswer":{"@type":"Answer","text":"Yes — the tool copies the whole page object regardless of whether it contains real text or a scanned image."}}
+]}
 ]}
     </script>
 </head>
@@ -105,6 +110,18 @@
                 <li><strong>Trimming oversized filings:</strong> combined with the <a href="compress-pdf.html">compressor</a>, deleting unneeded pages is the fastest way to get under a portal's upload limit.</li>
             </ul>
             <p>Need to keep only a few pages rather than delete a few? The <a href="split-pdf.html">Split tool</a> works the opposite way — click the pages you want to <em>keep</em>. And if pages are in the wrong order rather than unwanted, use <a href="organize-pdf.html">Organize Pages</a>.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>How Page Deletion Works — and What It Doesn't Do</h2>
+            <p>Behind the scenes, the tool loads your PDF with <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a>, builds a fresh document, and copies across only the pages you didn't click — page by page, at the underlying object level. Nothing is drawn or re-printed, so fonts, embedded images, and vector graphics on the kept pages are pixel-for-pixel identical to the original.</p>
+            <p>That precision cuts both ways: deleting a page removes the <em>whole page</em>, but it cannot black out a paragraph, a signature, or a table on a page you're keeping. If you need to hide a specific line or number rather than an entire page, that's true redaction — a different operation this tool doesn't attempt, since doing it safely (so the "hidden" text can't be recovered by copy-pasting or under the black box) needs a purpose-built redaction workflow, not just a colored rectangle drawn over text.</p>
+            <h3>A Realistic Example</h3>
+            <p>Say a lender asks for your last six months of a twelve-month combined bank statement PDF. Rather than asking the bank for a fresh export, open the full statement here, click through to skip the months you don't need to send, and download — the six months you keep are byte-identical to what the bank issued, which matters if the recipient checks for tampering.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Will deleted pages be recoverable from the downloaded file? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No — the output PDF is built fresh from only the pages you kept. Deleted pages are never written into the new file at all.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I delete pages and reorder the rest in one pass? <i class="fas fa-chevron-down"></i></div><div class="faq-a">This tool only removes pages, keeping the remaining order unchanged. For reordering, run the result through <a href="organize-pdf.html">Organize Pages</a> afterwards.</div></div>
+            <div class="faq-item"><div class="faq-q">Does this work on scanned (image-only) PDFs? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — the tool works on the page as a unit regardless of whether it contains real text or a scanned image, since it copies the whole page object rather than reading its contents.</div></div>
         </article>
 
         </main>

@@ -34,7 +34,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"JPG to PDF Converter","item":"https://freepdfmerger.org/jpg-to-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"JPG to PDF Converter","item":"https://freepdfmerger.org/jpg-to-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Can I mix JPG and PNG files in the same PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes — both formats are supported and can be combined in any order in the same output file."}},
+{"@type":"Question","name":"Will the images be compressed or lose quality?","acceptedAnswer":{"@type":"Answer","text":"Images are embedded at their original resolution. Use the Compress PDF tool afterward if the file is too large."}},
+{"@type":"Question","name":"Can I reorder images after adding them?","acceptedAnswer":{"@type":"Answer","text":"Yes — use the arrow buttons on each thumbnail to move it earlier or later before converting."}}
+]}
 ]}
     </script>
 </head>
@@ -107,6 +112,22 @@
             </ul>
             <h3>Better Results with Photos of Paper</h3>
             <p>If your images are phone photos of paper documents, you'll get a cleaner and far smaller PDF by using a scanning app instead of the plain camera — it straightens the page and removes shadows. See our full guide on <a href="scan-documents-with-phone-into-one-pdf.html">scanning documents with your phone</a>. If the resulting PDF is too large to email, see <a href="how-to-reduce-pdf-file-size.html">how to reduce PDF file size</a>. You can also combine the output with existing PDFs using the <a href="index.html">merger</a>.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>Common Situations This Solves</h2>
+            <ul>
+                <li><strong>Expense claims:</strong> photograph each receipt as you collect them, then convert the batch into one ordered PDF for a reimbursement form that only accepts a single attachment.</li>
+                <li><strong>ID and KYC bundles:</strong> combine a photo of the front and back of an ID card into one two-page PDF instead of sending two separate image files.</li>
+                <li><strong>Signed pages photographed on paper:</strong> if you printed, signed, and photographed a document because you didn't have a PDF signer handy, this turns those photos into a proper page-ordered PDF. For signing digitally next time, see <a href="sign-pdf.html">Fill &amp; Sign</a>.</li>
+                <li><strong>Portfolio or certificate collections:</strong> combine several JPGs of certificates or artwork into a single shareable PDF, in the order you choose.</li>
+            </ul>
+            <h3>How the Conversion Works</h3>
+            <p>Each image is decoded in your browser and embedded directly into a new PDF page using <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a>. In A4 mode, the tool calculates the scale needed to fit your image inside a standard page with margin, choosing portrait or landscape based on the image's own aspect ratio, so a wide photo doesn't get awkwardly squeezed into a tall page.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Can I mix JPG and PNG files in the same PDF? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — both formats are supported and can be combined in any order in the same output file.</div></div>
+            <div class="faq-item"><div class="faq-q">Will the images be compressed or lose quality? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Images are embedded at their original resolution. If the resulting PDF is too large, use the Compress PDF tool afterward, which lets you control the quality/size trade-off directly.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I reorder images after adding them? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — use the arrow buttons on each thumbnail to move it earlier or later; the page order updates live before you convert.</div></div>
         </article>
 
         </main>

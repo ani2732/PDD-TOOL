@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"PDF to Text Extractor","item":"https://freepdfmerger.org/pdf-to-text.html"}]}
+{"@type":"ListItem","position":3,"name":"PDF to Text Extractor","item":"https://freepdfmerger.org/pdf-to-text.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Why is some extracted text out of order?","acceptedAnswer":{"@type":"Answer","text":"Multi-column layouts and tables store text by position, not reading order, so extraction can interleave columns."}},
+{"@type":"Question","name":"Does this tool perform OCR on scanned pages?","acceptedAnswer":{"@type":"Answer","text":"No — it extracts existing digital text only. Use OCR software first if you need text from a scanned image."}},
+{"@type":"Question","name":"Are page breaks preserved in the download?","acceptedAnswer":{"@type":"Answer","text":"Yes — the .txt output includes page markers showing which page each extracted section came from."}}
+]}
 ]}
     </script>
 </head>
@@ -106,6 +111,21 @@
                 <li><strong>Word counts and searching:</strong> plain text is easy to search, diff, and count in any editor.</li>
             </ul>
             <p>Layout caveat: PDFs store position, not structure, so multi-column pages and complex tables come out in reading order that may need rearranging. For a faithful <em>visual</em> copy of pages instead, use <a href="pdf-to-jpg.html">PDF to JPG</a>.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>Why PDF Text Extraction Is Trickier Than It Looks</h2>
+            <p>A PDF page doesn't actually store paragraphs, columns, or tables as structured objects the way a Word document does — it stores individual pieces of text positioned at exact x/y coordinates on the page, the way a typesetter would lay out a printed page. This tool, built on <a href="https://mozilla.github.io/pdf.js/" target="_blank" rel="noopener">pdf.js</a>, reconstructs reading order from those coordinates, which works well for normal single-column documents and less predictably for multi-column layouts, forms, or dense tables, where the "correct" reading order is genuinely ambiguous even to a human glancing at the page.</p>
+            <h3>Working with the Output</h3>
+            <ol>
+                <li>Extract the text and skim it against the original PDF side by side, especially for any tables or multi-column sections.</li>
+                <li>Copy directly to the clipboard for quick reuse, or download the .txt file if you want to keep a permanent plain-text copy alongside the PDF.</li>
+                <li>If the source was a scan with no digital text layer, run it through OCR software first — this tool will flag pages with no extractable text rather than return blank or garbled output.</li>
+            </ol>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Why is some extracted text out of order? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Multi-column layouts and tables store text by position, not reading order, so extraction can interleave columns. Review and reorder manually for these layouts.</div></div>
+            <div class="faq-item"><div class="faq-q">Does this tool perform OCR on scanned pages? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No — it extracts existing digital text only. Scanned image pages have no text layer to extract; use OCR software first if you need text from a scan.</div></div>
+            <div class="faq-item"><div class="faq-q">Are page breaks preserved in the download? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — the .txt output includes page markers so you can tell which extracted text came from which page of the source PDF.</div></div>
         </article>
 
         </main>

@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Organize PDF Pages","item":"https://freepdfmerger.org/organize-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"Organize PDF Pages","item":"https://freepdfmerger.org/organize-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Can I undo a reorder after saving?","acceptedAnswer":{"@type":"Answer","text":"The tool doesn't keep version history — keep the source file until you've confirmed the new order is correct."}},
+{"@type":"Question","name":"Does reordering affect image or text quality?","acceptedAnswer":{"@type":"Answer","text":"No. Pages are copied, not redrawn, so content matches the original exactly — only position changes."}},
+{"@type":"Question","name":"Can I reorder pages from more than one PDF into a single file?","acceptedAnswer":{"@type":"Answer","text":"This tool reorders pages within one file. Use the Merge tool to combine and order pages from multiple files."}}
+]}
 ]}
     </script>
 </head>
@@ -105,6 +110,24 @@
                 <li><strong>Quick cleanup:</strong> reorder and drop stray pages in one pass instead of splitting and re-merging.</li>
             </ul>
             <p>To rearrange whole <em>files</em> rather than pages within one file, use the <a href="index.html">Merge tool</a>, which previews all files' pages in merge order. To fix page orientation, use <a href="rotate-pdf.html">Rotate</a> first.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>Why Page Order Goes Wrong — and How This Fixes It</h2>
+            <p>Page order breaks most often at the scanner, not at the desk. A duplex (two-sided) scan run through a single-sided feeder can interleave fronts and backs in the wrong sequence; a jammed feeder can drop a sheet back in at the wrong point after a re-scan; and combining PDFs exported from different applications can leave a table of contents or cover sheet buried in the middle instead of at the front. Rather than rescanning, this tool lets you fix the sequence directly on the file you already have.</p>
+            <h3>How It Works Under the Hood</h3>
+            <p>Every thumbnail you see is rendered client-side with <a href="https://mozilla.github.io/pdf.js/" target="_blank" rel="noopener">pdf.js</a> directly from your file — nothing is uploaded to generate the previews. When you save, <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a> copies each page's underlying content into a new document in your chosen order; it's a page re-sequence, not a re-render, so text stays selectable and image quality is untouched.</p>
+            <h3>A Practical Workflow</h3>
+            <ol>
+                <li>Load the PDF and scan the thumbnails top-to-bottom — misordered pages are usually obvious at a glance (a signature page before the content it belongs to, or a table before its heading).</li>
+                <li>Use the arrows to move pages into position one at a time; the "was N" label under each thumbnail tracks where it originally came from, so you can always sanity-check the reshuffle against the original.</li>
+                <li>Drop any stray pages with the remove button in the same pass, rather than doing a separate delete step afterward.</li>
+                <li>Save — the download matches the thumbnail order exactly, so what you see is what you get.</li>
+            </ol>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Can I undo a reorder after saving? <i class="fas fa-chevron-down"></i></div><div class="faq-a">The tool doesn't keep version history — if you want to compare against the original, keep the source file until you've confirmed the new order is correct.</div></div>
+            <div class="faq-item"><div class="faq-q">Does reordering affect image or text quality? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No. Pages are copied, not redrawn, so the saved file's content matches the original pages exactly — only their position changes.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I reorder pages from more than one PDF into a single file? <i class="fas fa-chevron-down"></i></div><div class="faq-a">This tool reorders pages within one file. To combine and order pages from multiple files, use the <a href="index.html">Merge tool</a>, which lets you set file order before merging.</div></div>
         </article>
 
         </main>

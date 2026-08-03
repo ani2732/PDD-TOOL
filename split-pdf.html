@@ -36,7 +36,13 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Split PDF","item":"https://freepdfmerger.org/split-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"Split PDF","item":"https://freepdfmerger.org/split-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Does splitting reduce image or text quality?","acceptedAnswer":{"@type":"Answer","text":"No. Pages are copied at the byte level, not re-rendered, so fonts, vector graphics, and embedded images come out identical to the source file."}},
+{"@type":"Question","name":"Can I split just one page out of a 200-page file?","acceptedAnswer":{"@type":"Answer","text":"Yes — type the single page number in the range box, or click that one page in the preview, then extract."}},
+{"@type":"Question","name":"What happens to bookmarks and form fields?","acceptedAnswer":{"@type":"Answer","text":"Page content, text, and images are preserved exactly. Document-level bookmarks and interactive form fields tied to the original file structure are not carried over to the split output."}},
+{"@type":"Question","name":"Is there a page-count limit?","acceptedAnswer":{"@type":"Answer","text":"There's no limit enforced by the tool itself. Very large files will take longer to render previews for."}}
+]}
 ]}
     </script>
 </head>
@@ -125,6 +131,26 @@
                 <li>The preview shows pages exactly as stored in the file, so what you select is what you get.</li>
                 <li>Need to recombine files afterwards? Use the <a href="index.html">PDF merger</a>.</li>
             </ol>
+        </article>
+
+        <article class="content-card">
+            <h2>Why People Split a PDF</h2>
+            <p>A single scanned or exported PDF often contains more than one logical document, and splitting is how you separate them without retyping or rescanning anything.</p>
+            <ul>
+                <li><strong>Pulling one annexure out of a filing.</strong> A GST or income-tax reply is often filed as one 40-page combined PDF, but a bank or auditor may only need pages 12–15 (the bank statement) later. Split gets you that exact range without touching the original.</li>
+                <li><strong>Separating a batch scan into individual documents.</strong> Office scanners frequently produce one long PDF from a stack of unrelated papers — invoices, receipts, ID copies. "Split all pages" turns that into one file per page, ready to be renamed and filed.</li>
+                <li><strong>Dividing a book or report by chapter.</strong> Selecting a page range per chapter and running the extract mode once per chapter builds a per-chapter library without re-exporting from the source application.</li>
+                <li><strong>Removing a cover page or blank scan.</strong> Click "Select all," then click the one page you don't want to deselect it — the export contains everything except that page.</li>
+            </ul>
+            <h3>How the Split Actually Works</h3>
+            <p>The tool uses <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a>'s page-copy function, which duplicates the selected pages' underlying vector content, embedded fonts, and images directly — it does not rasterize or re-print the page. That means text stays selectable and searchable in the output, and image quality is identical to the source, unlike a "print to PDF" of a screenshot.</p>
+            <h3>Split vs. Delete Pages</h3>
+            <p>If you want to keep most of a document and only drop a few pages, <a href="delete-pages.html">Delete PDF Pages</a> is usually faster — you click the pages to remove instead of the pages to keep. Split is the better choice when you're pulling out a small, specific range from a larger file, or when you need every page separated at once.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Does splitting reduce image or text quality? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No. Pages are copied at the byte level, not re-rendered, so fonts, vector graphics, and embedded images come out identical to the source file.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I split just one page out of a 200-page file? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — type the single page number (e.g. "47") in the range box, or click that one page in the preview, then extract.</div></div>
+            <div class="faq-item"><div class="faq-q">What happens to bookmarks and form fields? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Page content, text, and images are preserved exactly. Document-level bookmarks and interactive form fields tied to the original file structure are not carried over to the split output.</div></div>
+            <div class="faq-item"><div class="faq-q">Is there a page-count limit? <i class="fas fa-chevron-down"></i></div><div class="faq-a">There's no limit enforced by the tool itself. Very large files (many hundred pages) will take longer to render previews for, since every page is drawn to a thumbnail in your browser.</div></div>
         </article>
 
         </main>
