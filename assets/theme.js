@@ -5,7 +5,7 @@
   var media = window.matchMedia('(prefers-color-scheme: dark)');
 
   function stored() {
-    try { return localStorage.getItem(KEY) || 'system'; } catch (e) { return 'system'; }
+    try { return localStorage.getItem(KEY) || 'dark'; } catch (e) { return 'dark'; }
   }
   function resolve(pref) {
     return pref === 'system' ? (media.matches ? 'dark' : 'light') : pref;
