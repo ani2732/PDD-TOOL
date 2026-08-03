@@ -75,7 +75,7 @@
     // scroll reveal (progressive enhancement; skipped for reduced motion)
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduced && 'IntersectionObserver' in window) {
-      var targets = document.querySelectorAll('.content-card, .value, .contact-card, .feature, .step, .compare-cell');
+      var targets = document.querySelectorAll('.content-card, .value, .finder-card, .contact-card, .feature, .step, .compare-cell');
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
           if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
@@ -130,7 +130,7 @@
 
     /* --- Cursor glow on cards (desktop pointers only) --- */
     if (canHover && !reduced) {
-      document.querySelectorAll('.tool-card, .value, .content-card, .upload-section, .preview-section').forEach(function (el) {
+      document.querySelectorAll('.tool-card, .value, .finder-card, .content-card, .upload-section, .preview-section').forEach(function (el) {
         el.classList.add('glow-track');
         el.addEventListener('pointermove', function (e) {
           var r = el.getBoundingClientRect();
