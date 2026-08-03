@@ -5,7 +5,7 @@
 
 /* ---------- Design tokens ---------- */
 :root {
-  --primary: #0F8F6E;          /* emerald */
+  --primary: #0B7A5C;          /* deep teal-green — WCAG AA text contrast (5.3:1) on white */
   --primary-2: #0B7A5C;        /* deep teal-green */
   --electric: #12B886;         /* bright emerald */
   --accent: #14B8A6;           /* teal */
