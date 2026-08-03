@@ -29,7 +29,32 @@
     btn.title = labels[pref] || labels.system;
   }
 
+  var BRAND_ICON_SVG = '<svg width="26" height="26" viewBox="0 0 96 96" aria-hidden="true" focusable="false" style="flex:none;">'
+    + '<defs><linearGradient id="pdfmBrandGrad" x1="0" y1="0" x2="1" y2="1">'
+    + '<stop offset="0" stop-color="#12B886"/><stop offset="1" stop-color="#0B7A5C"/>'
+    + '</linearGradient></defs>'
+    + '<rect x="8" y="8" width="80" height="80" rx="20" fill="url(#pdfmBrandGrad)"/>'
+    + '<rect x="30" y="24" width="36" height="48" rx="8" fill="#ffffff"/>'
+    + '<path d="M40 40 L52 48 L40 56" stroke="#0B7A5C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+    + '</svg>';
+
+  function injectBrand() {
+    // Swap the Font Awesome placeholder icon for the real brand mark, site-wide.
+    document.querySelectorAll('a.logo').forEach(function (a) {
+      var oldIcon = a.querySelector('i.fas, i.far');
+      if (oldIcon) oldIcon.outerHTML = BRAND_ICON_SVG;
+    });
+    // Ensure every page has the real favicon, replacing any placeholder.
+    document.querySelectorAll('link[rel="icon"]').forEach(function (l) { l.remove(); });
+    var fav = document.createElement('link');
+    fav.rel = 'icon';
+    fav.type = 'image/svg+xml';
+    fav.href = 'assets/favicon.svg';
+    document.head.appendChild(fav);
+  }
+
   function init() {
+    injectBrand();
     // inject toggle into the topbar
     var bar = document.querySelector('.topbar-inner');
     if (bar) {
