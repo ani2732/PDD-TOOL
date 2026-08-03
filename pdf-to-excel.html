@@ -36,7 +36,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"PDF to Excel Converter","item":"https://freepdfmerger.org/pdf-to-excel.html"}]}
+{"@type":"ListItem","position":3,"name":"PDF to Excel Converter","item":"https://freepdfmerger.org/pdf-to-excel.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Will negative amounts and credits be handled correctly?","acceptedAnswer":{"@type":"Answer","text":"Yes — a trailing \"Dr\" marker or parentheses around an amount converts it to a negative number in the spreadsheet; \"Cr\" and plain positive amounts stay positive, matching standard accounting conventions."}},
+{"@type":"Question","name":"Does it work with statements from any bank?","acceptedAnswer":{"@type":"Answer","text":"The tool detects common statement layouts (Date/Narration/Balance-style columns) across most Indian and international bank e-statement formats. Unusual layouts may need manual cleanup of the output."}},
+{"@type":"Question","name":"Can it read a table that isn't a bank statement?","acceptedAnswer":{"@type":"Answer","text":"Yes — any PDF with a positionally-laid-out table (invoices, fee schedules, price lists) can be converted; the bank-statement-specific cleanup only activates when that column pattern is detected."}}
+]}
 ]}
     </script>
 </head>
@@ -120,6 +125,13 @@
             </ol>
             <h3>What This Tool Doesn't Do</h3>
             <p>It doesn't OCR scanned documents, and it doesn't guess at tables in free-flowing prose — it reconstructs what is positionally laid out as columns. For extracting plain paragraphs instead, use <a href="pdf-to-text.html">PDF to Text</a>; for an editable document, use <a href="pdf-to-word.html">PDF to Word</a>.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item"><div class="faq-q">Will negative amounts and credits be handled correctly? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — a trailing "Dr" marker or parentheses around an amount converts it to a negative number in the spreadsheet; "Cr" and plain positive amounts stay positive, matching standard accounting conventions.</div></div>
+            <div class="faq-item"><div class="faq-q">Does it work with statements from any bank? <i class="fas fa-chevron-down"></i></div><div class="faq-a">The tool detects common statement layouts (Date/Narration/Balance-style columns) across most Indian and international bank e-statement formats. Unusual layouts may need manual cleanup of the output.</div></div>
+            <div class="faq-item"><div class="faq-q">Can it read a table that isn't a bank statement? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — any PDF with a positionally-laid-out table (invoices, fee schedules, price lists) can be converted; the bank-statement-specific cleanup (letterhead removal, Dr/Cr handling) only activates when that column pattern is detected.</div></div>
         </article>
 
         </main>

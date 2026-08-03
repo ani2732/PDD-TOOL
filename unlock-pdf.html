@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Unlock PDF","item":"https://freepdfmerger.org/unlock-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"Unlock PDF","item":"https://freepdfmerger.org/unlock-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Can this tool crack a password I don't know?","acceptedAnswer":{"@type":"Answer","text":"No. This is a legitimate decryption tool for files you already have the password to."}},
+{"@type":"Question","name":"Why does my bank PDF ask for a password I never set?","acceptedAnswer":{"@type":"Answer","text":"Banks commonly lock statements with a pattern like your PAN, account number, or date of birth by default."}},
+{"@type":"Question","name":"Does unlocking change the file content in any way?","acceptedAnswer":{"@type":"Answer","text":"No — only the encryption layer is removed. Content is byte-for-byte identical to the locked original."}}
+]}
 ]}
     </script>
 </head>
@@ -110,6 +115,13 @@
                 <li>Unlocking is usually step one, not the last step: once a statement is unlocked you can <a href="index.html">merge</a> it with others, <a href="rotate-pdf.html">fix page orientation</a>, or <a href="pdf-to-excel.html">pull the numbers into Excel</a>.</li>
                 <li>Need to lock a file instead? Use <a href="protect-pdf.html">Protect PDF</a> — the same private, in-browser approach, in reverse.</li>
             </ul>
+        </article>
+
+        <article class="content-card">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item"><div class="faq-q">Can this tool crack a password I don't know? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No. This is a legitimate decryption tool for files you already have the password to — it cannot guess, brute-force, or bypass a password you don't know.</div></div>
+            <div class="faq-item"><div class="faq-q">Why does my bank PDF ask for a password I never set? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Banks commonly lock statements with a pattern like your PAN, account number, or date of birth by default. Check your bank's statement email or portal for the exact format they use.</div></div>
+            <div class="faq-item"><div class="faq-q">Does unlocking change the file content in any way? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No — only the encryption layer is removed. Text, images, and layout are byte-for-byte identical to the locked original.</div></div>
         </article>
 
         </main>

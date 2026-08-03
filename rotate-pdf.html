@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Rotate PDF Pages","item":"https://freepdfmerger.org/rotate-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"Rotate PDF Pages","item":"https://freepdfmerger.org/rotate-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Can I rotate just one page and leave the rest untouched?","acceptedAnswer":{"@type":"Answer","text":"Yes — rotation is applied per page using the individual arrows under each thumbnail."}},
+{"@type":"Question","name":"Does rotating reduce image quality?","acceptedAnswer":{"@type":"Answer","text":"No — rotation only changes orientation metadata. Underlying content is untouched."}},
+{"@type":"Question","name":"Will the rotation stay applied in a different PDF reader?","acceptedAnswer":{"@type":"Answer","text":"Yes — the rotation is written into the file itself, not a viewer setting, so it displays correctly everywhere."}}
+]}
 ]}
     </script>
 </head>
@@ -116,6 +121,17 @@
                 <li>Rotating is lossless: page content is untouched, only its orientation changes.</li>
                 <li>Fix orientation <em>before</em> <a href="index.html">merging documents</a>, so the combined file reads cleanly throughout — reviewers notice. See our <a href="prepare-pdf-documents-tax-gst-filing.html">filing preparation checklist</a>.</li>
             </ul>
+        </article>
+
+        <article class="content-card">
+            <h2>Why Scanned Pages End Up Sideways</h2>
+            <p>Multi-page feeders scan every sheet the same way regardless of how the original was printed — if one page in a stack was inserted the wrong way around, or a document mixes portrait and landscape originals (a letter followed by a landscape table, for instance), the scan comes out with mismatched orientation. Rebuilding the whole scan from scratch is rarely worth it when the fix is a per-page rotation.</p>
+            <h3>Why "Rotate View" in Your PDF Reader Isn't Enough</h3>
+            <p>Most PDF readers let you rotate the on-screen view temporarily — but that's a viewer setting, not a change to the file. Reopen the PDF in a different app, print it, or send it to someone else, and it reverts to its original, wrong orientation. This tool writes the rotation into the page's own metadata using <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a>, so the fix travels with the file permanently, in every reader and on every printer.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Can I rotate just one page and leave the rest untouched? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — rotation is applied per page. Use the individual arrows under each thumbnail rather than "All 90°" to fix a single page.</div></div>
+            <div class="faq-item"><div class="faq-q">Does rotating reduce image quality? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No — rotation only changes the page's orientation metadata. The underlying content, including scanned images, is untouched.</div></div>
+            <div class="faq-item"><div class="faq-q">Will the rotation stay applied if the recipient uses a different PDF reader? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — because the rotation is written into the file itself, not a viewer setting, it displays correctly in any standards-compliant PDF reader or printer.</div></div>
         </article>
 
         </main>

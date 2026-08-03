@@ -35,7 +35,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Protect PDF with Password","item":"https://freepdfmerger.org/protect-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"Protect PDF with Password","item":"https://freepdfmerger.org/protect-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is this real encryption, or just a viewer-level lock?","acceptedAnswer":{"@type":"Answer","text":"Real encryption — the tool applies genuine AES-128 or AES-256 PDF encryption via QPDF, not a cosmetic password prompt."}},
+{"@type":"Question","name":"What happens if I forget the password?","acceptedAnswer":{"@type":"Answer","text":"There is no recovery option, by design. Store the password in a password manager before closing the tab."}},
+{"@type":"Question","name":"Can I protect a PDF that's already password-protected?","acceptedAnswer":{"@type":"Answer","text":"Remove the existing password first using Unlock PDF, then apply a new password."}}
+]}
 ]}
     </script>
 </head>
@@ -125,6 +130,13 @@
                 <li>Need to remove a password instead? Use <a href="unlock-pdf.html">Unlock PDF</a> — same private, in-browser approach, in reverse.</li>
                 <li>Protect documents <em>after</em> you're done editing — <a href="index.html">merging</a>, <a href="watermark-pdf.html">watermarking</a>, or <a href="page-numbers.html">numbering</a> an encrypted file requires unlocking it first.</li>
             </ul>
+        </article>
+
+        <article class="content-card">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item"><div class="faq-q">Is this real encryption, or just a viewer-level lock? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Real encryption — the tool applies genuine AES-128 or AES-256 PDF encryption via QPDF, the same engine used in professional document tooling. It's not a cosmetic password prompt.</div></div>
+            <div class="faq-item"><div class="faq-q">What happens if I forget the password? <i class="fas fa-chevron-down"></i></div><div class="faq-a">There is no recovery option, by design — that's what makes the encryption meaningful. Store the password in a password manager before closing the tab.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I protect a PDF that's already password-protected? <i class="fas fa-chevron-down"></i></div><div class="faq-a">You need to remove the existing password first using <a href="unlock-pdf.html">Unlock PDF</a>, then apply a new password here.</div></div>
         </article>
 
         </main>

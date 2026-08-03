@@ -34,7 +34,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"Resize PDF","item":"https://freepdfmerger.org/resize-pdf.html"}]}
+{"@type":"ListItem","position":3,"name":"Resize PDF","item":"https://freepdfmerger.org/resize-pdf.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Will resizing crop any content off the page?","acceptedAnswer":{"@type":"Answer","text":"No — content is always scaled to fit and centered, never cropped."}},
+{"@type":"Question","name":"Can I resize only some pages in a document?","acceptedAnswer":{"@type":"Answer","text":"The tool resizes every page. Split the file first if you need different sizes for different sections."}},
+{"@type":"Question","name":"Does resizing affect text sharpness?","acceptedAnswer":{"@type":"Answer","text":"No — the underlying content is vector and font-based, so scaling keeps text crisp at any size."}}
+]}
 ]}
     </script>
 </head>
@@ -111,6 +116,17 @@
             </ul>
             <h3>Resizing vs Compressing</h3>
             <p>Resizing changes the page <em>dimensions</em>; it barely changes the file's size in megabytes. To shrink the download size of a heavy scan, use the <a href="compress-pdf.html">compressor</a> — or both: resize to A4 for consistency, then compress to meet the upload limit.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>A4, Letter, or Legal — Which One?</h2>
+            <p>A4 (210 × 297&nbsp;mm) is the standard nearly everywhere outside North America, including India, the UK, and the EU — it's the safe default for government forms, tax filings, and general business documents. US Letter (8.5 × 11 in) is the US and Canada standard for everyday documents. Legal (8.5 × 14 in) is longer than Letter and shows up mainly in US contracts and court filings. If you're not sure who's opening the file, A4 is the widest-compatible choice outside the US.</p>
+            <h3>How the Scaling Works</h3>
+            <p>The tool calculates the ratio between your source page and the target size, then applies that scale uniformly to both width and height using <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a>'s page embedding — content is never stretched unevenly in one direction, which is what causes text to look subtly distorted in some resizing tools. The scaled content is centered on the new page, so margins stay even on all sides.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Will resizing crop any content off the page? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No — content is always scaled to fit and centered, never cropped, even when converting between very different page proportions.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I resize only some pages in a document? <i class="fas fa-chevron-down"></i></div><div class="faq-a">The tool resizes every page in the file to keep the document visually consistent. If you need different sizes for different sections, split the file first, resize each part separately, then merge them back together.</div></div>
+            <div class="faq-item"><div class="faq-q">Does resizing affect text sharpness? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No — since the underlying content is vector and font-based (not a flattened image), scaling it up or down keeps text crisp at any size.</div></div>
         </article>
 
         </main>

@@ -36,7 +36,12 @@
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://freepdfmerger.org/"},
 {"@type":"ListItem","position":2,"name":"Tools","item":"https://freepdfmerger.org/tools.html"},
-{"@type":"ListItem","position":3,"name":"PDF to Word Converter","item":"https://freepdfmerger.org/pdf-to-word.html"}]}
+{"@type":"ListItem","position":3,"name":"PDF to Word Converter","item":"https://freepdfmerger.org/pdf-to-word.html"}]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Will tables come out as real Word tables?","acceptedAnswer":{"@type":"Answer","text":"In Editable mode, yes — tabular runs are rebuilt as genuine Word tables with borders and proportional column widths."}},
+{"@type":"Question","name":"Why does the font look slightly different in Editable mode?","acceptedAnswer":{"@type":"Answer","text":"Editable mode maps the PDF's font family to the closest common Word font since the exact embedded font isn't carried into editable text."}},
+{"@type":"Question","name":"Can I convert just a few pages instead of the whole PDF?","acceptedAnswer":{"@type":"Answer","text":"Use Split PDF first to extract the pages you need, then convert that smaller file to Word."}}
+]}
 ]}
     </script>
 </head>
@@ -115,6 +120,15 @@
             </ul>
             <h3>Scans Need OCR First</h3>
             <p>A scanned document is a photograph — Editable and Plain modes will report no selectable text. Exact-layout mode still works on scans (it images each page), but the resulting Word file will also be image-only. For tabular data, <a href="pdf-to-excel.html">PDF to Excel</a> gives you the columns as a spreadsheet instead.</p>
+        </article>
+
+        <article class="content-card">
+            <h2>Which Mode Should You Pick?</h2>
+            <p>If in doubt, ask what happens next to the file. A contract going back to a counterparty for one clause change needs Editable mode — they'll retype a paragraph and resend. A certificate or ID document being uploaded to a portal that just needs to "look right" is better served by Exact layout, since portals often reject files where fonts substitute or layout shifts slightly. A quick copy for your own notes just needs Plain text.</p>
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-item"><div class="faq-q">Will tables come out as real Word tables? <i class="fas fa-chevron-down"></i></div><div class="faq-a">In Editable mode, yes — tabular runs are rebuilt as genuine Word tables with borders and proportional column widths, not just tab-separated text.</div></div>
+            <div class="faq-item"><div class="faq-q">Why does the font look slightly different in Editable mode? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Editable mode maps the PDF's font family class to the closest common Word font (serif to Times New Roman, sans-serif to Arial, monospace to Courier New) since the exact embedded font file isn't carried over into editable text.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I convert just a few pages instead of the whole PDF? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Use Split PDF first to extract the pages you need, then convert that smaller file to Word.</div></div>
         </article>
 
     </main>
