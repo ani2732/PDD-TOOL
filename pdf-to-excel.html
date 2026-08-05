@@ -347,6 +347,20 @@
             if (text.length > 180) return true;
             return /this is a system generated|does not require.{0,25}signature|customer care|toll.?free|visit us at|www\.[a-z0-9.-]+\.[a-z]{2,}|statement summary|generated statement/i.test(text);
         }
+        // A repeated table header (banks often reprint "Date | Narration | ... | Balance" at the
+        // top of every page) or address/letterhead boilerplate ("IFSC:", "Branch:", "Account No:",
+        // "Page 2 of 5") is not a genuine continuation line even though a word from it may land in
+        // the date column's x-position — that coincidence previously caused the whole row to be
+        // silently dropped instead of being recognised as either "skip" (letterhead) or "keep, minus
+        // the date-column fragment" (a real continuation that merely starts a bit further left).
+        function looksLikeHeaderOrLetterheadRow(text, headerTexts) {
+            var t = (text || '').trim();
+            if (!t) return true;
+            var norm = t.toLowerCase();
+            var headerHit = (headerTexts || []).some(function(h){ return h && h.length > 2 && norm.indexOf(h.toLowerCase()) !== -1; });
+            if (headerHit) return true;
+            return /\bifsc\b|\bmicr\b|\bbranch\b|account\s*(no|number)|statement\s+of\s+account|page\s+\d+\s+of\s+\d+|customer\s*id|\bcif\s*no\b/i.test(t);
+        }
         // What kind of value a column should hold, inferred from its header label — used to reject
         // obviously-wrong fills (e.g. the word "Debits" or "Statement of account" landing in an
         // amount column because it happened to share x-position with a stray footer/summary line).
@@ -361,10 +375,11 @@
         // fills in amount/reference columns that land on their own physical PDF line — some banks
         // render the numeric columns of a row at a slightly different baseline than the date and
         // narration, which otherwise makes them look like a separate, date-less row.
-        function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric, mergeInto, colKind) {
+        function buildBankStatementAoa(pagesRaw, centers, narrationColIdx, headerRow, headerPageIndex, numeric, mergeInto, colKind, headerCellTexts) {
             var colCount = centers.length;
             mergeInto = mergeInto || centers.map(function(_, i){ return i; });
             colKind = colKind || headerRow.map(inferColKind);
+            headerCellTexts = headerCellTexts || headerRow;
             var perPage = pagesRaw.map(function(){ return []; });
             var current = null;
             var summaryStarted = false;
@@ -392,16 +407,22 @@
                         });
                         perPage[pageIdx].push(arr);
                         current = arr;
-                    } else if (current && populatedCols.indexOf(0) === -1) {
-                        // Not a new transaction (no date in the leftmost column) and not letterhead
-                        // (letterhead rows on these statements always land at least one word in the
-                        // date column's x-position) — so this is either wrapped narration, or an
-                        // amount/reference that rendered on its own line for the current transaction.
+                    } else if (current) {
+                        // Not a new transaction (no date in the leftmost column). Usually this means
+                        // wrapped narration or an amount/reference that rendered on its own line for
+                        // the current transaction — but if a word also happens to land in the date
+                        // column's x-position (e.g. an indented continuation, or a repeated per-page
+                        // table header/letterhead line), check explicitly what it says instead of
+                        // assuming "date column populated" always means letterhead. Previously any
+                        // such row was silently dropped even when it carried real transaction data.
                         var combined = populatedCols.map(function(ci){
                             return buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
                         }).join(' ');
                         if (looksLikeFooterBoilerplate(combined)) return;
+                        var col0Populated = populatedCols.indexOf(0) !== -1;
+                        if (col0Populated && looksLikeHeaderOrLetterheadRow(combined, headerCellTexts)) return; // genuine repeated header/letterhead — drop
                         populatedCols.forEach(function(ci){
+                            if (ci === 0 && col0Populated) return; // don't let a stray fragment overwrite/duplicate the date cell
                             var text = buckets[ci].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
                             if (ci === narrationColIdx) {
                                 current[ci] = (current[ci] ? current[ci] + ' ' : '') + text;
@@ -418,8 +439,17 @@
                             if (kind === 'text' && text.length > 60) return;
                             current[ci] = numeric ? maybeNumber(text) : text;
                         });
+                        // If the date-column fragment wasn't letterhead but also wasn't consumed
+                        // above (e.g. a short account/ref tail that merely starts near that x
+                        // position), fold it into the narration column instead of losing it.
+                        if (col0Populated) {
+                            var col0Text = buckets[0].sort(function(a,b){ return a.x - b.x; }).map(function(w){ return w.str; }).join(' ');
+                            if (col0Text && narrationColIdx !== 0) {
+                                current[narrationColIdx] = (current[narrationColIdx] ? current[narrationColIdx] + ' ' : '') + col0Text;
+                            }
+                        }
                     }
-                    // else: repeated letterhead/address/header boilerplate — dropped
+                    // else: no current transaction to attach a continuation line to — dropped
                 });
             });
             perPage[headerPageIndex].unshift(headerRow);
@@ -507,7 +537,8 @@
         function collectAoa() {
             var numeric = document.querySelector('input[name=xlnum]:checked').value === 'auto';
             if (bankMode) {
-                var perPage = buildBankStatementAoa(pageRawRows, bankCenters, bankNarrationColIdx, bankHeaderLabels.slice(), bankHeaderInfo.pageIndex, numeric, bankMergeInto);
+                var headerCellTexts = bankHeaderInfo.cells.map(function(c){ return c.text; });
+                var perPage = buildBankStatementAoa(pageRawRows, bankCenters, bankNarrationColIdx, bankHeaderLabels.slice(), bankHeaderInfo.pageIndex, numeric, bankMergeInto, null, headerCellTexts);
                 perPage = pruneEmptyColumns(perPage, bankHeaderInfo.pageIndex);
                 return { perPage: perPage, cols: perPage.length ? (perPage[bankHeaderInfo.pageIndex][0] || []).length : bankCenters.length };
             }

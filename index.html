@@ -375,10 +375,10 @@
             <div class="faq-item"><div class="faq-q">Are my files uploaded to a server? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No. All merging happens locally inside your web browser using JavaScript. Your PDF files never leave your device.</div></div>
             <div class="faq-item"><div class="faq-q">Is there a file size or count limit? <i class="fas fa-chevron-down"></i></div><div class="faq-a">There is no hard limit set by us, but very large files (several hundred megabytes combined) may be slow or fail depending on your device's available memory.</div></div>
             <div class="faq-item"><div class="faq-q">Does it work on mobile phones? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes. The tool works in any modern mobile browser including Chrome, Safari, Firefox, and Edge on iOS and Android.</div></div>
-            <div class="faq-item"><div class="faq-q">Can I merge password-protected PDFs? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Encrypted PDFs cannot be merged directly. Remove the password from your own document first — our guide on <a href="how-to-remove-pdf-password.html">removing a PDF password</a> shows the safe, on-device methods — then merge.</div></div>
+            <div class="faq-item"><div class="faq-q">Can I merge password-protected PDFs? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Encrypted PDFs cannot be merged directly — bank statements and similar documents are usually locked this way. Use our <a href="unlock-pdf.html">Unlock PDF tool</a> first (or see the guide on <a href="how-to-remove-pdf-password.html">removing a PDF password</a>), then merge the unlocked file.</div></div>
             <div class="faq-item"><div class="faq-q">Will the merged file keep its quality? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes. The tool copies pages without re-compressing them, so text, images, and formatting are preserved exactly.</div></div>
             <div class="faq-item"><div class="faq-q">Can I reorder pages within a single PDF? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes — use our <a href="organize-pdf.html">Organize Pages tool</a>, which shows every page as a thumbnail so you can rearrange or remove pages visually.</div></div>
-            <div class="faq-item"><div class="faq-q">Why did my merge fail? <i class="fas fa-chevron-down"></i></div><div class="faq-a">The most common cause is a corrupted or encrypted file. Try opening the file in your PDF reader first to confirm it is valid and unprotected.</div></div>
+            <div class="faq-item"><div class="faq-q">Why did my merge fail? <i class="fas fa-chevron-down"></i></div><div class="faq-a">The two common causes are a password-protected file (the tool will tell you and link to Unlock PDF) or a genuinely corrupted file. Try opening the file in your own PDF reader first to confirm it opens without a password.</div></div>
         </article>
         </main>
     </div>
@@ -642,7 +642,14 @@
                         const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
                         pages.forEach(p => mergedPdf.addPage(p));
                     } catch (err) {
-                        showStatus(`Error processing ${pdfFiles[i].name}. It may be corrupted or encrypted.`, 'error');
+                        const isEncrypted = /encrypt/i.test((err && err.message) || '');
+                        if (isEncrypted) {
+                            statusMessage.innerHTML = '"' + escapeHtml(pdfFiles[i].name) + '" is password-protected, so it can\'t be merged directly. <a href="unlock-pdf.html" style="color:inherit;text-decoration:underline;">Remove the password with Unlock PDF</a> first, then merge the unlocked file.';
+                            statusMessage.className = 'status error';
+                            statusMessage.style.display = 'block';
+                        } else {
+                            showStatus(`Error processing ${pdfFiles[i].name}. It may be corrupted or unreadable.`, 'error');
+                        }
                         progressContainer.style.display = 'none';
                         return;
                     }

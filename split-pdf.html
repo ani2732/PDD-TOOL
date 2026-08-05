@@ -83,11 +83,17 @@
                 <div class="options" id="optionsBox" style="display:none;">
                     <div class="radio-row">
                         <label><input type="radio" name="mode" value="extract" checked> Extract selected pages into one PDF</label>
+                        <label><input type="radio" name="mode" value="ranges"> Split into several files by range (ZIP)</label>
                         <label><input type="radio" name="mode" value="all"> Split every page into separate PDFs (ZIP)</label>
                     </div>
                     <div id="rangeBox">
                         <label for="rangeInput">Selected pages (click pages below, or type e.g. 1-3,5)</label>
                         <input type="text" id="rangeInput" placeholder="Click pages in the preview, or type 1-3,5">
+                    </div>
+                    <div id="multiRangeBox" style="display:none;">
+                        <label for="multiRangeInput">One PDF per group — separate groups with a semicolon</label>
+                        <input type="text" id="multiRangeInput" placeholder="e.g. 1-55; 56-100  or  1-30;31-60;61-100">
+                        <p class="preview-note" style="margin-top:6px;">Each group between semicolons becomes its own PDF. Example: <code>1-55; 56-100</code> gives you two files — pages 1&ndash;55 in one, 56&ndash;100 in the other.</p>
                     </div>
                 </div>
 
@@ -120,9 +126,10 @@
         <article class="content-card">
             <h2>About This Tool</h2>
             <p>This splitter shows you <strong>every page of your PDF as a live preview</strong> — so instead of guessing page numbers, you simply click the pages you want. Selected pages highlight instantly with a check mark, and the page-range box stays in sync (you can also type a range like <em>1-3,5</em> and watch the matching pages light up). Everything runs locally in your browser; your file is never uploaded.</p>
-            <h3>Two Ways to Split</h3>
+            <h3>Three Ways to Split</h3>
             <ul>
                 <li><strong>Extract selected pages:</strong> click pages in the preview (or type a range) and get one new PDF containing exactly the highlighted pages, in page order. Useful for pulling one annexure out of a filing or dropping a blank scan page (select everything except it with "Select all", then click the blank one off).</li>
+                <li><strong>Split into several files by range:</strong> type multiple groups separated by semicolons — e.g. <code>1-55; 56-100</code> — and get one PDF per group, all zipped together. This is what you want for cutting a 100-page file into a first half and second half (or any number of custom chunks) in one step.</li>
                 <li><strong>Split all pages:</strong> every page becomes its own numbered PDF, delivered together as a ZIP file. Useful when a batch of separate documents was scanned as one long file.</li>
             </ul>
             <h3>Tips</h3>
@@ -254,9 +261,16 @@
         function updateRunLabel() {
             var mode = document.querySelector('input[name=mode]:checked').value;
             var btn = document.getElementById('runBtn');
-            btn.innerHTML = (mode === 'extract' && selected.length)
-                ? '<i class="fas fa-cut"></i> Extract ' + selected.length + ' Page' + (selected.length > 1 ? 's' : '')
-                : (mode === 'all' ? '<i class="fas fa-cut"></i> Split All ' + (pageCount || '') + ' Pages (ZIP)' : '<i class="fas fa-cut"></i> Split PDF');
+            if (mode === 'extract' && selected.length) {
+                btn.innerHTML = '<i class="fas fa-cut"></i> Extract ' + selected.length + ' Page' + (selected.length > 1 ? 's' : '');
+            } else if (mode === 'all') {
+                btn.innerHTML = '<i class="fas fa-cut"></i> Split All ' + (pageCount || '') + ' Pages (ZIP)';
+            } else if (mode === 'ranges') {
+                var groups = document.getElementById('multiRangeInput').value.split(';').map(function(s){ return s.trim(); }).filter(Boolean);
+                btn.innerHTML = '<i class="fas fa-cut"></i> Split Into ' + (groups.length || '?') + ' File' + (groups.length === 1 ? '' : 's') + ' (ZIP)';
+            } else {
+                btn.innerHTML = '<i class="fas fa-cut"></i> Split PDF';
+            }
         }
         function syncInputFromSelection() {
             var input = document.getElementById('rangeInput');
@@ -287,6 +301,7 @@
                 document.getElementById('optionsBox').style.display = 'block';
                 document.getElementById('previewArea').style.display = 'block';
                 document.getElementById('rangeInput').value = '';
+                document.getElementById('multiRangeInput').value = '';
                 var grid = document.getElementById('pagesGrid');
                 grid.innerHTML = '';
                 var shown = Math.min(pageCount, MAX_THUMBS);
@@ -337,9 +352,11 @@
         document.querySelectorAll('input[name=mode]').forEach(function(r){
             r.addEventListener('change', function(){
                 document.getElementById('rangeBox').style.display = (this.value === 'extract') ? 'block' : 'none';
+                document.getElementById('multiRangeBox').style.display = (this.value === 'ranges') ? 'block' : 'none';
                 updateRunLabel();
             });
         });
+        document.getElementById('multiRangeInput').addEventListener('input', updateRunLabel);
         document.getElementById('clearBtn').addEventListener('click', function(){
             srcFile = null; pageCount = 0; selected = []; thumbs = [];
             document.getElementById('fileInfo').textContent = 'No file selected yet.';
@@ -347,6 +364,7 @@
             document.getElementById('previewArea').style.display = 'none';
             document.getElementById('pagesGrid').innerHTML = '';
             document.getElementById('rangeInput').value = '';
+            document.getElementById('multiRangeInput').value = '';
             document.getElementById('runBtn').disabled = true;
             hideStatus(); hideProgress();
         });
@@ -369,6 +387,32 @@
                     download(new Blob([bytes], {type:'application/pdf'}), base + '-pages.pdf', 'application/pdf');
                     hideProgress();
                     showStatus('Extracted ' + selected.length + ' page(s) — exactly the ones highlighted in the preview.', 'success');
+                } else if (mode === 'ranges') {
+                    var groupStrs = document.getElementById('multiRangeInput').value.split(';').map(function(s){ return s.trim(); }).filter(Boolean);
+                    if (!groupStrs.length) { showStatus('Enter at least one page range, e.g. 1-55; 56-100.', 'error'); return; }
+                    var groups = [];
+                    for (var g = 0; g < groupStrs.length; g++) {
+                        var gi = parseRange(groupStrs[g], pageCount);
+                        if (!gi) { showStatus('Could not understand group "' + groupStrs[g] + '". Use page numbers/ranges like 1-55; 56-100.', 'error'); return; }
+                        groups.push(gi);
+                    }
+                    var zip = new JSZip();
+                    var pad = String(groups.length).length;
+                    for (var gi2 = 0; gi2 < groups.length; gi2++) {
+                        setProgress(Math.round((gi2/groups.length)*90), 'Building file ' + (gi2+1) + ' of ' + groups.length + '...');
+                        var gdoc = await PDFLib.PDFDocument.create();
+                        var gpages = await gdoc.copyPages(src, groups[gi2]);
+                        gpages.forEach(function(p){ gdoc.addPage(p); });
+                        var gbytes = await gdoc.save();
+                        var rangeLabel = compressIndices(groups[gi2]).replace(/,/g, '+');
+                        zip.file(base + '-part' + String(gi2+1).padStart(pad, '0') + '-p' + rangeLabel + '.pdf', gbytes);
+                    }
+                    setProgress(95, 'Creating ZIP...');
+                    var gblob = await zip.generateAsync({type:'blob'});
+                    setProgress(100, 'Done');
+                    download(gblob, base + '-split.zip', 'application/zip');
+                    hideProgress();
+                    showStatus('Split into ' + groups.length + ' PDF' + (groups.length === 1 ? '' : 's') + ' and downloaded as a ZIP.', 'success');
                 } else {
                     var zip = new JSZip();
                     for (var i = 0; i < pageCount; i++) {
