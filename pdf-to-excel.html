@@ -421,8 +421,15 @@
                     // aggregate Dr/Cr figures that legitimately look like real amounts, so the
                     // column-type check alone can't reject them — stop processing entirely once
                     // this section starts, since nothing after it is a real transaction.
+                    // IMPORTANT: many banks also print a small "Account Summary" box at the very
+                    // TOP of page 1 (opening balance / totals) before the transaction table even
+                    // begins. Only treat this as the end-of-statement marker if at least one real
+                    // transaction row has already been captured (current is set) — otherwise this
+                    // matched on the front-page summary box and silently discarded the entire
+                    // statement (header only, zero transaction rows extracted), which is exactly
+                    // the "PDF to Excel only shows the header" bug reported against real files.
                     var rowText = row.map(function(w){ return w.str; }).join(' ');
-                    if (/\b(statement|account)\s+summary\b/i.test(rowText)) { summaryStarted = true; return; }
+                    if (current && /\b(statement|account)\s+summary\b/i.test(rowText)) { summaryStarted = true; return; }
                     var buckets = {};
                     row.forEach(function(w){
                         var col = mergeInto[nearestCol(centers, w.x)];
