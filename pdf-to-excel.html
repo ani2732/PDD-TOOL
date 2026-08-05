@@ -209,10 +209,12 @@
             var t = (s || '').trim();
             // numeric, day-first: 01/04/2025, 01-04-25, 01.04.2025
             if (/^\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}$/.test(t)) return true;
-            // ISO / year-first: 2025-04-01, 2025/04/01
-            if (/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/.test(t)) return true;
-            // month-name: 01-Apr-2025, 01 Apr 25, 1-April-2025
+            // ISO / year-first: 2025-04-01, 2025/04/01, 2025.04.01
+            if (/^\d{4}[\/\-\.]\d{1,2}[\/\-\.]\d{1,2}$/.test(t)) return true;
+            // day-first month-name: 01-Apr-2025, 01 Apr 25, 1-April-2025
             if (/^\d{1,2}[\-\/\s][A-Za-z]{3,9}[\-\/\s]\d{2,4}$/.test(t)) return true;
+            // month-first month-name: Apr-01-2025, Apr 01 2025, April 1, 2025
+            if (/^[A-Za-z]{3,9}\.?[\-\/\s]\d{1,2},?[\-\/\s]\d{2,4}$/.test(t)) return true;
             return false;
         }
         // Some PDF generators emit a date as a single text run ("01-Apr-2025"); others emit it
@@ -241,13 +243,13 @@
                 var rows = pagesRaw[pi];
                 for (var ri = 0; ri < rows.length; ri++) {
                     var row = rows[ri];
-                    if (row.length < 4) continue;
+                    if (row.length < 3) continue;
                     var merged = mergeRow(row);
-                    if (merged.length < 4 || merged.length > 10) continue;
+                    if (merged.length < 3 || merged.length > 12) continue;
                     var texts = merged.map(function(c){ return c.text.toLowerCase(); });
                     var hasDate = texts.some(function(t){ return /\bdate\b|\bdt\b/.test(t); });
-                    var hasDesc = texts.some(function(t){ return /narration|description|particulars/.test(t); });
-                    var hasAmt = texts.some(function(t){ return /amount|amt|balance|withdrawal|deposit|debit|credit/.test(t); });
+                    var hasDesc = texts.some(function(t){ return /narration|description|particulars|remarks?|transaction\s*detail/.test(t); });
+                    var hasAmt = texts.some(function(t){ return /amount|amt|\bbal\b|balance|withdrawal|deposit|debit|credit/.test(t); });
                     if (hasDate && hasDesc && hasAmt) return { pageIndex: pi, rowIndex: ri, cells: merged };
                 }
             }
@@ -274,9 +276,20 @@
             return cols.map(function(c){ return c.sum / c.n; });
         }
         function isAmountLikeText(text) {
-            if (!/^[\d,]+(\.\d+)?$/.test(text)) return false;
-            if (text.indexOf(',') !== -1 || text.indexOf('.') !== -1) return true;
-            return text.length <= 6; // short un-grouped whole number — plausible small amount
+            // Strip the same currency-prefix / Cr-Dr-suffix / parenthesis wrapping that maybeNumber()
+            // strips before parsing, so a cell like "1,582.36 Cr" or "(1,234.56)" is still recognised
+            // as amount-shaped during column classification — some banks render the Cr/Dr marker in
+            // the same text run as the figure, which previously made the whole column invisible to
+            // the classifier (it never counted as "amount-like", so it could be mislabelled or merged
+            // away even though the final value extraction handled it fine).
+            var s = (text || '').trim().replace(/^(₹|Rs\.?|INR|USD|\$)\s*/i, '');
+            var crDr = s.match(/^(.*\S)\s*(Cr|Dr)\.?$/i);
+            if (crDr) s = crDr[1];
+            var paren = s.match(/^\((.+)\)$/);
+            if (paren) s = paren[1];
+            if (!/^-?[\d,]+(\.\d+)?-?$/.test(s)) return false;
+            if (s.indexOf(',') !== -1 || s.indexOf('.') !== -1) return true;
+            return s.replace(/-/g,'').length <= 6; // short un-grouped whole number — plausible small amount
         }
         // Classify each data column's role purely from its content across real transaction (date-
         // starting) rows — never from header-label position, which doesn't reliably line up with
@@ -363,7 +376,7 @@
         // instead of gluing them onto whatever transaction happens to be current.
         function looksLikeFooterBoilerplate(text) {
             if (text.length > 180) return true;
-            return /this is a system generated|does not require.{0,25}signature|customer care|toll.?free|visit us at|www\.[a-z0-9.-]+\.[a-z]{2,}|statement summary|generated statement/i.test(text);
+            return /this is a (system|computer)[\s-]*generated|does not require.{0,25}signature|customer care|toll.?free|visit us at|www\.[a-z0-9.-]+\.[a-z]{2,}|@[a-z0-9.-]+\.[a-z]{2,}|statement summary|generated statement|please (do )?not reply|end of statement|for (any )?(queries|questions|complaints)|unauthorized use|terms and conditions apply|registered office/i.test(text);
         }
         // A repeated table header (banks often reprint "Date | Narration | ... | Balance" at the
         // top of every page) or address/letterhead boilerplate ("IFSC:", "Branch:", "Account No:",
@@ -377,7 +390,7 @@
             var norm = t.toLowerCase();
             var headerHit = (headerTexts || []).some(function(h){ return h && h.length > 2 && norm.indexOf(h.toLowerCase()) !== -1; });
             if (headerHit) return true;
-            return /\bifsc\b|\bmicr\b|\bbranch\b|account\s*(no|number)|statement\s+of\s+account|page\s+\d+\s+of\s+\d+|customer\s*id|\bcif\s*no\b/i.test(t);
+            return /\bifsc\b|\bmicr\b|\bbranch\b|account\s*(no|number)|statement\s+of\s+account|page\s+\d+\s+of\s+\d+|customer\s*id|\bcif\s*no\b|\bgstin\b|\bpan\s*no\b|nomination\s*registered|joint\s*holder|address\s*:|email\s*:|mobile\s*:|phone\s*:/i.test(t);
         }
         // What kind of value a column should hold, inferred from its header label — used to reject
         // obviously-wrong fills (e.g. the word "Debits" or "Statement of account" landing in an
