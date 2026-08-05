@@ -341,8 +341,24 @@
             if (narrIdx < 0) narrIdx = Math.min(1, n - 1);
             labels[narrIdx] = matchLabel(/narration|description|particulars/i, 'Narration'); used[narrIdx] = true;
 
+            // The rightmost column isn't automatically "Closing Balance" — that only holds for
+            // bank-account-style statements with a running balance per line. Some statements
+            // (e.g. credit-card statements, or multi-account summaries) print something else
+            // entirely in that position — a masked card number, a fixed account number, a
+            // reference code — repeated almost identically on every row. Labelling that
+            // "Closing Balance" would show a user a plausible-looking but completely wrong
+            // figure for their account balance, which is worse than an honest "Column N".
+            // Only use the Closing Balance label when the header explicitly said so, or the
+            // column's actual content looks like money for most transaction rows.
             var balIdx = n - 1;
-            if (!used[balIdx]) { labels[balIdx] = matchLabel(/balance/i, 'Closing Balance'); used[balIdx] = true; }
+            if (!used[balIdx]) {
+                var headerSaysBalance = headerTexts.some(function(t){ return /balance/i.test(t); });
+                var balLooksLikeMoney = totalCount[balIdx] > 0 && (amtCount[balIdx] / totalCount[balIdx]) >= 0.5;
+                labels[balIdx] = (headerSaysBalance || balLooksLikeMoney)
+                    ? matchLabel(/balance/i, 'Closing Balance')
+                    : matchLabel(/ref|chq|cheque|card|account/i, 'Column ' + (balIdx + 1));
+                used[balIdx] = true;
+            }
 
             var valueDtIdx = pickBest(allIdx, dateCount);
             if (valueDtIdx >= 0 && dateCount[valueDtIdx] > 0) { labels[valueDtIdx] = matchLabel(/value.*dt|value.*date/i, 'Value Dt'); used[valueDtIdx] = true; }
