@@ -215,6 +215,24 @@
             if (/^\d{1,2}[\-\/\s][A-Za-z]{3,9}[\-\/\s]\d{2,4}$/.test(t)) return true;
             return false;
         }
+        // Some PDF generators emit a date as a single text run ("01-Apr-2025"); others emit it
+        // as several separate word-level runs at the same baseline ("01", "Apr", "2025", or even
+        // "01", "-", "Apr", "-", "2025"). Every date check in this file used to test only the very
+        // first raw word of a row, which silently misses the second style — the row is never
+        // recognised as a transaction start, and the whole statement extracts as "0 rows, header
+        // only" even though the layout is otherwise normal. This merges the cluster of words at
+        // the start of the row (same rule as mergeRow: gap < 6pt) before testing, so both styles
+        // of date rendering are recognised the same way.
+        function leadingCellText(row) {
+            if (!row || !row.length) return '';
+            var text = row[0].str, xEnd = row[0].x + row[0].w;
+            for (var i = 1; i < row.length; i++) {
+                var p = row[i];
+                if ((p.x - xEnd) < 6) { text += (p.x - xEnd > 0.8 ? ' ' : '') + p.str; xEnd = p.x + p.w; }
+                else break;
+            }
+            return text;
+        }
         // Detect a bank/financial-statement style header row (Date | Narration | ... | Amount/Balance)
         // anywhere in the document, so letterhead boilerplate and wrapped narration lines can be
         // handled specially instead of polluting the generic column-clustering algorithm.
@@ -241,7 +259,7 @@
             var xs = [];
             pagesRaw.forEach(function(rows){
                 rows.forEach(function(row){
-                    if (row.length && looksLikeDate(row[0].str)) {
+                    if (row.length && looksLikeDate(leadingCellText(row))) {
                         row.forEach(function(w){ xs.push(w.x); });
                     }
                 });
@@ -271,7 +289,7 @@
             var charTotal = new Array(n).fill(0);
             pagesRaw.forEach(function(rows){
                 rows.forEach(function(row){
-                    if (!row.length || !looksLikeDate(row[0].str)) return;
+                    if (!row.length || !looksLikeDate(leadingCellText(row))) return;
                     var buckets = {};
                     row.forEach(function(w){
                         var ci = nearestCol(centers, w.x);
@@ -398,7 +416,7 @@
                         (buckets[col] = buckets[col] || []).push(w);
                     });
                     var populatedCols = Object.keys(buckets).map(Number);
-                    var isTxnStart = looksLikeDate(row[0].str);
+                    var isTxnStart = looksLikeDate(leadingCellText(row));
                     if (isTxnStart) {
                         var arr = new Array(colCount).fill('');
                         populatedCols.forEach(function(ci){
