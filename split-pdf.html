@@ -91,9 +91,9 @@
                         <input type="text" id="rangeInput" placeholder="Click pages in the preview, or type 1-3,5">
                     </div>
                     <div id="multiRangeBox" style="display:none;">
-                        <label for="multiRangeInput">One PDF per group — separate groups with a semicolon</label>
-                        <input type="text" id="multiRangeInput" placeholder="e.g. 1-45; 46-85; rest">
-                        <p class="preview-note" style="margin-top:6px;">Each group between semicolons becomes its own PDF, downloaded together as one ZIP. Example: <code>1-45; 46-85; rest</code> gives you three files — pages 1&ndash;45, 46&ndash;85, and everything left over — without needing to know the exact last page number. You can also write an open-ended range like <code>86-</code> to mean "86 to the end".</p>
+                        <label for="multiRangeInput">One PDF per group — separate groups with a semicolon or comma</label>
+                        <input type="text" id="multiRangeInput" placeholder="e.g. 1-45, 46-85, rest  (or 1-45; 46-85; rest)">
+                        <p class="preview-note" style="margin-top:6px;">Each group becomes its own PDF, downloaded together as one ZIP — semicolons and commas both work as separators, so <code>1-45, 46-85, rest</code> and <code>1-45; 46-85; rest</code> do the same thing. That example gives you three files — pages 1&ndash;45, 46&ndash;85, and everything left over — without needing to know the exact last page number. You can also write an open-ended range like <code>86-</code> to mean "86 to the end".</p>
                     </div>
                 </div>
 
@@ -129,7 +129,7 @@
             <h3>Three Ways to Split</h3>
             <ul>
                 <li><strong>Extract selected pages:</strong> click pages in the preview (or type a range) and get one new PDF containing exactly the highlighted pages, in page order. Useful for pulling one annexure out of a filing or dropping a blank scan page (select everything except it with "Select all", then click the blank one off).</li>
-                <li><strong>Split into several files by range:</strong> type multiple groups separated by semicolons — e.g. <code>1-45; 46-85; rest</code> — and get one PDF per group, all zipped together and downloaded at once. Use <code>rest</code> for a final group that should just be "everything not already used" so you don't need to know the exact last page number, or an open-ended range like <code>86-</code> to mean "86 through the end". This is what you want for cutting a 100-page file into three (or any number of) custom chunks in one step.</li>
+                <li><strong>Split into several files by range:</strong> type multiple groups separated by semicolons or commas — e.g. <code>1-45, 46-85, rest</code> — and get one PDF per group, all zipped together and downloaded at once. Use <code>rest</code> for a final group that should just be "everything not already used" so you don't need to know the exact last page number, or an open-ended range like <code>86-</code> to mean "86 through the end". This is what you want for cutting a 100-page file into three (or any number of) custom chunks in one step.</li>
                 <li><strong>Split all pages:</strong> every page becomes its own numbered PDF, delivered together as a ZIP file. Useful when a batch of separate documents was scanned as one long file.</li>
             </ul>
             <h3>Tips</h3>
@@ -241,6 +241,13 @@
             return parseRange(s, max);
         }
         function isRestToken(s) { return /^(rest|remaining|remainder|others?|balance)$/i.test(s.trim()); }
+        // Splits multi-range input on semicolons, commas, or newlines — any of them work as a
+        // group separator, so "1-45;46-85;rest", "1-45,46-85,rest", and one range per line all
+        // produce the same three groups. (A comma is no longer needed *inside* a group here since
+        // each group in this mode is its own output file, not a combined page selection.)
+        function splitRangeGroups(str) {
+            return (str || '').split(/[;,\n]+/).map(function(s){ return s.trim(); }).filter(Boolean);
+        }
         function compressIndices(arr) {
             // [0,1,2,4] -> "1-3,5"
             if (!arr.length) return '';
@@ -282,7 +289,7 @@
             } else if (mode === 'all') {
                 btn.innerHTML = '<i class="fas fa-cut"></i> Split All ' + (pageCount || '') + ' Pages (ZIP)';
             } else if (mode === 'ranges') {
-                var groups = document.getElementById('multiRangeInput').value.split(';').map(function(s){ return s.trim(); }).filter(Boolean);
+                var groups = splitRangeGroups(document.getElementById('multiRangeInput').value);
                 btn.innerHTML = '<i class="fas fa-cut"></i> Split Into ' + (groups.length || '?') + ' File' + (groups.length === 1 ? '' : 's') + ' (ZIP)';
             } else {
                 btn.innerHTML = '<i class="fas fa-cut"></i> Split PDF';
@@ -404,8 +411,8 @@
                     hideProgress();
                     showStatus('Extracted ' + selected.length + ' page(s) — exactly the ones highlighted in the preview.', 'success');
                 } else if (mode === 'ranges') {
-                    var groupStrs = document.getElementById('multiRangeInput').value.split(';').map(function(s){ return s.trim(); }).filter(Boolean);
-                    if (!groupStrs.length) { showStatus('Enter at least one page range, e.g. 1-45; 46-85; rest.', 'error'); return; }
+                    var groupStrs = splitRangeGroups(document.getElementById('multiRangeInput').value);
+                    if (!groupStrs.length) { showStatus('Enter at least one page range, e.g. 1-45, 46-85, rest (semicolons, commas, or new lines all work).', 'error'); return; }
                     var restTokenCount = groupStrs.filter(isRestToken).length;
                     if (restTokenCount > 1) { showStatus('Only one group can be "rest" — use it once for whatever pages are left over.', 'error'); return; }
                     var groups = new Array(groupStrs.length).fill(null);
