@@ -92,8 +92,8 @@
                     </div>
                     <div id="multiRangeBox" style="display:none;">
                         <label for="multiRangeInput">One PDF per group — separate groups with a semicolon</label>
-                        <input type="text" id="multiRangeInput" placeholder="e.g. 1-55; 56-100  or  1-30;31-60;61-100">
-                        <p class="preview-note" style="margin-top:6px;">Each group between semicolons becomes its own PDF. Example: <code>1-55; 56-100</code> gives you two files — pages 1&ndash;55 in one, 56&ndash;100 in the other.</p>
+                        <input type="text" id="multiRangeInput" placeholder="e.g. 1-45; 46-85; rest">
+                        <p class="preview-note" style="margin-top:6px;">Each group between semicolons becomes its own PDF, downloaded together as one ZIP. Example: <code>1-45; 46-85; rest</code> gives you three files — pages 1&ndash;45, 46&ndash;85, and everything left over — without needing to know the exact last page number. You can also write an open-ended range like <code>86-</code> to mean "86 to the end".</p>
                     </div>
                 </div>
 
@@ -129,7 +129,7 @@
             <h3>Three Ways to Split</h3>
             <ul>
                 <li><strong>Extract selected pages:</strong> click pages in the preview (or type a range) and get one new PDF containing exactly the highlighted pages, in page order. Useful for pulling one annexure out of a filing or dropping a blank scan page (select everything except it with "Select all", then click the blank one off).</li>
-                <li><strong>Split into several files by range:</strong> type multiple groups separated by semicolons — e.g. <code>1-55; 56-100</code> — and get one PDF per group, all zipped together. This is what you want for cutting a 100-page file into a first half and second half (or any number of custom chunks) in one step.</li>
+                <li><strong>Split into several files by range:</strong> type multiple groups separated by semicolons — e.g. <code>1-45; 46-85; rest</code> — and get one PDF per group, all zipped together and downloaded at once. Use <code>rest</code> for a final group that should just be "everything not already used" so you don't need to know the exact last page number, or an open-ended range like <code>86-</code> to mean "86 through the end". This is what you want for cutting a 100-page file into three (or any number of) custom chunks in one step.</li>
                 <li><strong>Split all pages:</strong> every page becomes its own numbered PDF, delivered together as a ZIP file. Useful when a batch of separate documents was scanned as one long file.</li>
             </ul>
             <h3>Tips</h3>
@@ -225,6 +225,22 @@
             }
             return out.length ? out : null;
         }
+        // Accepts everything parseRange does, plus an open-ended tail like "86-", "86-end", or
+        // "86-last" meaning "86 through the last page" — so the final group in a multi-way split
+        // doesn't require knowing the exact total page count.
+        function parseFlexibleRange(str, max) {
+            var s = str.trim();
+            var mOpen = s.match(/^(\d+)\s*-\s*(end|last)?$/i);
+            if (mOpen) {
+                var a = parseInt(mOpen[1], 10);
+                if (a < 1 || a > max) return null;
+                var out = [];
+                for (var i = a; i <= max; i++) out.push(i - 1);
+                return out;
+            }
+            return parseRange(s, max);
+        }
+        function isRestToken(s) { return /^(rest|remaining|remainder|others?|balance)$/i.test(s.trim()); }
         function compressIndices(arr) {
             // [0,1,2,4] -> "1-3,5"
             if (!arr.length) return '';
@@ -389,12 +405,24 @@
                     showStatus('Extracted ' + selected.length + ' page(s) — exactly the ones highlighted in the preview.', 'success');
                 } else if (mode === 'ranges') {
                     var groupStrs = document.getElementById('multiRangeInput').value.split(';').map(function(s){ return s.trim(); }).filter(Boolean);
-                    if (!groupStrs.length) { showStatus('Enter at least one page range, e.g. 1-55; 56-100.', 'error'); return; }
-                    var groups = [];
+                    if (!groupStrs.length) { showStatus('Enter at least one page range, e.g. 1-45; 46-85; rest.', 'error'); return; }
+                    var restTokenCount = groupStrs.filter(isRestToken).length;
+                    if (restTokenCount > 1) { showStatus('Only one group can be "rest" — use it once for whatever pages are left over.', 'error'); return; }
+                    var groups = new Array(groupStrs.length).fill(null);
+                    var usedPages = {};
+                    var restGroupIdx = -1;
                     for (var g = 0; g < groupStrs.length; g++) {
-                        var gi = parseRange(groupStrs[g], pageCount);
-                        if (!gi) { showStatus('Could not understand group "' + groupStrs[g] + '". Use page numbers/ranges like 1-55; 56-100.', 'error'); return; }
-                        groups.push(gi);
+                        if (isRestToken(groupStrs[g])) { restGroupIdx = g; continue; }
+                        var gi = parseFlexibleRange(groupStrs[g], pageCount);
+                        if (!gi) { showStatus('Could not understand group "' + groupStrs[g] + '". Use page numbers/ranges like 1-45, 46-85, 86- (open-ended), or "rest".', 'error'); return; }
+                        groups[g] = gi;
+                        gi.forEach(function(idx){ usedPages[idx] = true; });
+                    }
+                    if (restGroupIdx !== -1) {
+                        var restIndices = [];
+                        for (var ri = 0; ri < pageCount; ri++) if (!usedPages[ri]) restIndices.push(ri);
+                        if (!restIndices.length) { showStatus('"rest" has no pages left — every page is already covered by the other groups.', 'error'); return; }
+                        groups[restGroupIdx] = restIndices;
                     }
                     var zip = new JSZip();
                     var pad = String(groups.length).length;
